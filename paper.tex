@@ -1,0 +1,132 @@
+\documentclass[]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{parskip}
+% \usepackage{txfonts}
+
+\begin{document}
+\title{Distinguishing NFW and Isothermal Density Profiles with Gravitational Lensing}
+\author{}
+\date{\today}
+\maketitle
+
+\begin{abstract}
+    abstract!!
+\end{abstract}
+
+\section{Introduction}
+
+\subsection{General spherical density profile $\rho(r)$}
+Using thin lens approximation
+
+Projected surface density at radius R
+\begin{equation}
+    \Sigma(R) = \int_{-\infty}^{\infty}{\rho(\sqrt{R^2 + z^2}) dz}
+\end{equation}
+
+Average projected surface density within radius R
+\begin{equation}
+    \overline{\Sigma}(R) = \frac{1}{\pi R^2} \int_0^{2\pi}{d\phi \int_0^{R}{dR'~\Sigma(R')R'}}
+\end{equation}
+
+Critical surface density
+\begin{equation}
+    \Sigma_\mathrm{crit} = \frac{c^2}{4\pi G} \frac{D_S}{D_{SL} D_L}
+\end{equation}
+
+Convergence at radius R
+\begin{equation}
+    \kappa(R) = \frac{\Sigma(R)}{\Sigma_\mathrm{crit}}
+\end{equation}
+
+Tangential shear at radius R
+\begin{equation}
+    \gamma(R) = \overline{\kappa}(R) - \kappa(R)
+\end{equation}
+
+Deflection angle
+\begin{equation}
+    \vec{\alpha}(\vec{\theta}) = \overline{\kappa}(\theta)\vec{\theta}
+\end{equation}
+
+Ellipticity
+
+
+prove that spherical density profiles only have tangential shear
+
+\newpage
+
+\subsection{Navarro-Frenk-White (NFW) Profile}
+
+\begin{equation}
+    \rho_\mathrm{NFW}(r) = \frac{\rho_\mathrm{crit} \delta_c}{(r/r_s)\left(1 + r/r_s\right)^2}
+\end{equation}
+
+\begin{equation}
+    \Sigma_\mathrm{NFW}(R) = \frac{2 \rho_\mathrm{crit} \delta_c r_s}{(R/r_s)^2 - 1} \left(1 - \frac{2}{\sqrt{(R/r_s)^2 - 1}} \right) \arctan\left(\sqrt{\frac{R/r_s - 1}{R/r_s + 1}} \right)
+\end{equation}
+[Bartelmann 2001]
+
+\begin{equation}
+    \overline{\Sigma}_\mathrm{NFW}(R) = \frac{4 \rho_\mathrm{crit} \delta_c r_s}{(R/r_s)^2} \left(
+        \frac{2}{\sqrt{(R/r_s)^2 - 1}} ~\arctan\left(\sqrt{\frac{R/r_s - 1}{R/r_s + 1}} \right) + \ln{\left(\frac{R/r_s}{2}\right)}
+    \right)
+\end{equation}
+
+\begin{equation}
+    \gamma(R) =
+\end{equation}
+
+We switch the dependence to $M_{200}$ and $c$ with:
+
+\begin{equation}
+    \delta_c = \frac{200}{3} \frac{c^3}{\ln(1 + c) - c/(1 + c)}
+\end{equation}
+
+\begin{equation}
+    r_s = \frac{1}{c} \left(\frac{3M_{200}}{800\pi \rho_\mathrm{crit}}\right)^\frac{1}{3}
+\end{equation}
+
+\subsection{Cored Isothermal Sphere Profile}
+
+\begin{equation}
+    \rho_\mathrm{iso}(r) = \frac{\sigma^2}{2\pi G (r^2 + {r_c}^2)}
+\end{equation}
+
+\begin{equation}
+    \Sigma_\mathrm{iso}(R) = \frac{\sigma^2}{2 G \sqrt{R^2 + {r_c}^2}}
+\end{equation}
+
+\begin{equation}
+    \overline{\Sigma}_\mathrm{iso}(R) = \frac{\sigma^2 \left(\sqrt{R^2 + {r_c}^2} - r_c \right)}{G R^2}
+\end{equation}
+
+\begin{equation}
+    \gamma(R) = \frac{\sigma^2 \left(\sqrt{R^2 + {r_c}^2} - r_c \right)}{\Sigma_\mathrm{crit} G R^2} - \frac{\sigma^2}{2 \Sigma_\mathrm{crit} G \sqrt{R^2 + {r_c}^2}}
+\end{equation}
+
+
+
+
+\subsection{Current plan}
+\begin{itemize}
+    \item Calculate tangential shear and deflection angle for NFW and SIS
+    \item Consider single foreground lens halo with many
+    \item How to arrange and distribute background halos?
+    \begin{itemize}
+        \item Initial ellipticity
+        \item angular density on sky
+        \item sizes
+    \end{itemize}
+    \item Apply shear and deflection angle to background galaxies
+    \item Attempt to fit both profiles, subtracting intrinsic shear, see if the fit is distinguishable
+    \item How many foreground halos to test?
+
+\end{itemize}
+
+
+
+\section{Methods}
+
+
+
+\end{document}
