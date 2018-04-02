@@ -26,3 +26,5 @@ class BackgroundGalaxy:
 
     def __init__(self, DS, DSL):
         self.arg = arg
+
+# https://matplotlib.org/examples/pylab_examples/ellipse_demo.html
