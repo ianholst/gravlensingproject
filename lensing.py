@@ -62,7 +62,7 @@ class BackgroundGalaxy:
 
 
 halo = IsothermalHalo(1, 1, 1)
-backgroundGalaxies = [BackgroundGalaxy(1, 3, 100*np.random.rand()-50, 100*np.random.rand()-50, 300) for i in range(300)]
+backgroundGalaxies = [BackgroundGalaxy(1, 3, 100*np.random.rand()-50, 100*np.random.rand()-50, 10) for i in range(300)]
 
 fig = plt.figure(dpi=150)
 ax = fig.add_subplot(111, aspect='equal')
