@@ -49,6 +49,9 @@ class IsothermalHalo:
         reducedShear = self.shear(R, DS) / (1 - self.averageSurfaceDensity(R) / SIGMA_CRIT(DS, self.DL))
         return 2 * reducedShear / (1 + reducedShear**2)
 
+    def deflection(beta, ):
+        dd
+
     def lense(self, galaxy):
         beta = np.sqrt(galaxy.beta_x**2 + galaxy.beta_y**2)
         phi = np.degrees(np.arctan2(galaxy.beta_y, galaxy.beta_x))
@@ -87,8 +90,8 @@ class LensedBackgroundGalaxy:
         self.DS = DS
 
     def ellipse(self):
-        a = 1
-        b = 1
+        a = .01
+        b = .01
         phi = 1
         x = (self.DS * self.theta_x.to_value(u.rad)).to_value(u.Mpc)
         y = (self.DS * self.theta_y.to_value(u.rad)).to_value(u.Mpc)
@@ -105,7 +108,7 @@ backgroundGalaxies = [BackgroundGalaxy(
     DS=10*u.Gpc) for i in range(300)]
 
 fig = plt.figure(dpi=150)
-ax = fig.add_subplot(111, aspect='equal')
+ax = fig.add_subplot(111, aspect="equal")
 
 for gal in backgroundGalaxies:
     lensedGal = halo.lense(gal)
