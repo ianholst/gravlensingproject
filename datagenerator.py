@@ -19,15 +19,25 @@ import astropy.constants as const
 #import profiles from lensing.py
 from lensing import NFWHalo
 from lensing import IsothermalHalo
+from lensing import BackgroundGalaxy
 
 # data format is theta_x, theta_y, e1, e2
-#M200_0 =
-#c =
-#dl =
+M200_0 = 100*u.solMass
+c_param = 0.5
+dl = 1*u.Gpc
 
-datafile = open('output1','w')
-NFWHalo
-datafile.write("0.5\t0.5\t1\t1\n") #Dummy code for testing write function
-datafile.write("Newline?\n")
-datafile.writelines(["haha\n","hoho\n"])
+datafile = open('output1.txt','w')
+nfw_1 = NFWHalo(M200_0,c_param,dl)
+backgroundGalaxies = [BackgroundGalaxy(
+    beta_x=(100*np.random.rand()-50)*u.arcsec,
+    beta_y=(100*np.random.rand()-50)*u.arcsec,
+    e1=0,
+    e2=0,
+    a=1*u.arcsec,
+    DS=10*u.Gpc) for i in range(300)]
+for i in range(0,len(backgroundGalaxies)):
+    newGalx = nfw_1.lense(backgroundGalaxies[i])
+    datafile.write(newGalx.theta_x,"\t",newGalx.theta_y,"\t",newGalx.e1,"\t",newGalx.e2,"\t\n")
+#nfw_1.lens(galaxy_1)
+
 datafile.close()
