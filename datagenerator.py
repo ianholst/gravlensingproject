@@ -22,6 +22,8 @@ from lensing import IsothermalHalo
 from lensing import BackgroundGalaxy
 
 # data format is theta_x, theta_y, e1, e2
+
+#test parameters for lens
 M200_0 = 100*u.solMass
 c_param = 0.5
 dl = 1*u.Gpc
