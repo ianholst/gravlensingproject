@@ -38,6 +38,8 @@ backgroundGalaxies = [BackgroundGalaxy(
 for i in range(0,len(backgroundGalaxies)):
     newGalx = nfw_1.lense(backgroundGalaxies[i])
     datafile.write(newGalx.theta_x,"\t",newGalx.theta_y,"\t",newGalx.e1,"\t",newGalx.e2,"\t\n")
-#nfw_1.lens(galaxy_1)
+
+#Isothermal Profile lensing will be added once the paramaters are modified
+#to be identical to those of NFW
 
 datafile.close()
