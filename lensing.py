@@ -98,23 +98,23 @@ class LensedBackgroundGalaxy:
         y = (self.DS * self.theta_y.to_value(u.rad)).to_value(u.Mpc)
         return Ellipse(xy=[x,y], width=a, height=b, angle=phi)
 
+def main():
+    halo = IsothermalHalo(sigma=1*u.m/u.s, rc=1*u.Mpc, DL=1*u.Gpc)
+    backgroundGalaxies = [BackgroundGalaxy(
+        beta_x=(100*np.random.rand()-50)*u.arcsec,
+        beta_y=(100*np.random.rand()-50)*u.arcsec,
+        e1=0,
+        e2=0,
+        a=1*u.arcsec,
+        DS=10*u.Gpc) for i in range(300)]
 
-halo = IsothermalHalo(sigma=1*u.m/u.s, rc=1*u.Mpc, DL=1*u.Gpc)
-backgroundGalaxies = [BackgroundGalaxy(
-    beta_x=(100*np.random.rand()-50)*u.arcsec,
-    beta_y=(100*np.random.rand()-50)*u.arcsec,
-    e1=0,
-    e2=0,
-    a=1*u.arcsec,
-    DS=10*u.Gpc) for i in range(300)]
+    fig = plt.figure(dpi=150)
+    ax = fig.add_subplot(111, aspect="equal")
 
-fig = plt.figure(dpi=150)
-ax = fig.add_subplot(111, aspect="equal")
+    for gal in backgroundGalaxies:
+        lensedGal = halo.lense(gal)
+        lensedGalEllipse = lensedGal.ellipse()
+        lensedGalEllipse.set_facecolor(np.random.rand(3))
+        ax.add_artist(lensedGalEllipse)
 
-for gal in backgroundGalaxies:
-    lensedGal = halo.lense(gal)
-    lensedGalEllipse = lensedGal.ellipse()
-    lensedGalEllipse.set_facecolor(np.random.rand(3))
-    ax.add_artist(lensedGalEllipse)
-
-plt.show()
+    plt.show()
