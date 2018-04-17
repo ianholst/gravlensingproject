@@ -21,7 +21,12 @@ from lensing import NFWHalo
 from lensing import IsothermalHalo
 
 # data format is theta_x, theta_y, e1, e2
-datafile = open('output.txt','w')
+#M200_0 =
+#c =
+#dl =
+
+datafile = open('output1','w')
+NFWHalo
 datafile.write("0.5\t0.5\t1\t1\n") #Dummy code for testing write function
 datafile.write("Newline?\n")
 datafile.writelines(["haha\n","hoho\n"])
