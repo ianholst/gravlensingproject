@@ -8,6 +8,7 @@ import astropy.constants as const
 
 plt.style.use(astropy_mpl_style)
 
+#Define constants
 c = const.c
 G = const.G
 H0 = cosmology.default_cosmology.get().H(0)
@@ -21,11 +22,11 @@ def SIGMA_CRIT(DS, DL):
 
 class NFWHalo:
 
-    def __init__(self, M200, c, DL):
+    def __init__(self, M200, c_param, DL):
         self.M200 = M200
-        self.c = c
-        self.delta_c = (200/3) * c**3 / (np.log(1+c) - c/(1+c))
-        self.rs = 1/c * ((3 * M200) / (800 * np.pi * RHO_CRIT))**(1/3)
+        self.c = c_param     #changed variable name for clarification
+        self.delta_c = (200/3) * c_param**3 / (np.log(1+c_param) - c_param/(1+c_param))
+        self.rs = 1/c_param * ((3 * M200) / (800 * np.pi * RHO_CRIT))**(1/3)
         self.DL = DL
 
 
