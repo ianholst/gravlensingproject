@@ -2,30 +2,28 @@ import numpy as np
 import matplotlib.pyplot as plt
 import astropy.cosmology as cosmology
 import astropy.units as u
-from lensing import NFWHalo, IsothermalHalo
 from scipy.optimize import curve_fit
 from scipy.stats import binned_statistic
+from lensing import *
 
+### DATA GENERATION ###
+galaxyNumberDensity = 50/u.arcmin**2
+viewSize = 1000*u.arcsec
+Ngal = round((viewSize**2 * galaxyNumberDensity).to_value(""))
 
-# data generation
-halo_nfw = NFWHalo(
+lensHalo = NFWHalo(
     M200=1e15*u.solMass,
     C=10,
     DL=1*u.Gpc)
 
-from lensing import BackgroundGalaxy
-v=100
 backgroundGalaxies = [BackgroundGalaxy(
-    Bx=(v*np.random.rand()-v/2)*u.arcsec,
-    By=(v*np.random.rand()-v/2)*u.arcsec,
-    e1=0,
-    e2=0,
-    a=1,
-    DS=3*u.Gpc) for i in range(1000)]
+    Bx=(viewSize*np.random.rand() - viewSize/2),
+    By=(viewSize*np.random.rand() - viewSize/2),
+    e1=np.random.normal(0, 0.2),
+    e2=np.random.normal(0, 0.2),
+    DS=3*u.Gpc) for i in range(Ngal)]
 
-lensedBackgroundGalaxies = []
-for gal in backgroundGalaxies:
-    lensedBackgroundGalaxies.append(halo_nfw.lense(gal))
+lensedBackgroundGalaxies = [lensHalo.lense(gal) for gal in backgroundGalaxies]
 
 theta_x = np.array([lgal.Tx.to_value(u.arcsec) for lgal in lensedBackgroundGalaxies]) * u.arcsec
 theta_y = np.array([lgal.Ty.to_value(u.arcsec) for lgal in lensedBackgroundGalaxies]) * u.arcsec
@@ -33,6 +31,8 @@ e1 = np.array([lgal.e1.to_value("") for lgal in lensedBackgroundGalaxies])
 e2 = np.array([lgal.e2.to_value("") for lgal in lensedBackgroundGalaxies])
 phi = np.array([lgal.phi.to_value(u.rad) for lgal in lensedBackgroundGalaxies])
 
+
+### ANALYSIS ###
 # Assume we have a dataset of N galaxies with positions (theta_x, theta_y) and ellipticities (e1, e2)
 # Assumer they all have same DS and DL is known
 DS = 3*u.Gpc
@@ -43,7 +43,7 @@ theta = np.sqrt(theta_x**2 + theta_y**2)
 epsilon = -e1*np.cos(2*phi) - e2*np.sin(2*phi)
 
 # Bin into annuli and calculate mean and standard deviation
-theta_bin_edges = np.linspace(1, 70, 30)
+theta_bin_edges = np.linspace(50, 700, 40) # arcsec
 epsilon_mean, bin_edges, binnumber = binned_statistic(theta, epsilon, statistic="mean", bins=theta_bin_edges)
 epsilon_sigma, bin_edges, binnumber = binned_statistic(theta, epsilon, statistic=np.std, bins=theta_bin_edges)
 theta_bin_centers = theta_bin_edges[:-1] + (theta_bin_edges[1] - theta_bin_edges[0])/2
@@ -62,9 +62,10 @@ optimalNFWParams, covariance = curve_fit(nfw_ellipticity, theta_bin_centers, eps
 optimalIsoParams, covariance = curve_fit(iso_ellipticity, theta_bin_centers, epsilon_mean, p0=[1e14, 10], bounds=BOUNDS, sigma=epsilon_sigma)
 
 plt.figure()
-plt.plot(theta_bin_centers, nfw_ellipticity(theta_bin_centers, 1e15,10))
+plt.plot(theta_bin_centers, nfw_ellipticity(theta_bin_centers, 1e15, 10))
 plt.plot(theta_bin_centers, epsilon_mean)
 plt.plot(theta_bin_centers, nfw_ellipticity(theta_bin_centers, *optimalNFWParams))
 plt.plot(theta_bin_centers, iso_ellipticity(theta_bin_centers, *optimalIsoParams))
-plt.legend(["original", "binned data", "nfw fit", "isothermal fit"])
+# plt.scatter(theta, epsilon)
+plt.legend(["original", "binned data", "nfw fit", "isothermal fit", "lensed galaxies"])
 plt.show()

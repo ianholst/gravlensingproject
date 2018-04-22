@@ -8,18 +8,36 @@ import astropy.constants as const
 from cmath import sqrt as csqrt
 
 plt.style.use(astropy_mpl_style)
+plt.rcParams["figure.dpi"] = 150
 
-#Define constants
+### CONSTANTS ###
 c = const.c
 G = const.G
 H0 = cosmology.default_cosmology.get().H(0)
 RHO_CRIT = 3 * H0**2 / (8 * np.pi * G)
-u.set_enabled_equivalencies(u.dimensionless_angles())
+u.set_enabled_equivalencies(u.dimensionless_angles()) # allow angles to be dimensionless
+
+
+### USEFUL FUNCTIONS ###
 
 def SIGMA_CRIT(DS, DL):
     DSL = DS - DL
     return c**2 / (4 * np.pi * G) * (DS / (DSL * DL))
 
+def lensingImage(halo, backgroundGalaxies, v):
+    fig = plt.figure()
+    ax = fig.add_subplot(111, aspect="equal")
+    ax.set_xlim(-v/2,v/2)
+    ax.set_ylim(-v/2,v/2)
+    for gal in backgroundGalaxies:
+        lensedGal = halo.lense(gal)
+        lensedGalEllipse = lensedGal.ellipse(1)
+        lensedGalEllipse.set_facecolor(np.random.rand(3))
+        ax.add_artist(lensedGalEllipse)
+    return plt.show()
+
+
+### GALAXY/HALO OBJECTS ###
 
 class Halo:
 
@@ -47,9 +65,9 @@ class Halo:
         T = np.sqrt(Tx**2 + Ty**2)
         phi = np.arctan2(Ty, Tx)
         e = self.ellipticity(T, galaxy.DS)
-        e1 = -e*np.cos(2*phi)
-        e2 = -e*np.sin(2*phi)
-        return LensedBackgroundGalaxy(Tx, Ty, galaxy.a, e1, e2, galaxy.DS)
+        e1 = galaxy.e1 - e*np.cos(2*phi) # TODO: how do ellipticities add?
+        e2 = galaxy.e2 - e*np.sin(2*phi)
+        return LensedBackgroundGalaxy(Tx, Ty, e1, e2, galaxy.DS)
 
     def plot(self, start, stop, step, DS):
         theta = np.linspace(start, stop, step)*u.arcsec
@@ -115,10 +133,9 @@ class IsothermalHalo(Halo):
 
 class BackgroundGalaxy:
 
-    def __init__(self, Bx, By, a, e1, e2, DS):
+    def __init__(self, Bx, By, e1, e2, DS):
         self.Bx = Bx
         self.By = By
-        self.a = a
         self.e1 = e1
         self.e2 = e2
         self.DS = DS
@@ -126,39 +143,27 @@ class BackgroundGalaxy:
 
 class LensedBackgroundGalaxy:
 
-    def __init__(self, Tx, Ty, a, e1, e2, DS):
+    def __init__(self, Tx, Ty, e1, e2, DS):
         self.Tx = Tx
         self.Ty = Ty
-        self.a = a
         self.e1 = e1
         self.e2 = e2
         self.DS = DS
         self.T = np.sqrt(Tx**2 +Ty**2)
         self.phi = np.arctan2(Ty, Tx)
 
-    def ellipse(self):
+    def ellipse(self, a):
+        # Returns matplotlib ellipse object of approximate size a
         e = np.sqrt(self.e1**2 + self.e2**2)
         return Ellipse(xy=[self.Tx.to_value(u.arcsec),self.Ty.to_value(u.arcsec)],
-                       width=self.a,
-                       height=self.a*(e+1)/(e-1),
+                       width=a,
+                       height=a*(e+1)/(e-1),
                        angle=self.phi.to_value(u.degree))
 
 
 
-def make_lensing_image(halo, backgroundGalaxies, v):
-    fig = plt.figure()
-    ax = fig.add_subplot(111, aspect="equal")
-    ax.set_xlim(-v/2,v/2)
-    ax.set_ylim(-v/2,v/2)
-    for gal in backgroundGalaxies:
-        lensedGal = halo.lense(gal)
-        lensedGalEllipse = lensedGal.ellipse()
-        lensedGalEllipse.set_facecolor(np.random.rand(3))
-        ax.add_artist(lensedGalEllipse)
-    return plt.show()
-
-
 if __name__ == '__main__':
+    # here is an example of lensing very close to the halo
     v = 100 # view radius
 
     halo_iso = IsothermalHalo(
@@ -183,8 +188,7 @@ if __name__ == '__main__':
         By=(v*np.random.rand()-v/2)*u.arcsec,
         e1=0,
         e2=0,
-        a=1,
         DS=3*u.Gpc) for i in range(1000)]
 
-    make_lensing_image(halo_iso, backgroundGalaxies, v)
-    make_lensing_image(halo_nfw, backgroundGalaxies, v)
+    lensingImage(halo_iso, backgroundGalaxies, v)
+    lensingImage(halo_nfw, backgroundGalaxies, v)
