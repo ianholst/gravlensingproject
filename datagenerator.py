@@ -31,17 +31,17 @@ dl = 1*u.Gpc
 datafile = open('output1.txt','w')
 nfw_1 = NFWHalo(M200_0,c_param,dl)
 backgroundGalaxies = [BackgroundGalaxy(
-    beta_x=(100*np.random.rand()-50)*u.arcsec,
-    beta_y=(100*np.random.rand()-50)*u.arcsec,
+    Bx=(100*np.random.rand()-50)*u.arcsec,
+    By=(100*np.random.rand()-50)*u.arcsec,
     e1=0,
     e2=0,
     a=1*u.arcsec,
     DS=10*u.Gpc) for i in range(300)]
 for i in range(0,len(backgroundGalaxies)):
     newGalx = nfw_1.lense(backgroundGalaxies[i])
-    datafile.write(newGalx.theta_x,"\t",newGalx.theta_y,"\t",newGalx.e1,"\t",newGalx.e2,"\t\n")
+    datafile.write(str(newGalx.Tx)+"\t"+str(newGalx.Ty)+"\t"+str(newGalx.e1)+"\t"+str(newGalx.e2)+"\t\n")
 
-#Isothermal Profile lensing will be added once the paramaters are modified
+#Isothermal Profile lensing will be added once the parameters are modified
 #to be identical to those of NFW
 
 datafile.close()
