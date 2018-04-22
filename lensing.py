@@ -8,30 +8,33 @@ import astropy.constants as const
 from cmath import sqrt as csqrt
 
 plt.style.use(astropy_mpl_style)
-plt.rcParams["figure.dpi"] = 150
+plt.rcParams["figure.dpi"] = 100
 
 ### CONSTANTS ###
 c = const.c
 G = const.G
 H0 = cosmology.default_cosmology.get().H(0)
-RHO_CRIT = 3 * H0**2 / (8 * np.pi * G)
+RHO_CRIT = 3 * H0**2 / (8 * np.pi * G) # only use rho_crit at current time
 u.set_enabled_equivalencies(u.dimensionless_angles()) # allow angles to be dimensionless
 
 
 ### USEFUL FUNCTIONS ###
 
 def SIGMA_CRIT(DS, DL):
+    # Critical surface density for lens at distance DL and source at distance DS
     DSL = DS - DL
     return c**2 / (4 * np.pi * G) * (DS / (DSL * DL))
 
-def lensingImage(halo, backgroundGalaxies, v):
+def lensingImage(halo, backgroundGalaxies, v, a):
+    # Produce a mock lensing image with a halo and a population of background galaxies
+    # v is the view width and a is the size of galaxies
     fig = plt.figure()
     ax = fig.add_subplot(111, aspect="equal")
     ax.set_xlim(-v/2,v/2)
     ax.set_ylim(-v/2,v/2)
     for gal in backgroundGalaxies:
         lensedGal = halo.lense(gal)
-        lensedGalEllipse = lensedGal.ellipse(1)
+        lensedGalEllipse = lensedGal.ellipse(a)
         lensedGalEllipse.set_facecolor(np.random.rand(3))
         ax.add_artist(lensedGalEllipse)
     return plt.show()
@@ -70,6 +73,7 @@ class Halo:
         return LensedBackgroundGalaxy(Tx, Ty, e1, e2, galaxy.DS)
 
     def plot(self, start, stop, step, DS):
+        # Plot the shear, ellipticity, convergence, and magnification for the halo
         theta = np.linspace(start, stop, step)*u.arcsec
         epsilon = np.array([self.ellipticity(t, DS) for t in theta])
         gamma = np.array([self.shear(t, DS) for t in theta])
