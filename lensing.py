@@ -20,34 +20,11 @@ def SIGMA_CRIT(DS, DL):
     return c**2 / (4 * np.pi * G) * (DS / (DSL * DL))
 
 
-class NFWHalo:
+class Halo:
 
-    def __init__(self, M200, C, DL):
+    def __init__(self, M200, DL):
         self.M200 = M200
-        self.C = C
-        self.delta_c = (200/3) * C**3 / (np.log(1+C) - C/(1+C))
-        r200 = ((3 * M200) / (800 * np.pi * RHO_CRIT))**(1/3)
-        self.rs = r200/C
         self.DL = DL
-
-
-class IsothermalHalo:
-
-    def __init__(self, M200, rc, DL):
-        self.M200 = M200
-        self.rc = rc
-        self.DL = DL
-        self.Tc = rc/DL * u.rad
-        r200 = ((3 * M200) / (800 * np.pi * RHO_CRIT))**(1/3)
-        self.sigmaSquared = M200 * G / (2 * (r200 - rc * np.arctan(r200/rc)))
-
-    def surfaceDensity(self, T):
-        # Surface density at angle T
-        return self.sigmaSquared / (2 * G * self.DL * np.sqrt(T**2 + self.Tc**2))
-
-    def averageSurfaceDensity(self, T):
-        # Average surface density at angle T
-        return self.sigmaSquared * (np.sqrt(T**2 + self.Tc**2) - self.Tc) / (G * self.DL * T**2)
 
     def shear(self, T, DS):
         # Tangential shear at angle T for object at distance DS
@@ -72,6 +49,67 @@ class IsothermalHalo:
         e1 = -e*np.cos(2*phi)
         e2 = -e*np.sin(2*phi)
         return LensedBackgroundGalaxy(Tx, Ty, galaxy.a, e1, e2, galaxy.DS)
+
+    def plot(self, start, stop, step, DS):
+        theta = np.linspace(start, stop, step)*u.arcsec
+        epsilon = np.array([self.ellipticity(t, DS).to_value("") for t in theta])
+        gamma = np.array([self.shear(t, DS).to_value("") for t in theta])
+        kappa = np.array([(self.surfaceDensity(t) / SIGMA_CRIT(DS, self.DL)).to_value("") for t in theta])
+        mu = 1/((1-kappa)**2 - gamma**2)
+        plt.figure()
+        plt.plot(theta, epsilon)
+        plt.plot(theta, gamma)
+        plt.plot(theta, kappa)
+        plt.plot(theta, mu)
+        plt.legend(["$\epsilon$", "$\gamma$", "$\kappa$", "$\mu$"])
+        plt.xlabel("$\\theta$ (arcseconds)")
+        plt.ylim(-10,10)
+        return plt.show()
+
+
+
+class NFWHalo(Halo):
+
+    def __init__(self, M200, C, DL):
+        super().__init__(M200, DL)
+        self.C = C
+        self.delta_c = (200/3) * C**3 / (np.log(1+C) - C/(1+C))
+        r200 = ((3 * M200) / (800 * np.pi * RHO_CRIT))**(1/3)
+        self.rs = r200/C
+        self.Ts = self.rs/DL * u.rad
+        self.csqrt = np.lib.scimath.sqrt
+
+    def surfaceDensity(self, T):
+        # Surface density at angle T
+        x = T/self.Ts
+        sigma = 2*RHO_CRIT * self.delta_c * self.rs / (x**2 - 1) * (1 - 2 / self.csqrt(x**2 - 1) * np.arctan(self.csqrt((x-1)/(x+1))))
+        if sigma.imag != 0: print(sigma.imag)
+        return sigma.real
+
+    def averageSurfaceDensity(self, T):
+        # Average surface density at angle T
+        x = T/self.Ts
+        sigma_bar = 4*RHO_CRIT * self.delta_c * self.rs / x**2 * (2 / self.csqrt(x**2 - 1) * np.arctan(self.csqrt((x-1)/(x+1))) + np.log(x/2))
+        if sigma_bar.imag != 0: print(sigma_bar.imag)
+        return sigma_bar.real
+
+
+class IsothermalHalo(Halo):
+
+    def __init__(self, M200, rc, DL):
+        super().__init__(M200, DL)
+        self.rc = rc
+        self.Tc = rc/DL * u.rad
+        r200 = ((3 * M200) / (800 * np.pi * RHO_CRIT))**(1/3)
+        self.sigmaSquared = M200 * G / (2 * (r200 - rc * np.arctan(r200/rc)))
+
+    def surfaceDensity(self, T):
+        # Surface density at angle T
+        return self.sigmaSquared / (2 * G * self.DL * np.sqrt(T**2 + self.Tc**2))
+
+    def averageSurfaceDensity(self, T):
+        # Average surface density at angle T
+        return self.sigmaSquared * (np.sqrt(T**2 + self.Tc**2) - self.Tc) / (G * self.DL * T**2)
 
 
 class BackgroundGalaxy:
@@ -105,49 +143,74 @@ class LensedBackgroundGalaxy:
                        angle=self.phi.to_value(u.degree))
 
 
-if __name__ == '__main__':
-    v = 100
+# if __name__ == '__main__':
+v = 100
 
-    halo = IsothermalHalo(
-        M200=1e15*u.solMass,
-        rc=10*u.kpc,
-        DL=1*u.Gpc)
+halo = IsothermalHalo(
+    M200=1e15*u.solMass,
+    rc=10*u.kpc,
+    DL=1*u.Gpc)
 
-    backgroundGalaxies = [BackgroundGalaxy(
-        Bx=(v*np.random.rand()-v/2)*u.arcsec,
-        By=(v*np.random.rand()-v/2)*u.arcsec,
-        e1=0,
-        e2=0,
-        a=1,
-        DS=3*u.Gpc) for i in range(1000)]
+halo2 = NFWHalo(
+    M200=1e15*u.solMass,
+    C=20,
+    DL=1*u.Gpc)
 
-    fig = plt.figure(dpi=100)
-    ax = fig.add_subplot(111, aspect="equal")
-    ax.set_xlim(-v/2,v/2)
-    ax.set_ylim(-v/2,v/2)
+backgroundGalaxies = [BackgroundGalaxy(
+    Bx=(v*np.random.rand()-v/2)*u.arcsec,
+    By=(v*np.random.rand()-v/2)*u.arcsec,
+    e1=0,
+    e2=0,
+    a=1,
+    DS=3*u.Gpc) for i in range(1000)]
 
-    for gal in backgroundGalaxies:
-        lensedGal = halo.lense(gal)
-        lensedGalEllipse = lensedGal.ellipse()
-        lensedGalEllipse.set_facecolor(np.random.rand(3))
-        ax.add_artist(lensedGalEllipse)
+fig = plt.figure(dpi=100)
+ax = fig.add_subplot(111, aspect="equal")
+ax.set_xlim(-v/2,v/2)
+ax.set_ylim(-v/2,v/2)
 
-    plt.show()
+for gal in backgroundGalaxies:
+    lensedGal = halo.lense(gal)
+    lensedGalEllipse = lensedGal.ellipse()
+    lensedGalEllipse.set_facecolor(np.random.rand(3))
+    ax.add_artist(lensedGalEllipse)
 
-    theta = np.linspace(0.0001,100,1000)*u.arcsec
-    epsilon = np.array([halo.ellipticity(t, 3*u.Gpc).to_value("") for t in theta])
-    gamma = np.array([halo.shear(t, 3*u.Gpc).to_value("") for t in theta])
-    kappa = np.array([(halo.surfaceDensity(t) / SIGMA_CRIT(3*u.Gpc, halo.DL)).to_value("") for t in theta])
-    mu = 1/((1-kappa)**2 - gamma**2)
-    plt.figure(dpi=100)
-    plt.plot(theta, epsilon)
-    plt.plot(theta, gamma)
-    plt.plot(theta, kappa)
-    plt.plot(theta, mu)
-    plt.legend(["$\epsilon$","$\gamma$","$\kappa$","$\mu$"])
-    plt.xlabel("$\\theta$")
-    plt.yscale("symlog", linthreshy=1)
-    plt.show()
+plt.show()
 
-    (halo.rc/halo.DL).to(u.arcsec)
-    (4*np.pi*halo.sigmaSquared / c**2 * (3*u.Gpc - halo.DL)/(3*u.Gpc)).to(u.arcsec)
+
+fig = plt.figure(dpi=100)
+ax = fig.add_subplot(111, aspect="equal")
+ax.set_xlim(-v/2,v/2)
+ax.set_ylim(-v/2,v/2)
+
+for gal in backgroundGalaxies:
+    lensedGal = halo2.lense(gal)
+    lensedGalEllipse = lensedGal.ellipse()
+    lensedGalEllipse.set_facecolor(np.random.rand(3))
+    ax.add_artist(lensedGalEllipse)
+
+plt.show()
+
+
+
+theta = np.linspace(0.0001,100,1000)*u.arcsec
+epsilon = np.array([halo.ellipticity(t, 3*u.Gpc).to_value("") for t in theta])
+gamma = np.array([halo.shear(t, 3*u.Gpc).to_value("") for t in theta])
+kappa = np.array([(halo.surfaceDensity(t) / SIGMA_CRIT(3*u.Gpc, halo.DL)).to_value("") for t in theta])
+mu = 1/((1-kappa)**2 - gamma**2)
+plt.figure(dpi=100)
+plt.plot(theta, epsilon)
+plt.plot(theta, gamma)
+plt.plot(theta, kappa)
+plt.plot(theta, mu)
+plt.legend(["$\epsilon$","$\gamma$","$\kappa$","$\mu$"])
+plt.xlabel("$\\theta$ (arcseconds)")
+plt.ylim(-10,10)
+plt.show()
+
+
+halo.plot(0.0001, 100, 1000, 3*u.Gpc)
+halo2.plot(0.0001, 100, 1000, 3*u.Gpc)
+
+halo.Tc.to(u.arcsec)
+(4*np.pi*halo.sigmaSquared / c**2 * (3*u.Gpc - halo.DL)/(3*u.Gpc)).to(u.arcsec)
