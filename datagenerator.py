@@ -30,6 +30,9 @@ dl = 1*u.Gpc
 
 datafile = open('output1.txt','w')
 nfw_1 = NFWHalo(M200_0,c_param,dl)
+
+#Sample NFW lensed galaxy data made with rand().
+#More deliberate placing of galaxies can be done if found necessary
 backgroundGalaxies = [BackgroundGalaxy(
     Bx=(100*np.random.rand()-50)*u.arcsec,
     By=(100*np.random.rand()-50)*u.arcsec,
