@@ -49,6 +49,7 @@ theta_bin_edges = np.linspace(50, 700, 40) # arcsec
 epsilon_mean, bin_edges, binnumber = binned_statistic(theta, epsilon, statistic="mean", bins=theta_bin_edges)
 epsilon_sigma, bin_edges, binnumber = binned_statistic(theta, epsilon, statistic=np.std, bins=theta_bin_edges)
 theta_bin_centers = theta_bin_edges[:-1] + (theta_bin_edges[1] - theta_bin_edges[0])/2
+np.savetxt("data.csv", np.stack([theta_bin_centers, epsilon_mean, epsilon_sigma], 1), delimiter=", ")
 
 
 ### FITTING ###
