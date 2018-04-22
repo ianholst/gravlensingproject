@@ -5,7 +5,7 @@ import astropy.cosmology as cosmology
 from astropy.visualization import astropy_mpl_style
 import astropy.units as u
 import astropy.constants as const
-import cmath.sqrt as csqrt
+from cmath import sqrt as csqrt
 
 plt.style.use(astropy_mpl_style)
 
@@ -102,6 +102,7 @@ class IsothermalHalo(Halo):
         self.Tc = rc/DL * u.rad
         r200 = ((3 * M200) / (800 * np.pi * RHO_CRIT))**(1/3)
         self.sigmaSquared = M200 * G / (2 * (r200 - rc * np.arctan(r200/rc)))
+        self.T0 = lambda DS: 4*np.pi*halo_iso.sigmaSquared / c**2 * (DS - halo_iso.DL)/(DS)
 
     def surfaceDensity(self, T):
         # Surface density at angle T
@@ -143,52 +144,47 @@ class LensedBackgroundGalaxy:
                        angle=self.phi.to_value(u.degree))
 
 
-# if __name__ == '__main__':
-v = 100
 
-halo = IsothermalHalo(
-    M200=1e15*u.solMass,
-    rc=10*u.kpc,
-    DL=1*u.Gpc)
-
-halo2 = NFWHalo(
-    M200=1e15*u.solMass,
-    C=10,
-    DL=1*u.Gpc)
-
-backgroundGalaxies = [BackgroundGalaxy(
-    Bx=(v*np.random.rand()-v/2)*u.arcsec,
-    By=(v*np.random.rand()-v/2)*u.arcsec,
-    e1=0,
-    e2=0,
-    a=1,
-    DS=3*u.Gpc) for i in range(1000)]
-
-halo.plot(0.0001, 100, 1000, 3*u.Gpc)
-halo2.plot(0.0001, 100, 1000, 3*u.Gpc)
-
-fig = plt.figure(dpi=100)
-ax = fig.add_subplot(111, aspect="equal")
-ax.set_xlim(-v/2,v/2)
-ax.set_ylim(-v/2,v/2)
-for gal in backgroundGalaxies:
-    lensedGal = halo.lense(gal)
-    lensedGalEllipse = lensedGal.ellipse()
-    lensedGalEllipse.set_facecolor(np.random.rand(3))
-    ax.add_artist(lensedGalEllipse)
-plt.show()
+def make_lensing_image(halo, backgroundGalaxies, v):
+    fig = plt.figure()
+    ax = fig.add_subplot(111, aspect="equal")
+    ax.set_xlim(-v/2,v/2)
+    ax.set_ylim(-v/2,v/2)
+    for gal in backgroundGalaxies:
+        lensedGal = halo.lense(gal)
+        lensedGalEllipse = lensedGal.ellipse()
+        lensedGalEllipse.set_facecolor(np.random.rand(3))
+        ax.add_artist(lensedGalEllipse)
+    return plt.show()
 
 
-fig = plt.figure(dpi=100)
-ax = fig.add_subplot(111, aspect="equal")
-ax.set_xlim(-v/2,v/2)
-ax.set_ylim(-v/2,v/2)
-for gal in backgroundGalaxies:
-    lensedGal = halo2.lense(gal)
-    lensedGalEllipse = lensedGal.ellipse()
-    lensedGalEllipse.set_facecolor(np.random.rand(3))
-    ax.add_artist(lensedGalEllipse)
-plt.show()
+if __name__ == '__main__':
+    v = 100 # view radius
 
-halo.Tc.to(u.arcsec)
-(4*np.pi*halo.sigmaSquared / c**2 * (3*u.Gpc - halo.DL)/(3*u.Gpc)).to(u.arcsec)
+    halo_iso = IsothermalHalo(
+        M200=1e15*u.solMass,
+        rc=10*u.kpc,
+        DL=1*u.Gpc)
+
+    halo_nfw = NFWHalo(
+        M200=1e15*u.solMass,
+        C=10,
+        DL=1*u.Gpc)
+
+    halo_iso.plot(0.0001, v, 500, 3*u.Gpc)
+    print("theta_c:", halo_iso.Tc.to(u.arcsec))
+    print("theta_0:", halo_iso.T0(3*u.Gpc).to(u.arcsec))
+
+    halo_nfw.plot(0.0001, v, 500, 3*u.Gpc)
+    print("theta_s:", halo_nfw.Ts.to(u.arcsec))
+
+    backgroundGalaxies = [BackgroundGalaxy(
+        Bx=(v*np.random.rand()-v/2)*u.arcsec,
+        By=(v*np.random.rand()-v/2)*u.arcsec,
+        e1=0,
+        e2=0,
+        a=1,
+        DS=3*u.Gpc) for i in range(1000)]
+
+    make_lensing_image(halo_iso, backgroundGalaxies, v)
+    make_lensing_image(halo_nfw, backgroundGalaxies, v)
