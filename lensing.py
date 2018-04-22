@@ -35,7 +35,7 @@ class Halo:
         # Magnitude of ellipticity at angle T for object at distance DS
         convergence = self.surfaceDensity(T) / SIGMA_CRIT(DS, self.DL)
         reducedShear = self.shear(T, DS) / (1 - convergence)
-        return 2 * reducedShear / (1 + reducedShear**2)
+        return (2 * reducedShear / (1 + reducedShear**2)).to_value("")
 
     def deflection(self, Bx, By, DS):
         # Gives the image angle theta (T) that an object at source angle beta (B) and distance DS is deflected to
