@@ -48,7 +48,6 @@ epsilon_mean, bin_edges, binnumber = binned_statistic(theta, epsilon, statistic=
 epsilon_sigma, bin_edges, binnumber = binned_statistic(theta, epsilon, statistic=np.std, bins=theta_bin_edges)
 theta_bin_centers = theta_bin_edges[:-1] + (theta_bin_edges[1] - theta_bin_edges[0])/2
 
-
 # FITTING
 def nfw_ellipticity(theta, M200, C):
     halo = NFWHalo(M200*u.solMass, C, DL)
@@ -62,7 +61,10 @@ BOUNDS = [[0,0], [np.inf, np.inf]]
 optimalNFWParams, covariance = curve_fit(nfw_ellipticity, theta_bin_centers, epsilon_mean, p0=[1e14, 10], bounds=BOUNDS, sigma=epsilon_sigma)
 optimalIsoParams, covariance = curve_fit(iso_ellipticity, theta_bin_centers, epsilon_mean, p0=[1e14, 10], bounds=BOUNDS, sigma=epsilon_sigma)
 
-plt.plot(theta_bin_centers, epsilon_mean)
+plt.figure()
 plt.plot(theta_bin_centers, nfw_ellipticity(theta_bin_centers, 1e15,10))
+plt.plot(theta_bin_centers, epsilon_mean)
 plt.plot(theta_bin_centers, nfw_ellipticity(theta_bin_centers, *optimalNFWParams))
 plt.plot(theta_bin_centers, iso_ellipticity(theta_bin_centers, *optimalIsoParams))
+plt.legend(["original", "binned data", "nfw fit", "isothermal fit"])
+plt.show()

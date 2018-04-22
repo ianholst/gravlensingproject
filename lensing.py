@@ -29,7 +29,7 @@ class Halo:
 
     def shear(self, T, DS):
         # Tangential shear at angle T for object at distance DS
-        return (self.averageSurfaceDensity(T) - self.surfaceDensity(T)) / SIGMA_CRIT(DS, self.DL)
+        return ((self.averageSurfaceDensity(T) - self.surfaceDensity(T)) / SIGMA_CRIT(DS, self.DL)).to_value("")
 
     def ellipticity(self, T, DS):
         # Magnitude of ellipticity at angle T for object at distance DS
@@ -53,8 +53,8 @@ class Halo:
 
     def plot(self, start, stop, step, DS):
         theta = np.linspace(start, stop, step)*u.arcsec
-        epsilon = np.array([self.ellipticity(t, DS).to_value("") for t in theta])
-        gamma = np.array([self.shear(t, DS).to_value("") for t in theta])
+        epsilon = np.array([self.ellipticity(t, DS) for t in theta])
+        gamma = np.array([self.shear(t, DS) for t in theta])
         kappa = np.array([(self.surfaceDensity(t) / SIGMA_CRIT(DS, self.DL)).to_value("") for t in theta])
         mu = 1/((1-kappa)**2 - gamma**2)
         plt.figure()
