@@ -1,0 +1,764 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     27708,        756]
+NotebookOptionsPosition[     25554,        698]
+NotebookOutlinePosition[     25901,        713]
+CellTagsIndexPosition[     25858,        710]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"data", "=", 
+   RowBox[{
+   "Import", "[", "\"\<C:/Users/Ian/Desktop/gravlensingproject/data.csv\>\"", 
+    "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"theta", "=", 
+   RowBox[{"data", "\[LeftDoubleBracket]", 
+    RowBox[{";;", ",", "1"}], "\[RightDoubleBracket]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ellipticity", "=", 
+   RowBox[{"data", "\[LeftDoubleBracket]", 
+    RowBox[{";;", ",", "2"}], "\[RightDoubleBracket]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[Sigma]ellipticity", "=", 
+   RowBox[{"data", "\[LeftDoubleBracket]", 
+    RowBox[{";;", ",", "3"}], "\[RightDoubleBracket]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.7334189570985293`*^9, 3.7334190484267187`*^9}, {
+  3.733419379663094*^9, 3.733419402341899*^9}, {3.733424416767733*^9, 
+  3.7334244188135295`*^9}},ExpressionUUID->"592b968f-f867-4395-8522-\
+b4d5258dec75"],
+
+Cell[CellGroupData[{
+
+Cell["NFW Fit", "Section",
+ CellChangeTimes->{{3.733423132489725*^9, 
+  3.7334231379644136`*^9}},ExpressionUUID->"62366c01-2aaa-4f35-b2df-\
+32dd4f11da81"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"H0", "=", 
+   RowBox[{"69.32", 
+    TemplateBox[{
+     InterpretationBox["\[InvisibleSpace]", 1],
+      RowBox[{"\"km\"", "\[InvisibleSpace]", "\"/(\"", "\[InvisibleSpace]", 
+        "\"Mpc\"", "\[ThinSpace]", "\"s\"", "\[InvisibleSpace]", "\")\""}],
+      "kilometers per megaparsec second",FractionBox["\"Kilometers\"", 
+       RowBox[{"\"Megaparsecs\"", " ", "\"Seconds\""}]]},
+     "Quantity"]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[Rho]crit", "=", 
+   RowBox[{"UnitConvert", "[", 
+    RowBox[{
+     FractionBox[
+      RowBox[{"3", 
+       SuperscriptBox["H0", "2"]}], 
+      RowBox[{"8", "\[Pi]", " ", 
+       TemplateBox[{
+        InterpretationBox["\[InvisibleSpace]", 1],StyleBox[
+         "\"G\"", Italic, StripOnInput -> False],
+         "Newtonian gravitational constants","\"GravitationalConstant\""},
+        "Quantity"]}]], ",", "\"\<SI\>\""}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"DL", "=", 
+   RowBox[{"1", 
+    TemplateBox[{
+     InterpretationBox["\[InvisibleSpace]", 1],"\"Gpc\"","gigaparsecs",
+      "\"Gigaparsecs\""},
+     "Quantity"]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"DS", "=", 
+   RowBox[{"3", 
+    TemplateBox[{
+     InterpretationBox["\[InvisibleSpace]", 1],"\"Gpc\"","gigaparsecs",
+      "\"Gigaparsecs\""},
+     "Quantity"]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[Theta]s", "=", 
+   RowBox[{
+    RowBox[{"UnitConvert", "[", 
+     RowBox[{
+      FractionBox[
+       SuperscriptBox["M200", 
+        RowBox[{"1", "/", "3"}]], 
+       RowBox[{"c", " ", "DL"}]], 
+      SuperscriptBox[
+       RowBox[{"(", 
+        FractionBox[
+         RowBox[{"3", 
+          TemplateBox[{InterpretationBox["\[InvisibleSpace]", 1],SubscriptBox[
+             StyleBox["\"M\"", Italic, StripOnInput -> False], "\"\[Sun]\""],
+            "solar masses","\"SolarMass\""},
+           "Quantity"]}], 
+         RowBox[{"800", "\[Pi]", " ", "\[Rho]crit"}]], ")"}], 
+       RowBox[{"1", "/", "3"}]]}], "]"}], "*", 
+    RowBox[{"QuantityMagnitude", "[", 
+     RowBox[{
+      TemplateBox[{
+       InterpretationBox["\[InvisibleSpace]", 1],"\"rad\"","radians",
+        "\"Radians\""},
+       "Quantity"], ",", 
+      TemplateBox[{
+       InterpretationBox["\[InvisibleSpace]", 1],
+        RowBox[{"\[InvisibleSpace]", "\"\\\"\""}],"arc seconds",
+        "\"ArcSeconds\""},
+       "QuantityPostfix"]}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rs", "=", 
+   RowBox[{"UnitConvert", "[", 
+    RowBox[{
+     RowBox[{
+      FractionBox[
+       SuperscriptBox["M200", 
+        RowBox[{"1", "/", "3"}]], "c"], 
+      SuperscriptBox[
+       RowBox[{"(", 
+        FractionBox[
+         RowBox[{"3", 
+          TemplateBox[{InterpretationBox["\[InvisibleSpace]", 1],SubscriptBox[
+             StyleBox["\"M\"", Italic, StripOnInput -> False], "\"\[Sun]\""],
+            "solar masses","\"SolarMass\""},
+           "Quantity"]}], 
+         RowBox[{"800", "\[Pi]", " ", "\[Rho]crit"}]], ")"}], 
+       RowBox[{"1", "/", "3"}]]}], ",", "\"\<SI\>\""}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[Delta]c", "=", 
+   RowBox[{
+    FractionBox["200", "3"], "*", 
+    FractionBox[
+     SuperscriptBox["c", "3"], 
+     RowBox[{
+      RowBox[{"Log", "[", 
+       RowBox[{"1", "+", "c"}], "]"}], "-", 
+      RowBox[{"c", "/", 
+       RowBox[{"(", 
+        RowBox[{"1", "+", "c"}], ")"}]}]}]]}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.7334192842699604`*^9, 3.7334193434720325`*^9}, {
+  3.7334194132432394`*^9, 3.7334197346481223`*^9}, {3.733419768455134*^9, 
+  3.733419773879159*^9}, {3.733420008915475*^9, 3.7334200116733627`*^9}, {
+  3.7334200940749063`*^9, 3.73342019741717*^9}, {3.73342022805856*^9, 
+  3.7334202426890755`*^9}, {3.733420275289102*^9, 3.7334202908195195`*^9}, {
+  3.733420345566598*^9, 3.7334203681976156`*^9}, {3.733420526311818*^9, 
+  3.7334205543008704`*^9}, {3.7334206779943805`*^9, 3.7334207323708973`*^9}, {
+  3.733420793894602*^9, 3.733420810976324*^9}, {3.7334208692592936`*^9, 
+  3.733420984265787*^9}, {3.7334219820054073`*^9, 3.7334221161229186`*^9}, {
+  3.733422182827709*^9, 3.7334221868581657`*^9}, {3.7334222966924477`*^9, 
+  3.733422297900786*^9}, {3.7334229649682136`*^9, 3.7334229934690657`*^9}, {
+  3.733423028746091*^9, 
+  3.733423047113433*^9}},ExpressionUUID->"e013f2d9-86b9-42f5-a5dd-\
+af3f4ebc30b1"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"surfaceDensity", "=", 
+   RowBox[{
+    FractionBox[
+     RowBox[{"2", "\[Delta]c", "*", "\[Rho]crit", "*", "rs", " "}], 
+     RowBox[{
+      SuperscriptBox[
+       RowBox[{"(", 
+        RowBox[{"\[Theta]", "/", "\[Theta]s"}], ")"}], "2"], "-", "1"}]], 
+    RowBox[{"(", 
+     RowBox[{"1", "-", 
+      RowBox[{
+       FractionBox["2", 
+        SqrtBox[
+         RowBox[{
+          SuperscriptBox[
+           RowBox[{"(", 
+            RowBox[{"\[Theta]", "/", "\[Theta]s"}], ")"}], "2"], "-", "1"}]]], 
+       RowBox[{"ArcTan", "[", 
+        SqrtBox[
+         FractionBox[
+          RowBox[{
+           RowBox[{"\[Theta]", "/", "\[Theta]s"}], "-", "1"}], 
+          RowBox[{
+           RowBox[{"\[Theta]", "/", "\[Theta]s"}], "+", "1"}]]], "]"}]}]}], 
+     ")"}]}]}], " ", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"averageSurfaceDensity", "=", 
+   RowBox[{
+    FractionBox[
+     RowBox[{"4", "\[Delta]c", "*", "\[Rho]crit", "*", "rs", " "}], 
+     SuperscriptBox[
+      RowBox[{"(", 
+       RowBox[{"\[Theta]", "/", "\[Theta]s"}], ")"}], "2"]], 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       FractionBox["2", 
+        SqrtBox[
+         RowBox[{
+          SuperscriptBox[
+           RowBox[{"(", 
+            RowBox[{"\[Theta]", "/", "\[Theta]s"}], ")"}], "2"], "-", "1"}]]], 
+       RowBox[{"ArcTan", "[", 
+        SqrtBox[
+         FractionBox[
+          RowBox[{
+           RowBox[{"\[Theta]", "/", "\[Theta]s"}], "-", "1"}], 
+          RowBox[{
+           RowBox[{"\[Theta]", "/", "\[Theta]s"}], "+", "1"}]]], "]"}]}], "+", 
+      RowBox[{"Log", "[", 
+       FractionBox[
+        RowBox[{"\[Theta]", "/", "\[Theta]s"}], "2"], "]"}]}], ")"}]}]}], " ",
+   ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"criticalSurfaceDensity", "=", 
+   RowBox[{"UnitConvert", "[", 
+    RowBox[{
+     RowBox[{
+      FractionBox[
+       SuperscriptBox[
+        TemplateBox[{
+         InterpretationBox["\[InvisibleSpace]", 1],StyleBox[
+          "\"c\"", Italic, StripOnInput -> False],"speed of light in vacuum",
+          "\"SpeedOfLight\""},
+         "Quantity"], "2"], 
+       RowBox[{"4", "\[Pi]", " ", 
+        TemplateBox[{
+         InterpretationBox["\[InvisibleSpace]", 1],StyleBox[
+          "\"G\"", Italic, StripOnInput -> False],
+          "Newtonian gravitational constants","\"GravitationalConstant\""},
+         "Quantity"]}]], "*", 
+      FractionBox["DS", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"DS", "-", "DL"}], ")"}], "*", "DL"}]]}], ",", 
+     "\"\<SI\>\""}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"convergence", "=", 
+   FractionBox["surfaceDensity", "criticalSurfaceDensity"]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"shear", "=", 
+   RowBox[{"Simplify", "[", 
+    RowBox[{"Expand", "[", 
+     FractionBox[
+      RowBox[{"averageSurfaceDensity", "-", "surfaceDensity"}], 
+      "criticalSurfaceDensity"], "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"reducedShear", "=", 
+   FractionBox["shear", 
+    RowBox[{"1", "-", "convergence"}]]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ellipticityNFW", "=", 
+   FractionBox[
+    RowBox[{"2", "*", "reducedShear"}], 
+    RowBox[{"1", "+", 
+     SuperscriptBox["reducedShear", "2"]}]]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.7334211077993035`*^9, 3.7334211232701287`*^9}, {
+  3.7334212191064367`*^9, 3.733421230259823*^9}, {3.733422127396689*^9, 
+  3.7334221569343824`*^9}, {3.7334222867077336`*^9, 3.733422322046705*^9}, {
+  3.7334223541180058`*^9, 3.7334225626703176`*^9}, {3.733422763036334*^9, 
+  3.733422765744194*^9}, {3.7334229221667213`*^9, 
+  3.7334229264067273`*^9}},ExpressionUUID->"5d6bf19f-594d-4487-9bf8-\
+a12e7ef01b9b"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"chiSquared", "=", 
+   RowBox[{"Total", "[", 
+    SuperscriptBox[
+     RowBox[{"(", 
+      FractionBox[
+       RowBox[{"ellipticity", "-", 
+        RowBox[{"(", 
+         RowBox[{"ellipticityNFW", "/.", 
+          RowBox[{"\[Theta]", "\[Rule]", "theta"}]}], ")"}]}], 
+       "\[Sigma]ellipticity"], ")"}], "2"], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.73342147726383*^9, 3.7334215504695716`*^9}, 
+   3.7334227326427402`*^9},ExpressionUUID->"cc6b621e-3afe-4629-a66d-\
+8158df5b2b82"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"chiSquared", "/.", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"M200", "\[Rule]", 
+     SuperscriptBox["10", "15"]}], ",", 
+    RowBox[{"c", "\[Rule]", "10"}]}], "}"}]}]], "Input",
+ CellChangeTimes->{{3.733421589419195*^9, 3.733421597487708*^9}, {
+  3.73342171547958*^9, 3.7334217206190042`*^9}, {3.7334218860440493`*^9, 
+  3.7334219161759415`*^9}, {3.733422667998855*^9, 3.7334226784609756`*^9}, {
+  3.7334227287541494`*^9, 
+  3.733422731182*^9}},ExpressionUUID->"87107103-136d-49fb-8e25-06f008b3d6d7"],
+
+Cell[BoxData["0.19640010955827425`"], "Output",
+ CellChangeTimes->{
+  3.733421601882893*^9, 3.73342189772584*^9, 3.73342197535229*^9, 
+   3.733422589323792*^9, {3.733422674720761*^9, 3.733422678793979*^9}, 
+   3.733423085740612*^9},ExpressionUUID->"f76e7812-af0c-4234-b0e3-\
+624fe4676895"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"NMinimize", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"chiSquared", ",", 
+     RowBox[{
+      SuperscriptBox["10", "10"], "<", "M200", "<", 
+      SuperscriptBox["10", "17"]}], ",", 
+     RowBox[{"0", "<", "c", "<", "100"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"M200", ",", "c"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.7334216197292747`*^9, 3.733421631667678*^9}, {
+  3.7334216927739305`*^9, 3.733421728548732*^9}, {3.733422623950042*^9, 
+  3.733422644083178*^9}},ExpressionUUID->"9603185c-a28f-4e1e-9307-\
+18c6ae02348a"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"0.18496432672362675`", ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"M200", "\[Rule]", "1.0662569654334248`*^15"}], ",", 
+     RowBox[{"c", "\[Rule]", "9.422018089668608`"}]}], "}"}]}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.733421664094732*^9, 3.7334218904745193`*^9, 
+  3.733422605121088*^9, 
+  3.7334226565885816`*^9},ExpressionUUID->"005e84f4-9ded-4082-8d49-\
+b5e0f2884bc3"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Isothermal Fit", "Section",
+ CellChangeTimes->{{3.73342314112722*^9, 
+  3.7334231458441076`*^9}},ExpressionUUID->"70b590de-c90c-40b2-a388-\
+ee7ec4efd501"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"r200", "=", 
+   RowBox[{"UnitConvert", "[", 
+    RowBox[{
+     RowBox[{
+      SuperscriptBox["M200", 
+       RowBox[{"1", "/", "3"}]], 
+      SuperscriptBox[
+       RowBox[{"(", 
+        FractionBox[
+         RowBox[{"3", 
+          TemplateBox[{InterpretationBox["\[InvisibleSpace]", 1],SubscriptBox[
+             StyleBox["\"M\"", Italic, StripOnInput -> False], "\"\[Sun]\""],
+            "solar masses","\"SolarMass\""},
+           "Quantity"]}], 
+         RowBox[{"800", "\[Pi]", " ", "\[Rho]crit"}]], ")"}], 
+       RowBox[{"1", "/", "3"}]]}], ",", "\"\<SI\>\""}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[Sigma]2", "=", 
+   FractionBox[
+    RowBox[{"M200", 
+     TemplateBox[{InterpretationBox["\[InvisibleSpace]", 1],SubscriptBox[
+        StyleBox["\"M\"", Italic, StripOnInput -> False], "\"\[Sun]\""],
+       "solar masses","\"SolarMass\""},
+      "Quantity"], 
+     RowBox[{
+      TemplateBox[{
+       InterpretationBox["\[InvisibleSpace]", 1],StyleBox[
+        "\"G\"", Italic, StripOnInput -> False],
+        "Newtonian gravitational constants","\"GravitationalConstant\""},
+       "Quantity"], " ", "/", 
+      TemplateBox[{
+       InterpretationBox["\[InvisibleSpace]", 1],"\"m\"","meters",
+        "\"Meters\""},
+       "Quantity"]}]}], 
+    RowBox[{"Expand", "[", 
+     RowBox[{"2", 
+      RowBox[{"(", 
+       RowBox[{"r200", "-", 
+        RowBox[{"DL", " ", "\[Theta]c", " ", 
+         RowBox[{"ArcTan", "[", 
+          FractionBox["r200", 
+           RowBox[{"DL", " ", "\[Theta]c"}]], "]"}]}]}], ")"}], "*", 
+      RowBox[{"1", "/", 
+       TemplateBox[{
+        InterpretationBox["\[InvisibleSpace]", 1],"\"m\"","meters",
+         "\"Meters\""},
+        "Quantity"]}]}], "]"}]]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.7334233452995434`*^9, 3.7334234553958235`*^9}, {
+  3.7334235844773006`*^9, 
+  3.7334237836683407`*^9}},ExpressionUUID->"2c4907fe-90f8-49b8-93dc-\
+659eabc1f77d"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"surfaceDensity", "=", 
+   FractionBox["\[Sigma]2", 
+    RowBox[{"2", 
+     TemplateBox[{
+      InterpretationBox["\[InvisibleSpace]", 1],StyleBox[
+       "\"G\"", Italic, StripOnInput -> False],
+       "Newtonian gravitational constants","\"GravitationalConstant\""},
+      "Quantity"], "DL", 
+     SqrtBox[
+      RowBox[{
+       SuperscriptBox["\[Theta]", "2"], "+", 
+       SuperscriptBox["\[Theta]c", "2"]}]]}]]}], " ", 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"averageSurfaceDensity", "=", 
+   FractionBox[
+    RowBox[{"\[Sigma]2", 
+     RowBox[{"(", 
+      RowBox[{
+       SqrtBox[
+        RowBox[{
+         SuperscriptBox["\[Theta]", "2"], "+", 
+         SuperscriptBox["\[Theta]c", "2"]}]], "-", "\[Theta]c"}], ")"}]}], 
+    RowBox[{"2", 
+     TemplateBox[{
+      InterpretationBox["\[InvisibleSpace]", 1],StyleBox[
+       "\"G\"", Italic, StripOnInput -> False],
+       "Newtonian gravitational constants","\"GravitationalConstant\""},
+      "Quantity"], "DL", " ", 
+     SuperscriptBox["\[Theta]", "2"]}]]}], " ", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"criticalSurfaceDensity", "=", 
+   RowBox[{"UnitConvert", "[", 
+    RowBox[{
+     RowBox[{
+      FractionBox[
+       SuperscriptBox[
+        TemplateBox[{
+         InterpretationBox["\[InvisibleSpace]", 1],StyleBox[
+          "\"c\"", Italic, StripOnInput -> False],"speed of light in vacuum",
+          "\"SpeedOfLight\""},
+         "Quantity"], "2"], 
+       RowBox[{"4", "\[Pi]", " ", 
+        TemplateBox[{
+         InterpretationBox["\[InvisibleSpace]", 1],StyleBox[
+          "\"G\"", Italic, StripOnInput -> False],
+          "Newtonian gravitational constants","\"GravitationalConstant\""},
+         "Quantity"]}]], "*", 
+      FractionBox["DS", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"DS", "-", "DL"}], ")"}], "*", "DL"}]]}], ",", 
+     "\"\<SI\>\""}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"convergence", "=", 
+   FractionBox["surfaceDensity", "criticalSurfaceDensity"]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"shear", "=", 
+   RowBox[{"Simplify", "[", 
+    RowBox[{"Expand", "[", 
+     FractionBox[
+      RowBox[{"averageSurfaceDensity", "-", "surfaceDensity"}], 
+      "criticalSurfaceDensity"], "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"reducedShear", "=", 
+   FractionBox["shear", 
+    RowBox[{"1", "-", "convergence"}]]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ellipticityIsothermal", "=", 
+   RowBox[{
+    FractionBox[
+     RowBox[{"2", "*", "reducedShear"}], 
+     RowBox[{"1", "+", 
+      SuperscriptBox["reducedShear", "2"]}]], "/.", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"\[Theta]", "\[Rule]", 
+       RowBox[{"t", "*", 
+        RowBox[{"QuantityMagnitude", "[", 
+         RowBox[{
+          
+          TemplateBox[{
+           InterpretationBox["\[InvisibleSpace]", 1],
+            RowBox[{"\[InvisibleSpace]", "\"\\\"\""}],"arc seconds",
+            "\"ArcSeconds\""},
+           "QuantityPostfix"], ",", 
+          
+          TemplateBox[{
+           InterpretationBox["\[InvisibleSpace]", 1],"\"rad\"","radians",
+            "\"Radians\""},
+           "Quantity"]}], "]"}]}]}], ",", 
+      RowBox[{"\[Theta]c", "\[Rule]", 
+       RowBox[{"tc", "*", 
+        RowBox[{"QuantityMagnitude", "[", 
+         RowBox[{
+          
+          TemplateBox[{
+           InterpretationBox["\[InvisibleSpace]", 1],
+            RowBox[{"\[InvisibleSpace]", "\"\\\"\""}],"arc seconds",
+            "\"ArcSeconds\""},
+           "QuantityPostfix"], ",", 
+          
+          TemplateBox[{
+           InterpretationBox["\[InvisibleSpace]", 1],"\"rad\"","radians",
+            "\"Radians\""},
+           "Quantity"]}], "]"}]}]}]}], "}"}]}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.7334231698381867`*^9, 3.733423203610037*^9}, {
+   3.733423237047666*^9, 3.733423317396471*^9}, {3.7334234594038086`*^9, 
+   3.733423512550946*^9}, {3.733423555755623*^9, 3.7334235687338943`*^9}, {
+   3.7334237689368925`*^9, 3.733423845142722*^9}, 3.733424099291009*^9, {
+   3.733424523380448*^9, 
+   3.733424544006164*^9}},ExpressionUUID->"eae9ee97-c3a9-45a8-884e-\
+56da49ba6c95"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"chiSquared", "=", 
+   RowBox[{"Total", "[", 
+    SuperscriptBox[
+     RowBox[{"(", 
+      FractionBox[
+       RowBox[{"ellipticity", "+", 
+        RowBox[{"(", 
+         RowBox[{"ellipticityIsothermal", "/.", 
+          RowBox[{"t", "\[Rule]", "theta"}]}], ")"}]}], 
+       "\[Sigma]ellipticity"], ")"}], "2"], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{
+  3.7334238605868454`*^9, {3.7334246996206703`*^9, 
+   3.733424703648019*^9}},ExpressionUUID->"76ccfc65-0334-481b-b830-\
+7fc1271992a7"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"NMinimize", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"chiSquared", ",", 
+     RowBox[{
+      SuperscriptBox["10", "15"], "<", "M200", "<", 
+      SuperscriptBox["10", "17"]}], ",", 
+     RowBox[{"0", "<", "tc", "<", "1000"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"M200", ",", "tc"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.7334241179526715`*^9, 3.733424147568844*^9}, {
+  3.733424199471613*^9, 
+  3.733424200270506*^9}},ExpressionUUID->"23c8fb61-6ce9-452c-a67e-\
+ccd97de0a0ed"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"0.3758780170343557`", ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"M200", "\[Rule]", "6.744595753180768`*^15"}], ",", 
+     RowBox[{"tc", "\[Rule]", "104.94045116064925`"}]}], "}"}]}], 
+  "}"}]], "Output",
+ CellChangeTimes->{{3.733424131809802*^9, 3.733424149060219*^9}, 
+   3.7334242016325836`*^9, 3.7334243090641613`*^9, 
+   3.733424719492423*^9},ExpressionUUID->"34d6fbaf-5f38-4f4e-891b-\
+dc4041575a01"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ListLinePlot", "[", 
+  RowBox[{"{", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Transpose", "[", 
+     RowBox[{"{", 
+      RowBox[{"theta", ",", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"-", "ellipticityIsothermal"}], "/.", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"t", "\[Rule]", "theta"}], ",", 
+           RowBox[{"M200", "\[Rule]", "6.744595753180768`*^15"}], ",", 
+           RowBox[{"tc", "\[Rule]", "104.94045116064925`"}]}], "}"}]}], 
+        ")"}]}], "}"}], "]"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"Transpose", "[", 
+     RowBox[{"{", 
+      RowBox[{"theta", ",", 
+       RowBox[{"ellipticityNFW", "/.", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"\[Theta]", "\[Rule]", "theta"}], ",", 
+          RowBox[{"M200", "\[Rule]", 
+           SuperscriptBox["10", "15"]}], ",", 
+          RowBox[{"c", "\[Rule]", "10"}]}], "}"}]}]}], "}"}], "]"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Transpose", "[", 
+     RowBox[{"{", 
+      RowBox[{"theta", ",", "ellipticity"}], "}"}], "]"}]}], 
+   "\[IndentingNewLine]", "}"}], "]"}]], "Input",
+ CellChangeTimes->{{3.7334242216012006`*^9, 3.7334242884758234`*^9}, {
+   3.733424329262809*^9, 3.7334243749947224`*^9}, {3.733424424019261*^9, 
+   3.7334244325833316`*^9}, {3.733424565997407*^9, 3.7334245787294188`*^9}, {
+   3.733424641856801*^9, 3.733424676573583*^9}, 
+   3.733424732382261*^9},ExpressionUUID->"ee31472a-3495-4112-9592-\
+4116a60c6408"],
+
+Cell[BoxData[
+ GraphicsBox[{{}, {{}, {}, 
+    {RGBColor[0.368417, 0.506779, 0.709798], PointSize[0.01388888888888889], 
+     AbsoluteThickness[1.6], LineBox[CompressedData["
+1:eJxTTMoPSmViYGBQB2IQvXoVEGj5OkgE8Tw49uK+PQMIHAhy6FTrDZP8dtt+
+DUj+VZhD47nuXe9MbtiHhQKBaLSDppPnzfc3r0DUO8Q7NB/V42/5ehEivzXR
+YWHW25dq7OftweafSnYQOViioP3ulD0jSP2DVIdlKq3PnRuPQ9R/TXe4PuXk
+UuHFRyDqubIcGrwtMtmsDkHUK+Q42Cjt6DlpcACi3jTPwXi9Q8vn13vsQdxQ
+1QIHo1OXfGS/74S4x6DQIcPgSml9znaIeVZFDhuyrxz7bLkVot612EGRZcXi
+6wGbIeoDShxctigtCFy6EaI+qtShbUvGkb26GyDqU8scZgtzvi06shaivqDc
+gWn5T9GJFash6qsqHNZ/TuOTyV0JUd9a6aA/6X6qxszlEPUTqhzOtK4WcPy6
+FKJ+VrWD8dVv6xWrl0DUL61xYIhrVa9XXQxRv6HWYZnppsjb7xdC1O+qc9j4
+zn9u4rUFEP8frXewXuokP2X1fEj4ZDQ4aHhtWNRybS5E/m2Dw22P2wpbNeZA
+9Bc1OtQU/P//eu4siPofjQ59DBfka4xmQtTXNjkYvtDdpv94OkQ9U7PDKX+l
+g2Zrp0HUdzQ71IlOSJLomwpRz9visLXo8ZxlzVMg6ie1OBxw92D+0j0Zol6i
+1WGSUQyr99JJEPVzWx2Cy2361c5NtAcAFDUGRA==
+      "]]}, 
+    {RGBColor[0.880722, 0.611041, 0.142051], PointSize[0.01388888888888889], 
+     AbsoluteThickness[1.6], LineBox[CompressedData["
+1:eJxTTMoPSmViYGBQB2IQvXoVEGj5OqgHff74IP6hPQMIHAhyWNh9YHt07m37
+NSD5V2EO/r82rOQuuWYfFgoEotEOj3s3Tfhx+xJEvUO8w6cDFr9mqF6AyG9N
+dOBJvxb2UOCMPdj8U8kOXbmsFzU2nLBnBKl/kOqw/6x2T8b7oxD1X9MdTgsc
+zJiw/DBEPVeWA3OW0myjvQch6hVyHFTtO2bUyByAqDfNc4j7EjGpOXevPYgb
+qlrgsEaLqf86426IewwKHc7V90x9/mQHxDyrIoenOtfjkji3Q9S7FjtcyZ4t
+sjdlK0R9QImD2frqsNZ3myHqo0odbkVYHno8fxNEfWqZw3exv+/tizdC1BeU
+O1RzTvz4O3kDRH1VhUO81iWHxjvrIOpbKx1K+nPt1siuhaifUOXw6HfDWq62
+1RD1s6odDj9Z48kguAqifmmNg+AUM4O5u1ZA1G+oddh6YztXQ/1yiPpddQ7r
+QqPV98Usg/j/aL3DFCM9nQv+SyHhk9Hg8No0Pq0pbAlE/m2DQ/8Hm8/P8xZD
+9Bc1OtifvKMbMH0RRP2PRodlMYzvbM8thKivbXJg2W1mlyC0EKKeqdmh8nmy
+U0/SAoj6jmaHdxfW6hZUz4eo521xeFqc/+2N6zyI+kktDqduhXk/U5oLUS/R
+6iCz5IDTfYE5EPVzWx0UGlKcGvlm2wMAJY0KUA==
+      "]]}, 
+    {RGBColor[0.560181, 0.691569, 0.194885], PointSize[0.01388888888888889], 
+     AbsoluteThickness[1.6], LineBox[CompressedData["
+1:eJxTTMoPSmViYGBQB2IQvXoVEGj5OgRnNTZr6T20ZwCBA0EOsm8bpVUE79iv
+Acm/CnNor3beYLvzun1YKBCIRjvsbTM3s7h6EaLeId5hi9he2dnaFyHyWxMd
+jERUHwX0nbUHm38q2eEs7/mdFtNO2jOC1D9Idfi0TJ8tuOw4RP3XdIc817er
+mv4dhqjnynLgl9pQHjftIES9Qo7Dkn4Od0+hAxD1pnkOE72764sz99mDuKGq
+BQ56VknW3I07IO4xKHTonnmS68ybbRDzrIoc3Ba0tKum74aody12CO7cEpem
+sBWiPqDEQbTrpsz1vi0Q9VGlDn5xj12UL2yCqE8tc6ibwrrQR24jRH1BuUMl
+y/JfE2rWQdRXVTgYhLxtrYjaAFHfWunw9kB30fu16yDqJ1Q5TO37ucBn2jyI
++lnVDvH2xdeq/q+GqF9a4yCy/tgZ+ZY1EPUbah1OV7Q5sNishKjfVecgpPT/
+rGfccoj/j9Y7GGsmTfmnMhcSPhkNDoqf3Zf2/l0LkX/b4OC8e7/DYeElEP1F
+jQ45IV4Z+m+XQtT/aHRYxyXdMFNjDUR9bZPDwzTXTXLzp0HUMzU7dO13Lc+c
+NRWivqPZweHYroNc+xZB1PO2OCx86fPaU3oZRP2kFocFwhdXdaqtgaiXaHVo
+sX6YkBkwHaJ+bqtDQmfP7a9y2+wBR4UAgw==
+      "]]}}, {}, {}, {{}, {}}, {{}, {}}},
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->{True, True},
+  AxesLabel->{None, None},
+  AxesOrigin->{0, 0},
+  DisplayFunction->Identity,
+  Frame->{{False, False}, {False, False}},
+  FrameLabel->{{None, None}, {None, None}},
+  FrameTicks->{{Automatic, Automatic}, {Automatic, Automatic}},
+  GridLines->{None, None},
+  GridLinesStyle->Directive[
+    GrayLevel[0.5, 0.4]],
+  ImagePadding->All,
+  Method->{"CoordinatesToolOptions" -> {"DisplayFunction" -> ({
+        (Identity[#]& )[
+         Part[#, 1]], 
+        (Identity[#]& )[
+         Part[#, 2]]}& ), "CopiedValueFunction" -> ({
+        (Identity[#]& )[
+         Part[#, 1]], 
+        (Identity[#]& )[
+         Part[#, 2]]}& )}},
+  PlotRange->{{0, 691.6666666666667}, {0, 0.5429539418788111}},
+  PlotRangeClipping->True,
+  PlotRangePadding->{{
+     Scaled[0.02], 
+     Scaled[0.02]}, {
+     Scaled[0.02], 
+     Scaled[0.05]}},
+  Ticks->{Automatic, Automatic}]], "Output",
+ CellChangeTimes->{{3.7334242558678284`*^9, 3.7334243111301355`*^9}, {
+   3.733424380007598*^9, 3.7334244331161575`*^9}, {3.7334245518270965`*^9, 
+   3.733424579193777*^9}, {3.733424642235816*^9, 3.7334246775962934`*^9}, 
+   3.7334247330655923`*^9},ExpressionUUID->"346dfc34-465d-4e28-b40f-\
+f719f0c4daf0"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{2160, 1316},
+WindowMargins->{{-11, Automatic}, {Automatic, -11}},
+FrontEndVersion->"11.1 for Microsoft Windows (64-bit) (April 18, 2017)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 930, 23, 270, "Input", "ExpressionUUID" -> \
+"592b968f-f867-4395-8522-b4d5258dec75"],
+Cell[CellGroupData[{
+Cell[1513, 47, 154, 3, 140, "Section", "ExpressionUUID" -> \
+"62366c01-2aaa-4f35-b2df-32dd4f11da81"],
+Cell[1670, 52, 4389, 113, 623, "Input", "ExpressionUUID" -> \
+"e013f2d9-86b9-42f5-a5dd-af3f4ebc30b1"],
+Cell[6062, 167, 3731, 105, 769, "Input", "ExpressionUUID" -> \
+"5d6bf19f-594d-4487-9bf8-a12e7ef01b9b"],
+Cell[9796, 274, 523, 14, 128, "Input", "ExpressionUUID" -> \
+"cc6b621e-3afe-4629-a66d-8158df5b2b82"],
+Cell[CellGroupData[{
+Cell[10344, 292, 524, 11, 91, "Input", "ExpressionUUID" -> \
+"87107103-136d-49fb-8e25-06f008b3d6d7"],
+Cell[10871, 305, 289, 5, 86, "Output", "ExpressionUUID" -> \
+"f76e7812-af0c-4234-b0e3-624fe4676895"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11197, 315, 567, 14, 91, "Input", "ExpressionUUID" -> \
+"9603185c-a28f-4e1e-9307-18c6ae02348a"],
+Cell[11767, 331, 425, 11, 91, "Output", "ExpressionUUID" -> \
+"005e84f4-9ded-4082-8d49-b5e0f2884bc3"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[12241, 348, 160, 3, 140, "Section", "ExpressionUUID" -> \
+"70b590de-c90c-40b2-a388-ee7ec4efd501"],
+Cell[12404, 353, 1964, 53, 284, "Input", "ExpressionUUID" -> \
+"2c4907fe-90f8-49b8-93dc-659eabc1f77d"],
+Cell[14371, 408, 4196, 115, 751, "Input", "ExpressionUUID" -> \
+"eae9ee97-c3a9-45a8-884e-56da49ba6c95"],
+Cell[18570, 525, 527, 15, 128, "Input", "ExpressionUUID" -> \
+"76ccfc65-0334-481b-b830-7fc1271992a7"],
+Cell[CellGroupData[{
+Cell[19122, 544, 522, 14, 91, "Input", "ExpressionUUID" -> \
+"23c8fb61-6ce9-452c-a67e-ccd97de0a0ed"],
+Cell[19647, 560, 451, 11, 91, "Output", "ExpressionUUID" -> \
+"34d6fbaf-5f38-4f4e-891b-dc4041575a01"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[20135, 576, 1489, 36, 259, "Input", "ExpressionUUID" -> \
+"ee31472a-3495-4112-9592-4116a60c6408"],
+Cell[21627, 614, 3899, 80, 541, "Output", "ExpressionUUID" -> \
+"346dfc34-465d-4e28-b40f-f719f0c4daf0"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+

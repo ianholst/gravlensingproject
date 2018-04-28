@@ -72,7 +72,7 @@ class Halo:
         e2 = galaxy.e2 - e*np.sin(2*phi)
         return LensedBackgroundGalaxy(Tx, Ty, e1, e2, galaxy.DS)
 
-    def plot(self, start, stop, step, DS):
+    def plotProperties(self, start, stop, step, DS):
         # Plot the shear, ellipticity, convergence, and magnification for the halo
         theta = np.linspace(start, stop, step)*u.arcsec
         epsilon = np.array([self.ellipticity(t, DS) for t in theta])
@@ -180,11 +180,11 @@ if __name__ == '__main__':
         C=10,
         DL=1*u.Gpc)
 
-    halo_iso.plot(0.0001, v, 500, 3*u.Gpc)
+    halo_iso.plotProperties(0.0001, v, 500, 3*u.Gpc)
     print("theta_c:", halo_iso.Tc.to(u.arcsec))
     print("theta_0:", halo_iso.T0(3*u.Gpc).to(u.arcsec))
 
-    halo_nfw.plot(0.0001, v, 500, 3*u.Gpc)
+    halo_nfw.plotProperties(0.0001, v, 500, 3*u.Gpc)
     print("theta_s:", halo_nfw.Ts.to(u.arcsec))
 
     backgroundGalaxies = [BackgroundGalaxy(
