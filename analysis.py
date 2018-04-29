@@ -45,11 +45,12 @@ theta = np.sqrt(theta_x**2 + theta_y**2)
 epsilon = -e1*np.cos(2*phi) - e2*np.sin(2*phi)
 
 # Bin into annuli and calculate mean and standard deviation
-theta_bin_edges = np.linspace(50, 700, 40) # arcsec
+theta_bin_edges = np.linspace(100*u.arcsec, viewSize/np.sqrt(2), 40)
 epsilon_mean, bin_edges, binnumber = binned_statistic(theta, epsilon, statistic="mean", bins=theta_bin_edges)
 epsilon_sigma, bin_edges, binnumber = binned_statistic(theta, epsilon, statistic=np.std, bins=theta_bin_edges)
+N_in_bin, bin_edges = np.histogram(theta, bin_edges)
 theta_bin_centers = theta_bin_edges[:-1] + (theta_bin_edges[1] - theta_bin_edges[0])/2
-np.savetxt("data.csv", np.stack([theta_bin_centers, epsilon_mean, epsilon_sigma], 1), delimiter=", ")
+np.savetxt("data.csv", np.stack([theta_bin_centers, epsilon_mean, epsilon_sigma/np.sqrt(N_in_bin)], 1), delimiter=", ")
 
 
 ### FITTING ###
