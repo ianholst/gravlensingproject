@@ -61,11 +61,11 @@ Prove that spherical density profiles only have tangential shear and ellipticity
 
 \[\rho_\mathrm{iso}(r) = \frac{\sigma^2}{2\pi G (r^2 + {r_c}^2)}\]
 
-\[\Sigma_\mathrm{iso}(R) = \frac{\sigma^2}{2 G \sqrt{R^2 + {r_c}^2}}\]
-
-\[\overline{\Sigma}_\mathrm{iso}(R) = \frac{\sigma^2 \left(\sqrt{R^2 + {r_c}^2} - r_c \right)}{G R^2}\]
-
-In terms of angles:
+% \[\Sigma_\mathrm{iso}(R) = \frac{\sigma^2}{2 G \sqrt{R^2 + {r_c}^2}}\]
+%
+% \[\overline{\Sigma}_\mathrm{iso}(R) = \frac{\sigma^2 \left(\sqrt{R^2 + {r_c}^2} - r_c \right)}{G R^2}\]
+% 
+% In terms of angles:
 
 \[\Sigma_\mathrm{iso}(\theta) = \frac{\sigma^2}{2 G D_L \sqrt{\theta^2 + {\theta_c}^2}}\]
 
@@ -91,20 +91,22 @@ Ellipticity equations are very ugly but trivial to calculate from the shear.
 
 \[\rho_\mathrm{NFW}(r) = \frac{\rho_\mathrm{crit} \delta_c}{(r/r_s)\left(1 + r/r_s\right)^2}\]
 
-\[\Sigma_\mathrm{NFW}(R) = \frac{2 \rho_\mathrm{crit} \delta_c r_s}{(R/r_s)^2 - 1} \left(1 - \frac{2}{\sqrt{(R/r_s)^2 - 1}}  \arctan\left(\sqrt{\frac{R/r_s - 1}{R/r_s + 1}} \right) \right)\]
-[Bartelmann 2001]
-
-\[\overline{\Sigma}_\mathrm{NFW}(R) = \frac{4 \rho_\mathrm{crit} \delta_c r_s}{(R/r_s)^2} \left(
-    \frac{2}{\sqrt{(R/r_s)^2 - 1}} ~\arctan\left(\sqrt{\frac{R/r_s - 1}{R/r_s + 1}} \right) + \ln{\left(\frac{R/r_s}{2}\right)}
-\right)\]
-
-In terms of angles:
+% \[\Sigma_\mathrm{NFW}(R) = \frac{2 \rho_\mathrm{crit} \delta_c r_s}{(R/r_s)^2 - 1} \left(1 - \frac{2}{\sqrt{(R/r_s)^2 - 1}}  \arctan\left(\sqrt{\frac{R/r_s - 1}{R/r_s + 1}} \right) \right)\]
+%
+%
+% \[\overline{\Sigma}_\mathrm{NFW}(R) = \frac{4 \rho_\mathrm{crit} \delta_c r_s}{(R/r_s)^2} \left(
+%     \frac{2}{\sqrt{(R/r_s)^2 - 1}} ~\arctan\left(\sqrt{\frac{R/r_s - 1}{R/r_s + 1}} \right) + \ln{\left(\frac{R/r_s}{2}\right)}
+% \right)\]
+%
+% In terms of angles:
 
 \[\Sigma_\mathrm{NFW}(\theta) = \frac{2 \rho_\mathrm{crit} \delta_c D_L \theta_s}{(\theta/\theta_s)^2 - 1} \left(1 - \frac{2}{\sqrt{(\theta/\theta_s)^2 - 1}} \arctan\left(\sqrt{\frac{\theta/\theta_s - 1}{\theta/\theta_s + 1}} \right) \right)\]
 
 \[\overline{\Sigma}_\mathrm{NFW}(\theta) = \frac{4 \rho_\mathrm{crit} \delta_c D_L \theta_s}{(\theta/\theta_s)^2} \left(
     \frac{2}{\sqrt{(\theta/\theta_s)^2 - 1}} ~\arctan\left(\sqrt{\frac{\theta/\theta_s - 1}{\theta/\theta_s + 1}} \right) + \ln{\left(\frac{\theta/\theta_s}{2}\right)}
 \right)\]
+
+Similar convention used by \citet{Bartelmann2001}
 
 \[\gamma_\mathrm{NFW}(\theta) = \frac{\overline{\Sigma}_\mathrm{NFW}(\theta) - \Sigma_\mathrm{NFW}(\theta)}{\Sigma_\mathrm{crit}} \]
 
@@ -117,46 +119,51 @@ We switch the dependence to $M_{200}$ and $c$ with:
 \[r_{200} = \left( \frac{3 M_{200}}{800 \pi \rho_\mathrm{crit}} \right)^{1/3}\]
 \[c = \frac{r_{200}}{r_s}\]
 
+Estimating ellipticity has well-documented issues [cite] due to noise and PSF
+
+
+\newpage
 
 \section{Methods}
 
-\subsection{Current plan}
-\begin{itemize}
-    \item Calculate tangential shear and deflection angle for NFW and SIS
-    \item Consider single foreground lens halo with many background galaxies
-    \item How to arrange and distribute background halos?
+\begin{enumerate}
+    \item Calculate tangential shear and deflection angle for NFW and cored isothermal profiles.
+    \item Consider single foreground lens halo with many background galaxies.
     \begin{itemize}
-        \item Initial ellipticity
-        \item angular density on sky
-        \item sizes
+        \item Start with one NFW halo, then maybe consider more tests.
     \end{itemize}
-    \item Apply shear and deflection angle to background galaxies
-    \item Attempt to fit both profiles, subtracting intrinsic shear, see if the fit is distinguishable
-    \item How many foreground halos to test? - start with 1
-    \item What redshift is $\rho_\mathrm{crit}$ evaluated at? - at halo redshift
+    \item Construct background galaxies:
+    \begin{itemize}
+        \item Number density on sky: 50 galaxies/square arcminute
+        \item Intrinsic ellipticity drawn from Gaussian distribution with $\mu=0, \sigma=0.2$
+        \item Assume they are all that the same distance $D_S$ since this can be determined by redshift (neglecting some noise)
+    \end{itemize}
+    \item Recommended values:
+    \begin{itemize}
+        \item $z_L = 0.3$
+        \item $z_S = 1.0$
+        \item $M_{halo} = 10^{15} M_\odot$
+    \end{itemize}
+    \item Apply shear and deflection angle to background galaxies, get fake data: $N$ sets of $\epsilon_1$, $\epsilon_2$, $\theta_1$, $\theta_2$
+    \item Bin galaxies in annuli by $\theta$ value (use log bins for theta)
+    \item Calculate mean and standard deviation of ellipticity
+    \item Attempt to fit both NFW and isothermal profiles, see if the fit is distinguishable
+\end{enumerate}
 
+
+\subsection{Questions}
+\begin{itemize}
+    \item How to properly do sigma contours?
+    \item What theta range should we look at? (5 arcminutes?)
+    \item What redshift is $\rho_\mathrm{crit}$ evaluated at? - at halo redshift - can we use current time?
+    \item Using $c = 10$?
+    \item Where to go from here?
 \end{itemize}
 
-Fake data:
-N sets of e1, e2, theta1, theta2
 
-Analyzing data:
-make histogram in annulus
-mean and standard deviation
-use log bins for theta
+\section{Results}
 
 
-50 gals/square arcminute
-5 arcminutes
-$z_L = 0.3$
-$z_S = 1$
-$M_{halo} = 10^15$ solar masses
-instrinsic ellipticity from gaussian with width 0.2
-
-
-Assume same DS since this can be determined by redshift anyway
-
-estimating ellipticity has well-documented issues [cite] due to noise and PSF
 
 \bibliographystyle{plainnat}
 \bibliography{references}
