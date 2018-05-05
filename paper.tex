@@ -18,21 +18,26 @@
 
 \begin{abstract}
 We examine the feasibility of distinguishing NFW and cored isothermal density profiles using weak gravitational lensing shear.
+ To do so, we use Python to model lenses in the two different profiles, as well as background galaxies to be lensed.
+ Analyzing the data of these lensed galaxies gives us insight into how we can distinguish the differences between the two profiles.
 \end{abstract}
 
 \section{Introduction}
 Two commonly used density profiles in weak gravitational lensing are the isothermal profile and the Navarro-Frenk-White (NFW) profile.
+We start with introducing the general characteristics of spherical density profiles, followed by cored isothermal and NFW profiles.
+We then describe the purpose of our project, to distinguish between NFW and isothermal profiles, in detail.
 
 \subsection{General spherical density profile $\rho(r)$}
+We describe the common characteristics of spherical density profiles.
 Here we define our conventions for various lensing quantities, which mainly conform to those used by \citet{Dodelson2017}. We use the thin lens approximation and assume spherical lens profiles.
 
-Projected surface density at radius R
+The projected surface density at radius R is defined by
 \[\Sigma(R) = \int_{-\infty}^{\infty}{dz\ \rho(\sqrt{R^2 + z^2})}\]
 
-Average projected surface density within radius R
+while the average projected surface density within R is
 \[\overline{\Sigma}(R) = \frac{1}{\pi R^2} \int_0^{2\pi}{d\phi \int_0^{R}{dR'~\Sigma(R')R'}}\]
 
-Critical surface density
+The critical surface density is
 \[\Sigma_\mathrm{crit} = \frac{c^2}{4\pi G} \frac{D_S}{D_{SL} D_L}\]
 
 Convergence
