@@ -57,12 +57,14 @@ Ellipticity
 \[\epsilon_i = \frac{2 \gamma_i/(1 - \kappa)}{1 + \gamma^2/(1 - \kappa)^2}\]
 \[\epsilon =  -\epsilon_1 \cos{2\phi} -\epsilon_2 \sin{2\phi}\]
 
-In small angle approximation, any length $R = D_L \theta$.
+At small angles, we can assume from small angle approximations that $R = D_L \theta$.
 
 Prove that spherical density profiles only have tangential shear and ellipticity
 
 
 \subsection{Cored Isothermal Sphere Profile}
+
+The isothermal sphere profile is commonly used thanks to the convenience in simplifications.
 
 \[\rho_\mathrm{iso}(r) = \frac{\sigma^2}{2\pi G (r^2 + {r_c}^2)}\]
 
@@ -156,7 +158,7 @@ The goal of this project is to devise a method to analyze lensed galaxy cluster 
 
 \subsection{Generating Simulated Data}
 \begin{enumerate}
-\item Apply shear and deflection angle to background galaxies, get fake data: $N$ sets of $\epsilon_1$, $\epsilon_2$, $\theta_1$, $\theta_2$
+\item Apply shear and deflection angle to background galaxies, get simulated data: $N$ sets of $\epsilon_1$, $\epsilon_2$, $\theta_1$, $\theta_2$
 \end{enumerate}
 
 \subsection{Data Analysis and Density Profile Determination}
@@ -179,7 +181,8 @@ The goal of this project is to devise a method to analyze lensed galaxy cluster 
 
 \section{Results and Conclusion}
 
-
+From our data analysis, we were able to find the more probable density profile of a simulated data set.
+Future goals include the use of these methods to analyze observed data of galaxy clusters to find the density profile of their lenses.
 
 \bibliographystyle{plainnat}
 \bibliography{references}
