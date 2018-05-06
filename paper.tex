@@ -135,9 +135,7 @@ The goal of this project is to devise a method to analyze lensed galaxy cluster 
 \subsection{Calculation of Shear and Deflection Angles for Each Profile}
 
 \subsection{Modelling of Foreground Lens and Background Galaxies}
-
 \begin{enumerate}
-    \item Calculate tangential shear and deflection angle for NFW and cored isothermal profiles.
     \item Consider single foreground lens halo with many background galaxies.
     \begin{itemize}
         \item Start with one NFW halo, then maybe consider more tests.
@@ -154,10 +152,18 @@ The goal of this project is to devise a method to analyze lensed galaxy cluster 
         \item $z_S = 1.0$
         \item $M_{halo} = 10^{15} M_\odot$
     \end{itemize}
-    \item Apply shear and deflection angle to background galaxies, get fake data: $N$ sets of $\epsilon_1$, $\epsilon_2$, $\theta_1$, $\theta_2$
-    \item Bin galaxies in annuli by $\theta$ value (use log bins for theta)
-    \item Calculate mean and standard deviation of ellipticity
-    \item Attempt to fit both NFW and isothermal profiles, see if the fit is distinguishable
+\end{enumerate}
+
+\subsection{Generating Simulated Data}
+\begin{enumerate}
+\item Apply shear and deflection angle to background galaxies, get fake data: $N$ sets of $\epsilon_1$, $\epsilon_2$, $\theta_1$, $\theta_2$
+\end{enumerate}
+
+\subsection{Data Analysis and Density Profile Determination}
+\begin{enumerate}
+\item Bin galaxies in annuli by $\theta$ value (use log bins for theta)
+\item Calculate mean and standard deviation of ellipticity
+\item Attempt to fit both NFW and isothermal profiles, see if the fit is distinguishable
 \end{enumerate}
 
 
@@ -171,7 +177,7 @@ The goal of this project is to devise a method to analyze lensed galaxy cluster 
 \end{itemize}
 
 
-\section{Results}
+\section{Results and Conclusion}
 
 
 
