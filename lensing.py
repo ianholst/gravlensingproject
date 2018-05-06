@@ -13,7 +13,7 @@ plt.rcParams["figure.dpi"] = 100
 ### CONSTANTS ###
 c = const.c
 G = const.G
-H0 = cosmology.default_cosmology.get().H(0)
+H0 = cosmology.Planck15.H0
 RHO_CRIT = 3 * H0**2 / (8 * np.pi * G) # only use rho_crit at current time
 u.set_enabled_equivalencies(u.dimensionless_angles()) # allow angles to be dimensionless
 
@@ -163,36 +163,3 @@ class LensedBackgroundGalaxy:
                        width=a,
                        height=a*(e+1)/(e-1),
                        angle=self.phi.to_value(u.degree))
-
-
-
-if __name__ == '__main__':
-    # here is an example of lensing very close to the halo
-    v = 100 # view radius
-
-    halo_iso = IsothermalHalo(
-        M200=1e15*u.solMass,
-        rc=10*u.kpc,
-        DL=1*u.Gpc)
-
-    halo_nfw = NFWHalo(
-        M200=1e15*u.solMass,
-        C=10,
-        DL=1*u.Gpc)
-
-    halo_iso.plotProperties(0.0001, v, 500, 3*u.Gpc)
-    print("theta_c:", halo_iso.Tc.to(u.arcsec))
-    print("theta_0:", halo_iso.T0(3*u.Gpc).to(u.arcsec))
-
-    halo_nfw.plotProperties(0.0001, v, 500, 3*u.Gpc)
-    print("theta_s:", halo_nfw.Ts.to(u.arcsec))
-
-    backgroundGalaxies = [BackgroundGalaxy(
-        Bx=(v*np.random.rand()-v/2)*u.arcsec,
-        By=(v*np.random.rand()-v/2)*u.arcsec,
-        e1=0,
-        e2=0,
-        DS=3*u.Gpc) for i in range(1000)]
-
-    lensingImage(halo_iso, backgroundGalaxies, v)
-    lensingImage(halo_nfw, backgroundGalaxies, v)
