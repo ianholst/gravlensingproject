@@ -45,7 +45,7 @@ theta = np.sqrt(theta_x**2 + theta_y**2)
 epsilon = -e1*np.cos(2*phi) - e2*np.sin(2*phi)
 
 # Bin into annuli and calculate mean and standard deviation
-theta_bin_edges = np.linspace(100*u.arcsec, viewSize/np.sqrt(2), 40)
+theta_bin_edges = np.linspace(10*u.arcsec, viewSize/np.sqrt(2), 40)
 epsilon_mean, bin_edges, binnumber = binned_statistic(theta, epsilon, statistic="mean", bins=theta_bin_edges)
 epsilon_sigma, bin_edges, binnumber = binned_statistic(theta, epsilon, statistic=np.std, bins=theta_bin_edges)
 N_in_bin, bin_edges = np.histogram(theta, bin_edges)
@@ -54,26 +54,27 @@ np.savetxt("data.csv", np.stack([theta_bin_centers, epsilon_mean, epsilon_sigma/
 
 
 ### FITTING ###
+# python hates fitting
 
-def nfw_ellipticity(theta, M200, C):
-    halo = NFWHalo(M200*u.solMass, C, DL)
-    return np.array([halo.ellipticity(t*u.arcsec, DS) for t in theta])
-
-def iso_ellipticity(theta, M200, rc):
-    halo = IsothermalHalo(M200*u.solMass, rc*u.kpc, DL)
-    return np.array([halo.ellipticity(t*u.arcsec, DS) for t in theta])
-
-BOUNDS = [[0,0], [np.inf, np.inf]]
-optimalNFWParams, covariance = curve_fit(nfw_ellipticity, theta_bin_centers, epsilon_mean, p0=[1e16, 20], bounds=BOUNDS, sigma=epsilon_sigma)
-optimalIsoParams, covariance = curve_fit(iso_ellipticity, theta_bin_centers, epsilon_mean, p0=[1e16, 20], bounds=BOUNDS, sigma=epsilon_sigma)
-
-plt.figure()
-plt.plot(theta_bin_centers, nfw_ellipticity(theta_bin_centers, 1e15, 10))
-plt.plot(theta_bin_centers, epsilon_mean)
-plt.plot(theta_bin_centers, nfw_ellipticity(theta_bin_centers, *optimalNFWParams))
-plt.plot(theta_bin_centers, iso_ellipticity(theta_bin_centers, *optimalIsoParams))
-# plt.scatter(theta, epsilon, s=1)
-plt.xlabel("$\\theta$")
-plt.ylabel("$\epsilon$")
-plt.legend(["original", "binned data", "nfw fit", "isothermal fit", "lensed galaxies"])
-plt.show()
+# def nfw_ellipticity(theta, M200, C):
+#     halo = NFWHalo(M200*u.solMass, C, DL)
+#     return np.array([halo.ellipticity(t*u.arcsec, DS) for t in theta])
+#
+# def iso_ellipticity(theta, M200, rc):
+#     halo = IsothermalHalo(M200*u.solMass, rc*u.kpc, DL)
+#     return np.array([halo.ellipticity(t*u.arcsec, DS) for t in theta])
+#
+# BOUNDS = [[0,0], [np.inf, np.inf]]
+# optimalNFWParams, covariance = curve_fit(nfw_ellipticity, theta_bin_centers, epsilon_mean, p0=[1e16, 20], bounds=BOUNDS, sigma=epsilon_sigma)
+# optimalIsoParams, covariance = curve_fit(iso_ellipticity, theta_bin_centers, epsilon_mean, p0=[1e16, 20], bounds=BOUNDS, sigma=epsilon_sigma)
+#
+# plt.figure()
+# plt.plot(theta_bin_centers, nfw_ellipticity(theta_bin_centers, 1e15, 10))
+# plt.plot(theta_bin_centers, epsilon_mean)
+# plt.plot(theta_bin_centers, nfw_ellipticity(theta_bin_centers, *optimalNFWParams))
+# plt.plot(theta_bin_centers, iso_ellipticity(theta_bin_centers, *optimalIsoParams))
+# # plt.scatter(theta, epsilon, s=1)
+# plt.xlabel("$\\theta$")
+# plt.ylabel("$\epsilon$")
+# plt.legend(["original", "binned data", "nfw fit", "isothermal fit", "lensed galaxies"])
+# plt.show()

@@ -25,7 +25,7 @@ def SIGMA_CRIT(DS, DL):
     DSL = DS - DL
     return c**2 / (4 * np.pi * G) * (DS / (DSL * DL))
 
-def lensingImage(halo, backgroundGalaxies, v, a):
+def lensingImage(halo, backgroundGalaxies, v, a=1):
     # Produce a mock lensing image with a halo and a population of background galaxies
     # v is the view width and a is the size of galaxies
     fig = plt.figure()
