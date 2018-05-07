@@ -19,124 +19,197 @@
 \begin{abstract}
 We examine the feasibility of distinguishing NFW and cored isothermal density profiles using weak gravitational lensing shear.
  To do so, we use Python to model lenses in the two different profiles, as well as background galaxies to be lensed.
- Analyzing the data of these lensed galaxies gives us insight into how we can distinguish the differences between the two profiles.
+ Analyzing the simulated data of these lensed galaxies gives us insight into how we can distinguish the differences between the two profiles.
+ This method is expected to be helpful in the analysis of real observation data in the future.
 \end{abstract}
 
 \section{Introduction}
+Gravitational lensing allows us to investigate the matter density distributions of cosmic objects by observing the characteristic distortions imparted on other objects in the background. The principle is applicable on a large range of scales, from all-sky mass maps based on cosmic microwave background shear to studies of individual galaxies and clusters.
+A common use of lensing is
+
 Two commonly used density profiles in weak gravitational lensing are the isothermal profile and the Navarro-Frenk-White (NFW) profile.
 We start with introducing the general characteristics of spherical density profiles, followed by cored isothermal and NFW profiles.
 We then describe the purpose of our project, to distinguish between NFW and isothermal profiles, in detail.
 
-\subsection{General spherical density profile $\rho(r)$}
+
 We describe the common characteristics of spherical density profiles.
 Here we define our conventions for various lensing quantities, which mainly conform to those used by \citet{Dodelson2017}. We use the thin lens approximation and assume spherical lens profiles.
+Consider such a spherically symmetric halo density profile $\rho(r)$
 
-The projected surface density at radius R is defined by
-\[\Sigma(R) = \int_{-\infty}^{\infty}{dz\ \rho(\sqrt{R^2 + z^2})}\]
+The projected surface density at radius R on the projected plane is defined, considering the z axis to be along the line of sight:
+\begin{equation}
+\Sigma(R) = \int_{-\infty}^{\infty}{dz\ \rho(\sqrt{R^2 + z^2})}
+\end{equation}
 
-while the average projected surface density within R is
-\[\overline{\Sigma}(R) = \frac{1}{\pi R^2} \int_0^{2\pi}{d\phi \int_0^{R}{dR'~\Sigma(R')R'}}\]
+An important related measure in gravitational lensing is the average projected surface density within radius R:
+\begin{equation}
+\overline{\Sigma}(R) = \frac{1}{\pi R^2} \int_0^{2\pi}{d\phi \int_0^{R}{dR'~\Sigma(R')R'}}
+\end{equation}
 
-The critical surface density is
-\[\Sigma_\mathrm{crit} = \frac{c^2}{4\pi G} \frac{D_S}{D_{SL} D_L}\]
+The critical surface density marks the typical boundary between what is considered strong and weak lensing:
+\begin{equation}
+\Sigma_\mathrm{crit} = \frac{c^2}{4\pi G} \frac{D_S}{D_{SL} D_L}
+\end{equation}
 
-Convergence
-\[\kappa(\theta) = \frac{\Sigma(\theta)}{\Sigma_\mathrm{crit}}\]
+We also define the convergence, $\kappa$ to be
+\begin{equation}
+\kappa(\theta) = \frac{\Sigma(\theta)}{\Sigma_\mathrm{crit}}
+\end{equation}
 
-Tangential shear
-\[\gamma_t(\theta) = \overline{\kappa}(\theta) - \kappa(\theta)\]
-\[\gamma_1 = -\gamma_t \cos{2\phi}\]
-\[\gamma_2 = -\gamma_t \sin{2\phi}\]
-\[\gamma = \gamma_t = \sqrt{{\gamma_1}^2 + {\gamma_2}^2} = -\gamma_1 \cos{2\phi} -\gamma_2 \sin{2\phi}\]
+Tangential shear, along with the components of shear are shown as follows.
+\begin{equation}
+\gamma_t(\theta) = \overline{\kappa}(\theta) - \kappa(\theta)
+\end{equation}
 
-Deflection angle
-\[\vec{\alpha}(\vec{\theta}) = \overline{\kappa}(\theta)\vec{\theta}\]
-\[\vec{\beta} = \vec{\theta} - \vec{\alpha} = (1 - \overline{\kappa}(\theta))\vec{\theta} \]
 
-Ellipticity
-\[\epsilon_i = \frac{2 \gamma_i/(1 - \kappa)}{1 + \gamma^2/(1 - \kappa)^2}\]
-\[\epsilon =  -\epsilon_1 \cos{2\phi} -\epsilon_2 \sin{2\phi}\]
+\begin{equation}
+\gamma_1 = -\gamma_t \cos{2\phi}
+\gamma_2 = -\gamma_t \sin{2\phi}
+\end{equation}
+
+It can be shown that for a spherical lens profile, the only component of shear should be the tangential shear, $\gamma_t$:
+\citep{Dodelson2017}
+\begin{equation}
+\gamma = \gamma_t = \sqrt{{\gamma_1}^2 + {\gamma_2}^2} = -\gamma_1 \cos{2\phi} -\gamma_2 \sin{2\phi}
+\end{equation}
+
+Deflection angle is
+\begin{equation}
+\vec{\alpha}(\vec{\theta}) = \overline{\kappa}(\theta)\vec{\theta}
+\end{equation}
+\begin{equation}
+\vec{\beta} = \vec{\theta} - \vec{\alpha} = (1 - \overline{\kappa}(\theta))\vec{\theta}
+\end{equation}
+
+while ellipticity is
+\begin{equation}
+\epsilon_i = \frac{2 \gamma_i/(1 - \kappa)}{1 + \gamma^2/(1 - \kappa)^2}
+\end{equation}
+\begin{equation}
+\epsilon =  -\epsilon_1 \cos{2\phi} -\epsilon_2 \sin{2\phi}
+\end{equation}
 
 At small angles, we can assume from small angle approximations that $R = D_L \theta$.
 
 Prove that spherical density profiles only have tangential shear and ellipticity
 
 
-\subsection{Cored Isothermal Sphere Profile}
+\section{Cored Isothermal Sphere Profile}
+The cored isothermal sphere (CIS) profile is related to the singular isothermal sphere, which is often used to describe halos and other collapsed astrophysical objects because of its simple formulation. Unlike the singular isothermal sphere, the cored isothermal sphere does not have a density singularity at its center due to a finite core radius $r_c$. The CIS density profile is defined:
 
-The isothermal sphere profile is commonly used thanks to the convenience in simplifications.
+\begin{equation}
+\rho_\mathrm{iso}(r) = \frac{\sigma^2}{2\pi G (r^2 + {r_c}^2)}
+\end{equation}
 
-\[\rho_\mathrm{iso}(r) = \frac{\sigma^2}{2\pi G (r^2 + {r_c}^2)}\]
-
-% \[\Sigma_\mathrm{iso}(R) = \frac{\sigma^2}{2 G \sqrt{R^2 + {r_c}^2}}\]
+where $\sigma^2$ is the velocity dispersion.
+https://arxiv.org/pdf/astro-ph/9810164.pdf
+% \begin{equation}\Sigma_\mathrm{iso}(R) = \frac{\sigma^2}{2 G \sqrt{R^2 + {r_c}^2}}
+% \end{equation}
 %
-% \[\overline{\Sigma}_\mathrm{iso}(R) = \frac{\sigma^2 \left(\sqrt{R^2 + {r_c}^2} - r_c \right)}{G R^2}\]
+% \begin{equation}\overline{\Sigma}_\mathrm{iso}(R) = \frac{\sigma^2 \left(\sqrt{R^2 + {r_c}^2} - r_c \right)}{G R^2}
+% \end{equation}
 %
 % In terms of angles:
 
-\[\Sigma_\mathrm{iso}(\theta) = \frac{\sigma^2}{2 G D_L \sqrt{\theta^2 + {\theta_c}^2}}\]
+\begin{equation}
+\Sigma_\mathrm{iso}(\theta) = \frac{\sigma^2}{2 G D_L \sqrt{\theta^2 + {\theta_c}^2}}
+\end{equation}
 
-\[\overline{\Sigma}_\mathrm{iso}(\theta) = \frac{\sigma^2 \left(\sqrt{\theta^2 + {\theta_c}^2} - \theta_c \right)}{G D_L \theta^2}\]
+\begin{equation}
+\overline{\Sigma}_\mathrm{iso}(\theta) = \frac{\sigma^2 \left(\sqrt{\theta^2 + {\theta_c}^2} - \theta_c \right)}{G D_L \theta^2}
+\end{equation}
 
-\[\gamma_\mathrm{iso}(\theta) = \frac{\sigma^2 \left(\sqrt{\theta^2 + {\theta_c}^2} - \theta_c \right)}{\Sigma_\mathrm{crit} G D_L \theta^2} - \frac{\sigma^2}{2 \Sigma_\mathrm{crit} G D_L \sqrt{\theta^2 + {\theta_c}^2}}\]
+\begin{equation}
+\gamma_\mathrm{iso}(\theta) = \frac{\sigma^2 \left(\sqrt{\theta^2 + {\theta_c}^2} - \theta_c \right)}{\Sigma_\mathrm{crit} G D_L \theta^2} - \frac{\sigma^2}{2 \Sigma_\mathrm{crit} G D_L \sqrt{\theta^2 + {\theta_c}^2}}
+\end{equation}
 
 We switch dependence from $\sigma^2$ to $M_{200}$ with:
 
-\[\sigma^2 = \frac{M_{200} G}{2 \left( r_{200} - r_c \arctan{\left(\frac{r_{200}}{r_c}\right)} \right)}\]
+\begin{equation}
+\sigma^2 = \frac{M_{200} G}{2 \left( r_{200} - r_c \arctan{\left(\frac{r_{200}}{r_c}\right)} \right)}
+\end{equation}
 
 This is derived from the definition of $M_{200}$:
 
-\[M_{200} = 200 \rho_\mathrm{crit} \frac{4}{3} \pi {r_{200}}^3\]
-\[M_{200} = M_\mathrm{enc}(r_{200}) = \frac{2 \sigma^2}{G} \left( r_{200} - r_c \arctan{\left(\frac{r_{200}}{r_c}\right)} \right)\]
-\[r_{200} = \left( \frac{3 M_{200}}{800 \pi \rho_\mathrm{crit}} \right)^{1/3}\]
+\begin{equation}
+M_{200} = 200 \rho_\mathrm{crit} \frac{4}{3} \pi {r_{200}}^3
+\end{equation}
+\begin{equation}
+M_{200} = M_\mathrm{enc}(r_{200}) = \frac{2 \sigma^2}{G} \left( r_{200} - r_c \arctan{\left(\frac{r_{200}}{r_c}\right)} \right)
+\end{equation}
+\begin{equation}
+r_{200} = \left( \frac{3 M_{200}}{800 \pi \rho_\mathrm{crit}} \right)^{1/3}
+\end{equation}
 
-Ellipticity equations are very ugly but trivial to calculate from the shear.
+The ellipticity equations, while not quite elegant, are trivial to calculate from the shear.
 
 
 
-\subsection{Navarro-Frenk-White (NFW) Profile}
+\section{Navarro-Frenk-White (NFW) Profile}
 
-\[\rho_\mathrm{NFW}(r) = \frac{\rho_\mathrm{crit} \delta_c}{(r/r_s)\left(1 + r/r_s\right)^2}\]
+\begin{equation}
+\rho_\mathrm{NFW}(r) = \frac{\rho_\mathrm{crit} \delta_c}{(r/r_s)\left(1 + r/r_s\right)^2}
+\end{equation}
 
-% \[\Sigma_\mathrm{NFW}(R) = \frac{2 \rho_\mathrm{crit} \delta_c r_s}{(R/r_s)^2 - 1} \left(1 - \frac{2}{\sqrt{(R/r_s)^2 - 1}}  \arctan\left(\sqrt{\frac{R/r_s - 1}{R/r_s + 1}} \right) \right)\]
+% \begin{equation}\Sigma_\mathrm{NFW}(R) = \frac{2 \rho_\mathrm{crit} \delta_c r_s}{(R/r_s)^2 - 1} \left(1 - \frac{2}{\sqrt{(R/r_s)^2 - 1}}  \arctan\left(\sqrt{\frac{R/r_s - 1}{R/r_s + 1}} \right) \right)
+% \end{equation}
 %
 %
-% \[\overline{\Sigma}_\mathrm{NFW}(R) = \frac{4 \rho_\mathrm{crit} \delta_c r_s}{(R/r_s)^2} \left(
+% \begin{equation}\overline{\Sigma}_\mathrm{NFW}(R) = \frac{4 \rho_\mathrm{crit} \delta_c r_s}{(R/r_s)^2} \left(
 %     \frac{2}{\sqrt{(R/r_s)^2 - 1}} ~\arctan\left(\sqrt{\frac{R/r_s - 1}{R/r_s + 1}} \right) + \ln{\left(\frac{R/r_s}{2}\right)}
-% \right)\]
+% \right)
+% \end{equation}
 %
 % In terms of angles:
 
-\[\Sigma_\mathrm{NFW}(\theta) = \frac{2 \rho_\mathrm{crit} \delta_c D_L \theta_s}{(\theta/\theta_s)^2 - 1} \left(1 - \frac{2}{\sqrt{(\theta/\theta_s)^2 - 1}} \arctan\left(\sqrt{\frac{\theta/\theta_s - 1}{\theta/\theta_s + 1}} \right) \right)\]
+\begin{equation}
+\Sigma_\mathrm{NFW}(\theta) = \frac{2 \rho_\mathrm{crit} \delta_c D_L \theta_s}{(\theta/\theta_s)^2 - 1} \left(1 - \frac{2}{\sqrt{(\theta/\theta_s)^2 - 1}} \arctan\left(\sqrt{\frac{\theta/\theta_s - 1}{\theta/\theta_s + 1}} \right) \right)
+\end{equation}
 
-\[\overline{\Sigma}_\mathrm{NFW}(\theta) = \frac{4 \rho_\mathrm{crit} \delta_c D_L \theta_s}{(\theta/\theta_s)^2} \left(
+\begin{equation}
+\overline{\Sigma}_\mathrm{NFW}(\theta) = \frac{4 \rho_\mathrm{crit} \delta_c D_L \theta_s}{(\theta/\theta_s)^2} \left(
     \frac{2}{\sqrt{(\theta/\theta_s)^2 - 1}} ~\arctan\left(\sqrt{\frac{\theta/\theta_s - 1}{\theta/\theta_s + 1}} \right) + \ln{\left(\frac{\theta/\theta_s}{2}\right)}
-\right)\]
+\right)
+\end{equation}
 
 Similar convention used by \citet{Bartelmann2001}
 
-\[\gamma_\mathrm{NFW}(\theta) = \frac{\overline{\Sigma}_\mathrm{NFW}(\theta) - \Sigma_\mathrm{NFW}(\theta)}{\Sigma_\mathrm{crit}} \]
+\begin{equation}
+\gamma_\mathrm{NFW}(\theta) = \frac{\overline{\Sigma}_\mathrm{NFW}(\theta) - \Sigma_\mathrm{NFW}(\theta)}{\Sigma_\mathrm{crit}}
+\end{equation}
 
 Can calculate ellipticities from tangential shear.
 
 We switch the dependence to $M_{200}$ and $c$ with:
 
-\[\delta_c = \frac{200}{3} \frac{c^3}{\ln(1 + c) - c/(1 + c)}\]
-\[r_s = \frac{r_{200}}{c}\]
-\[r_{200} = \left( \frac{3 M_{200}}{800 \pi \rho_\mathrm{crit}} \right)^{1/3}\]
-\[c = \frac{r_{200}}{r_s}\]
+\begin{equation}
+\delta_c = \frac{200}{3} \frac{c^3}{\ln(1 + c) - c/(1 + c)}
+\end{equation}
+\begin{equation}
+r_s = \frac{r_{200}}{c}
+\end{equation}
+\begin{equation}
+r_{200} = \left( \frac{3 M_{200}}{800 \pi \rho_\mathrm{crit}} \right)^{1/3}
+\end{equation}
+\begin{equation}
+c = \frac{r_{200}}{r_s}
+\end{equation}
 
 Estimating ellipticity has well-documented issues [cite] due to noise and PSF
 
 \subsection{Project Purpose}
 The goal of this project is to devise a method to analyze lensed galaxy cluster data and find which density profile is more probable between the isothermal and NFW profiles.
+In order to do so, we generate simulated data sets and analyze them to find the more probable profiles they would fit into.
+This analysis method is expected to be usable in determining the characteristics of real observed data as well.
 
 \newpage
 
 \section{Methods}
-\subsection{Calculation of Shear and Deflection Angles for Each Profile}
 
 \subsection{Modelling of Foreground Lens and Background Galaxies}
+Based on the calculations shown above, we have modelled singular lenses corresponding to each density profile.
+ Background galaxies have been generated via randomization of angular coordinates.
+
 \begin{enumerate}
     \item Consider single foreground lens halo with many background galaxies.
     \begin{itemize}
@@ -150,16 +223,15 @@ The goal of this project is to devise a method to analyze lensed galaxy cluster 
     \end{itemize}
     \item Recommended values:
     \begin{itemize}
-        \item $z_L = 0.3$
-        \item $z_S = 1.0$
+        \item $z_L = 0.3$ (bullet cluster)
+        \item $z_S = 1.0$ (Hubble Deep Field)
         \item $M_{halo} = 10^{15} M_\odot$
     \end{itemize}
 \end{enumerate}
 
 \subsection{Generating Simulated Data}
-\begin{enumerate}
-\item Apply shear and deflection angle to background galaxies, get simulated data: $N$ sets of $\epsilon_1$, $\epsilon_2$, $\theta_1$, $\theta_2$
-\end{enumerate}
+We applied the shear and deflection angles to background galaxies to get simulated data: $N$ sets of $\epsilon_1$, $\epsilon_2$, $\theta_1$, $\theta_2$
+
 
 \subsection{Data Analysis and Density Profile Determination}
 \begin{enumerate}
@@ -180,6 +252,12 @@ The goal of this project is to devise a method to analyze lensed galaxy cluster 
 
 
 \section{Results and Conclusion}
+
+
+Like (COMPARISONS BETWEEN ISOTHERMAL AND NFW MASS PROFILES
+FOR STRONG-LENSING GALAXY CLUSTERS), we find that the strong lensing regime provides the most
+But also, weak lensing can in fact provide sufficient distinguishability
+
 
 From our data analysis, we were able to find the more probable density profile of a simulated data set.
 Since the simulated data is based on the NFW and isothermal profile models, we were able to decisively distinguish between the two.
