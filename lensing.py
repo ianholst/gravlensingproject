@@ -25,20 +25,6 @@ def SIGMA_CRIT(DS, DL):
     DSL = DS - DL
     return c**2 / (4 * np.pi * G) * (DS / (DSL * DL))
 
-def lensingImage(halo, backgroundGalaxies, v, a=1):
-    # Produce a mock lensing image with a halo and a population of background galaxies
-    # v is the view width and a is the size of galaxies
-    fig = plt.figure()
-    ax = fig.add_subplot(111, aspect="equal")
-    ax.set_xlim(-v/2,v/2)
-    ax.set_ylim(-v/2,v/2)
-    for gal in backgroundGalaxies:
-        lensedGal = halo.lense(gal)
-        lensedGalEllipse = lensedGal.ellipse(a)
-        lensedGalEllipse.set_facecolor(np.random.rand(3))
-        ax.add_artist(lensedGalEllipse)
-    return plt.show()
-
 
 ### GALAXY/HALO OBJECTS ###
 
@@ -71,24 +57,6 @@ class Halo:
         e1 = galaxy.e1 - e*np.cos(2*phi) # TODO: how do ellipticities add?
         e2 = galaxy.e2 - e*np.sin(2*phi)
         return LensedBackgroundGalaxy(Tx, Ty, e1, e2, galaxy.DS)
-
-    def plotProperties(self, start, stop, step, DS):
-        # Plot the shear, ellipticity, convergence, and magnification for the halo
-        theta = np.linspace(start, stop, step)*u.arcsec
-        epsilon = np.array([self.ellipticity(t, DS) for t in theta])
-        gamma = np.array([self.shear(t, DS) for t in theta])
-        kappa = np.array([(self.surfaceDensity(t) / SIGMA_CRIT(DS, self.DL)).to_value("") for t in theta])
-        mu = 1/((1-kappa)**2 - gamma**2)
-        plt.figure()
-        plt.plot(theta, epsilon)
-        plt.plot(theta, gamma)
-        plt.plot(theta, kappa)
-        plt.plot(theta, mu)
-        plt.legend(["$\epsilon$", "$\gamma$", "$\kappa$", "$\mu$"])
-        plt.xlabel("$\\theta$ (arcseconds)")
-        plt.ylim(-10,10)
-        return plt.show()
-
 
 
 class NFWHalo(Halo):
@@ -124,7 +92,7 @@ class IsothermalHalo(Halo):
         self.Tc = rc/DL * u.rad
         r200 = ((3 * M200) / (800 * np.pi * RHO_CRIT))**(1/3)
         self.sigmaSquared = M200 * G / (2 * (r200 - rc * np.arctan(r200/rc)))
-        self.T0 = lambda DS: 4*np.pi*halo_iso.sigmaSquared / c**2 * (DS - halo_iso.DL)/(DS)
+        self.T0 = lambda DS: 4*np.pi*self.sigmaSquared / c**2 * (DS - self.DL)/(DS)
 
     def surfaceDensity(self, T):
         # Surface density at angle T

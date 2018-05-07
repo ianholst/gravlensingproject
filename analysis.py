@@ -5,6 +5,7 @@ import astropy.units as u
 from scipy.optimize import curve_fit
 from scipy.stats import binned_statistic
 from lensing import *
+np.random.seed(0)
 
 ### DATA GENERATION ###
 galaxyNumberDensity = 50/u.arcmin**2
