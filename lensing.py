@@ -7,8 +7,6 @@ import astropy.units as u
 import astropy.constants as const
 from cmath import sqrt as csqrt
 
-plt.style.use(astropy_mpl_style)
-plt.rcParams["figure.dpi"] = 100
 
 ### CONSTANTS ###
 c = const.c
@@ -123,11 +121,3 @@ class LensedBackgroundGalaxy:
         self.DS = DS
         self.T = np.sqrt(Tx**2 +Ty**2)
         self.phi = np.arctan2(Ty, Tx)
-
-    def ellipse(self, a):
-        # Returns matplotlib ellipse object of approximate size a
-        e = np.sqrt(self.e1**2 + self.e2**2)
-        return Ellipse(xy=[self.Tx.to_value(u.arcsec),self.Ty.to_value(u.arcsec)],
-                       width=a,
-                       height=a*(e+1)/(e-1),
-                       angle=self.phi.to_value(u.degree))

@@ -5,7 +5,7 @@ import astropy.units as u
 from scipy.optimize import curve_fit
 from scipy.stats import binned_statistic
 from lensing import *
-np.random.seed(0)
+np.random.seed(1)
 plt.rcParams["font.family"] = "serif"
 plt.rcParams["mathtext.fontset"] = "cm"
 plt.rcParams["text.usetex"] = True
@@ -59,26 +59,39 @@ print("theta_s:", halo_nfw.Ts.to(u.arcsec))
 
 
 backgroundGalaxies = [BackgroundGalaxy(
-    Bx=(viewSize*np.random.rand()-viewSize/2)*u.arcsec,
-    By=(viewSize*np.random.rand()-viewSize/2)*u.arcsec,
+    Bx=(viewSize*np.random.rand()-viewSize/2),
+    By=(viewSize*np.random.rand()-viewSize/2),
     e1=0,
     e2=0,
     DS=DS) for i in range(Ngal)]
 
-def lensingImage(halo, backgroundGalaxies, v, a=1):
+isolensedBackgroundGalaxies = [halo_iso.lense(gal) for gal in backgroundGalaxies]
+nfwlensedBackgroundGalaxies = [halo_nfw.lense(gal) for gal in backgroundGalaxies]
+
+
+def lensingImage(lensedBackgroundGalaxies, v, title):
     # Produce a mock lensing image with a halo and a population of background galaxies
     # v is the view width and a is the size of galaxies
+
+    theta_x = np.array([lgal.Tx.to_value(u.arcsec) for lgal in lensedBackgroundGalaxies]) * u.arcsec
+    theta_y = np.array([lgal.Ty.to_value(u.arcsec) for lgal in lensedBackgroundGalaxies]) * u.arcsec
+    e1 = np.array([lgal.e1.to_value("") for lgal in lensedBackgroundGalaxies])
+    e2 = np.array([lgal.e2.to_value("") for lgal in lensedBackgroundGalaxies])
+    phi = np.array([lgal.phi.to_value(u.rad) for lgal in lensedBackgroundGalaxies])
+    epsilon = -e1*np.cos(2*phi) - e2*np.sin(2*phi)
+
     fig = plt.figure()
-    ax = fig.add_subplot(111, aspect="equal")
-    ax.set_xlim(-v/2,v/2)
-    ax.set_ylim(-v/2,v/2)
-    for gal in backgroundGalaxies:
-        lensedGal = halo.lense(gal)
-        lensedGalEllipse = lensedGal.ellipse(a)
-        lensedGalEllipse.set_facecolor(np.random.rand(3))
-        ax.add_artist(lensedGalEllipse)
-    return plt.show()
+    plt.gca().set_aspect("equal")
+    plt.xlim(-v.to_value(u.arcsec)/2,v.to_value(u.arcsec)/2)
+    plt.ylim(-v.to_value(u.arcsec)/2,v.to_value(u.arcsec)/2)
+    plt.quiver(theta_x, theta_y, -epsilon*np.sin(phi), epsilon*np.cos(phi), pivot="mid",
+        headwidth=0, width=.001)
+    plt.xlabel("$\\theta_x$ ($^{\prime\prime}$)")
+    plt.ylabel("$\\theta_y$ ($^{\prime\prime}$)")
+    plt.title(title)
+    plt.savefig(title.lower() + "ellipticities.pdf", bbox_inches="tight")
+    plt.show()
 
 
-lensingImage(halo_iso, backgroundGalaxies, viewSize)
-lensingImage(halo_nfw, backgroundGalaxies, viewSize)
+lensingImage(isolensedBackgroundGalaxies, viewSize, "Isothermal")
+lensingImage(nfwlensedBackgroundGalaxies, viewSize, "NFW")
