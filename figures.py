@@ -61,8 +61,8 @@ print("theta_s:", halo_nfw.Ts.to(u.arcsec))
 backgroundGalaxies = [BackgroundGalaxy(
     Bx=(viewSize*np.random.rand()-viewSize/2),
     By=(viewSize*np.random.rand()-viewSize/2),
-    e1=0,
-    e2=0,
+    e1=np.random.normal(0, 0.2),
+    e2=np.random.normal(0, 0.2),
     DS=DS) for i in range(Ngal)]
 
 isolensedBackgroundGalaxies = [halo_iso.lense(gal) for gal in backgroundGalaxies]
@@ -77,19 +77,22 @@ def lensingImage(lensedBackgroundGalaxies, v, title):
     theta_y = np.array([lgal.Ty.to_value(u.arcsec) for lgal in lensedBackgroundGalaxies]) * u.arcsec
     e1 = np.array([lgal.e1.to_value("") for lgal in lensedBackgroundGalaxies])
     e2 = np.array([lgal.e2.to_value("") for lgal in lensedBackgroundGalaxies])
-    phi = np.array([lgal.phi.to_value(u.rad) for lgal in lensedBackgroundGalaxies])
+
+    # phi = np.array([lgal.phi.to_value(u.rad) for lgal in lensedBackgroundGalaxies])
+    # phi = np.arctan(theta_y/theta_x)
+    phi = np.arctan2(e2,e1)/2 + np.pi/2
     epsilon = -e1*np.cos(2*phi) - e2*np.sin(2*phi)
 
     fig = plt.figure()
     plt.gca().set_aspect("equal")
     plt.xlim(-v.to_value(u.arcsec)/2,v.to_value(u.arcsec)/2)
     plt.ylim(-v.to_value(u.arcsec)/2,v.to_value(u.arcsec)/2)
-    plt.quiver(theta_x, theta_y, -epsilon*np.sin(phi), epsilon*np.cos(phi), pivot="mid",
-        headwidth=0, width=.001)
+    plt.quiver(theta_x, theta_y, -epsilon*np.sin(phi), epsilon*np.cos(phi),
+        pivot="mid", headwidth=0, width=.001)
     plt.xlabel("$\\theta_x$ ($^{\prime\prime}$)")
     plt.ylabel("$\\theta_y$ ($^{\prime\prime}$)")
     plt.title(title)
-    plt.savefig(title.lower() + "ellipticities.pdf", bbox_inches="tight")
+    # plt.savefig(title.lower() + "ellipticities.pdf", bbox_inches="tight")
     plt.show()
 
 
