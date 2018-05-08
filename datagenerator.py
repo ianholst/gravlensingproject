@@ -5,7 +5,7 @@ import astropy.units as u
 from scipy.optimize import curve_fit
 from scipy.stats import binned_statistic
 from lensing import *
-np.random.seed(0)
+np.random.seed(10)
 
 ### DATA GENERATION ###
 galaxyNumberDensity = 50/u.arcmin**2
@@ -36,13 +36,6 @@ theta_y = np.array([lgal.Ty.to_value(u.arcsec) for lgal in lensedBackgroundGalax
 e1 = np.array([lgal.e1.to_value("") for lgal in lensedBackgroundGalaxies])
 e2 = np.array([lgal.e2.to_value("") for lgal in lensedBackgroundGalaxies])
 phi = np.array([lgal.phi.to_value(u.rad) for lgal in lensedBackgroundGalaxies])
-
-
-### ANALYSIS ###
-
-# Assume we have a dataset of N galaxies with positions (theta_x, theta_y) and ellipticities (e1, e2)
-# Assume they all have same known DS and DL
-# Assume these are numpy arrays of length N
 
 # Calculate radial position theta and magnitude of ellipticity epsilon
 theta = np.sqrt(theta_x**2 + theta_y**2)

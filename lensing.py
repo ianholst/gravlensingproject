@@ -2,7 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse
 import astropy.cosmology as cosmology
-from astropy.visualization import astropy_mpl_style
 import astropy.units as u
 import astropy.constants as const
 from cmath import sqrt as csqrt
@@ -51,7 +50,7 @@ class Halo:
         T = np.sqrt(Tx**2 + Ty**2)
         phi = np.arctan2(Ty, Tx)
         e = self.ellipticity(T, galaxy.DS)
-        e1 = galaxy.e1 - e*np.cos(2*phi) # TODO: how do ellipticities add?
+        e1 = galaxy.e1 - e*np.cos(2*phi)
         e2 = galaxy.e2 - e*np.sin(2*phi)
         return LensedBackgroundGalaxy(Tx, Ty, e1, e2, galaxy.DS)
 

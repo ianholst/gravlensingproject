@@ -5,7 +5,7 @@ import astropy.units as u
 from scipy.optimize import curve_fit
 from scipy.stats import binned_statistic
 from lensing import *
-np.random.seed(0)
+np.random.seed(10)
 plt.rcParams["font.family"] = "serif"
 plt.rcParams["mathtext.fontset"] = "cm"
 plt.rcParams["text.usetex"] = True
@@ -42,9 +42,10 @@ def plotProperties(halo, start, stop, step, DS, name):
     kappa = np.array([(halo.surfaceDensity(t) / SIGMA_CRIT(DS, halo.DL)).to_value("") for t in theta])
     mu = 1/((1-kappa)**2 - gamma**2)
     plt.figure()
-    plt.plot(theta, epsilon)
-    plt.plot(theta, gamma)
-    plt.plot(theta, kappa)
+    plt.grid()
+    plt.plot(theta, epsilon, c="#3799CE")
+    plt.plot(theta, gamma, c="#21893B")
+    plt.plot(theta, kappa, c="#B00728")
     # plt.plot(theta, mu)
     plt.legend(["$\epsilon$", "$\gamma$", "$\kappa$", "$\mu$"])
     plt.xlabel("$\\theta$ ($^{\prime\prime}$)")
