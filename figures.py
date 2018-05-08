@@ -92,7 +92,7 @@ def lensingImage(lensedBackgroundGalaxies, v, title):
     plt.xlabel("$\\theta_x$ ($^{\prime\prime}$)")
     plt.ylabel("$\\theta_y$ ($^{\prime\prime}$)")
     plt.title(title)
-    # plt.savefig(title.lower() + "ellipticities.pdf", bbox_inches="tight")
+    plt.savefig("figures/" + title.lower() + "ellipticities.pdf", bbox_inches="tight")
     plt.show()
 
 
