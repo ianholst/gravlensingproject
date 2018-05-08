@@ -52,15 +52,15 @@ The results
 
 \subsection{Lensing by a spherical lens profile}
 Here we define our conventions for various lensing quantities, which mainly conform to those used by \citet{Dodelson2017}. We use the thin lens approximation and assume spherical lens profiles. Consider such a spherically symmetric halo density profile $\rho(r)$ acting as a gravitational lens. This lens halo is located at an angular diameter distance $D_L$ from the observer and we want to find out how it affects a source object behind it at an angular diameter distance $D_S$. Set the $z$ axis to be along the line of sight, and use local cylindrical coordinates $R$, $\phi$, and $z$. The projected surface density $\Sigma$ at radius $R$ on the projected plane is obtained by integrating the density over the entire $z$ axis:
-\begin{equation}
+\begin{equation} \label{sigma}
 \Sigma(R) = \int_{-\infty}^{\infty}{dz\ \rho(\sqrt{R^2 + z^2})}
 \end{equation}
 A useful related measure in gravitational lensing is the average projected surface density within a radius $R$:
-\begin{equation}
+\begin{equation} \label{sigmabar}
 \overline{\Sigma}(R) = \frac{1}{\pi R^2} \int_0^{2\pi}{d\phi \int_0^{R}{dR'~\Sigma(R')R'}}
 \end{equation}
 The critical surface density is an important quantity that marks the typical boundary between what is considered strong and weak lensing:
-\begin{equation}
+\begin{equation} \label{sigmacrit}
 \Sigma_\mathrm{crit} = \frac{c^2}{4\pi G} \frac{D_S}{D_{SL} D_L}
 \end{equation}
 
@@ -69,11 +69,11 @@ $D_S$ and $D_L$ are calculated like normal angular diameter distances in a flat 
 All relevant angles in this problem are small, so we can assume that $R = D_L \theta$, where $\theta$ is the angular position on the observer's sky, with the halo center at the origin. This may be represented as the vector $\vec{\theta}$, but in the spherically symmetric case, the magnitude $\theta$ is sufficient. Thus we can easily change variables in all lensing quantities from $R$ to $\theta$.
 
 We define the convergence $\kappa$ at angular position $\theta$ as the ratio of surface density to critical surface density. Strong lensing phenomena such as arcs, rings, multiple images, and magnification are dominant when the convergence is greater than 1, or the projected surface density is greater than the critical surface density.
-\begin{equation}
+\begin{equation} \label{convergence}
 \kappa(\theta) = \frac{\Sigma(\theta)}{\Sigma_\mathrm{crit}}
 \end{equation}
 While the convergence determines how an object is uniformly scaled or magnified by a gravitational lens, another quantity, shear, describes the stretching of images along an axis. Shear is usually expressed as two components, $\gamma_1$ and $\gamma_2$. The tangential shear $\gamma_t$ is the component of stretching in the $\hat{\phi}$ direction. It can be shown that for a spherical lens profile, the only component of shear $\gamma$ should be the tangential shear, $\gamma_t$. For a spherical lens, tangential shear can be shown to be simply related to the convergence and average convergence \citep{Dodelson2017}:
-\begin{equation}
+\begin{equation} \label{tangentialshear}
 \gamma_t(\theta) = \overline{\kappa}(\theta) - \kappa(\theta)
 \end{equation}
 The tangential shear is decomposed into two components, $\gamma_1$ and $\gamma_2$. $\gamma_1$ represents stretching along the $\theta_x$ and $\theta_y$ axes, and $\gamma_2$ represents stretching along the $\theta_y = \theta_x$ and $\theta_y = - \theta_x$ lines. They can be obtained through a relation with $\gamma_t$ and the cylindrical azimuthal angle $\phi$.
@@ -93,7 +93,7 @@ Changes in object shapes due to lensing can be quantified using the ellipticity 
 \epsilon = \frac{a^2 - b^2}{a^2 + b^2}
 \end{equation}
 Like shear, there are two components of ellipticity, $\epsilon_1$ and $\epsilon_2$, which are analogous to the shear components $\gamma_1$ and $\gamma_2$. The ellipticity that would be induced in an otherwise perfectly circular object is:
-\begin{equation}
+\begin{equation} \label{ellipticity}
 \epsilon_i = \frac{2 \gamma_i/(1 - \kappa)}{1 + \gamma^2/(1 - \kappa)^2}
 \end{equation}
 And there is an analogous ellipticity magnitude or tangential ellipticity:
@@ -109,59 +109,50 @@ From this expression, it can be seen that deflection is most significant in the 
 
 
 \subsection{Cored Isothermal Sphere Profile}
-The cored isothermal sphere (CIS) profile is related to the singular isothermal sphere profile, which is often used to describe halos and other collapsed astrophysical objects because of its simple formulation. Unlike the singular isothermal sphere, the cored isothermal sphere does not have a density singularity at its center due to a finite core radius $r_c$. The CIS density profile is defined:
-
-\begin{equation}
-\rho_\mathrm{iso}(r) = \frac{\sigma^2}{2\pi G (r^2 + {r_c}^2)}
+The cored isothermal sphere (CIS) profile is related to the singular isothermal sphere (SIS) profile, which is often used to describe halos and other collapsed astrophysical objects because of its simple formulation. Unlike the singular isothermal sphere, the cored isothermal sphere does not have a density singularity at its center due to a finite core radius $r_c$. The CIS density profile is defined
+\begin{equation} \label{cisdensity}
+\rho_\mathrm{CIS}(r) = \frac{\sigma^2}{2\pi G (r^2 + {r_c}^2)},
 \end{equation}
-
-where $\sigma^2$ is the velocity dispersion.
-https://arxiv.org/pdf/astro-ph/9810164.pdf
-% \begin{equation}\Sigma_\mathrm{iso}(R) = \frac{\sigma^2}{2 G \sqrt{R^2 + {r_c}^2}}
-% \end{equation}
-%
-% \begin{equation}\overline{\Sigma}_\mathrm{iso}(R) = \frac{\sigma^2 \left(\sqrt{R^2 + {r_c}^2} - r_c \right)}{G R^2}
-% \end{equation}
-%
-% In terms of angles:
-
+where $\sigma^2$ is the velocity dispersion of the halo \citep{Chen2005, Shapiro1999}. Applying equation \ref{sigma} and defining $\theta_c = r_c/D_L$, we get the projected surface density of the CIS profile:
 \begin{equation}
-\Sigma_\mathrm{iso}(\theta) = \frac{\sigma^2}{2 G D_L \sqrt{\theta^2 + {\theta_c}^2}}
+\Sigma_\mathrm{CIS}(\theta) = \frac{\sigma^2}{2 G D_L \sqrt{\theta^2 + {\theta_c}^2}}
 \end{equation}
-
+The average surface density inside angular radius $\theta$ is derived using equation \ref{sigmabar}:
 \begin{equation}
-\overline{\Sigma}_\mathrm{iso}(\theta) = \frac{\sigma^2 \left(\sqrt{\theta^2 + {\theta_c}^2} - \theta_c \right)}{G D_L \theta^2}
+\overline{\Sigma}_\mathrm{CIS}(\theta) = \frac{\sigma^2 \left(\sqrt{\theta^2 + {\theta_c}^2} - \theta_c \right)}{G D_L \theta^2}
 \end{equation}
-
+The tangential shear follows from equation \ref{tangentialshear}:
 \begin{equation}
-\gamma_\mathrm{iso}(\theta) = \frac{\sigma^2 \left(\sqrt{\theta^2 + {\theta_c}^2} - \theta_c \right)}{\Sigma_\mathrm{crit} G D_L \theta^2} - \frac{\sigma^2}{2 \Sigma_\mathrm{crit} G D_L \sqrt{\theta^2 + {\theta_c}^2}}
+\gamma_\mathrm{CIS}(\theta) = \frac{\sigma^2 \left(\sqrt{\theta^2 + {\theta_c}^2} - \theta_c \right)}{\Sigma_\mathrm{crit} G D_L \theta^2} - \frac{\sigma^2}{2 \Sigma_\mathrm{crit} G D_L \sqrt{\theta^2 + {\theta_c}^2}}
 \end{equation}
+The ellipticity equations, while not quite elegant, are trivial to calculate from the shear.
 
-We switch dependence from $\sigma^2$ to $M_{200}$ with:
+Although the total mass of the CIS profile diverges, we will use a common convention for quantifying the mass of the profile within a reasonable radius. We define $r_{200}$ as the radius at which the average enclosed density of the profile is 200 times the critical density of the universe. The critical density $\rho_\mathrm{crit}$ depends on cosmological parameters such as the Hubble constant $H_0$. We choose to use the critical density at the current time $\rho_\mathrm{crit,0}$ for all halos regardless of their redshift. We assume a flat $\Lambda$CDM universe and use the Planck 2015 results for all cosmological calculations \citep{PlanckCollaboration2015}.
 
+We define $M_{200}$ as the total mass enclosed within $r_{200}$:
+\begin{equation}
+M_{200} = 200 \rho_\mathrm{crit} \frac{4}{3} \pi {r_{200}}^3
+\end{equation}
+We also calculate $M_{200}$ specifically for a CIS profile by integrating equation \ref{cisdensity}:
+\begin{equation} \label{cisM200}
+M_{200} = M_\mathrm{enc}(r_{200}) = \frac{2 \sigma^2}{G} \left( r_{200} - r_c \arctan{\left(\frac{r_{200}}{r_c}\right)} \right)
+\end{equation}
+Solving for $r_{200}$:
+\begin{equation} \label{r200}
+r_{200} = \left( \frac{3 M_{200}}{800 \pi \rho_\mathrm{crit}} \right)^{1/3}
+\end{equation}
+We can now completely switch the CIS profile's dependence from $\sigma^2$ to $M_{200}$ with equation \ref{r200} and solving for $\sigma^2$ from equation \ref{cisM200}:
 \begin{equation}
 \sigma^2 = \frac{M_{200} G}{2 \left( r_{200} - r_c \arctan{\left(\frac{r_{200}}{r_c}\right)} \right)}
 \end{equation}
 
-This is derived from the definition of $M_{200}$:
-
-\begin{equation}
-M_{200} = 200 \rho_\mathrm{crit} \frac{4}{3} \pi {r_{200}}^3
-\end{equation}
-\begin{equation}
-M_{200} = M_\mathrm{enc}(r_{200}) = \frac{2 \sigma^2}{G} \left( r_{200} - r_c \arctan{\left(\frac{r_{200}}{r_c}\right)} \right)
-\end{equation}
-\begin{equation}
-r_{200} = \left( \frac{3 M_{200}}{800 \pi \rho_\mathrm{crit}} \right)^{1/3}
-\end{equation}
-
-The ellipticity equations, while not quite elegant, are trivial to calculate from the shear.
+Figure \ref{cisproperties} shows the convergence, tangential shear, and ellipticity of a Milky Way-sized halo lens at redshift 0.3 for lensed objects at redshift 1.
 
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{isothermalproperties.pdf}
-    \caption{Lensing quantities for a CIS profile with $M_{200} = 10^{15} M_\odot$ and $r_c = 10$ kpc.}
-    \label{}
+    \caption{Lensing quantities for a CIS profile with $M_{200} = 10^{15} M_\odot$ and $r_c = 10$ kpc. $z_L = 0.3$ and $z_S = 1.0$.}
+    \label{cisproperties}
 \end{figure}
 
 
