@@ -15,12 +15,11 @@ H0 = cosmology.Planck15.H0
 RHO_CRIT = 3 * H0**2 / (8 * np.pi * G) # only use rho_crit at current time
 u.set_enabled_equivalencies(u.dimensionless_angles()) # allow angles to be dimensionless
 
-
-### USEFUL FUNCTIONS ###
-
 def SIGMA_CRIT(DS, DL):
     # Critical surface density for lens at distance DL and source at distance DS
-    DSL = DS - DL
+    zS = cosmology.z_at_value(cosmology.Planck15.angular_diameter_distance, DS, zmax=1.1)
+    zL = cosmology.z_at_value(cosmology.Planck15.angular_diameter_distance, DL, zmax=1.1)
+    DSL = cosmology.Planck15.angular_diameter_distance_z1z2(zL, zS)
     return c**2 / (4 * np.pi * G) * (DS / (DSL * DL))
 
 

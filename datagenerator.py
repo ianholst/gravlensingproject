@@ -13,8 +13,9 @@ viewSize = 1000*u.arcsec
 Ngal = round((viewSize**2 * galaxyNumberDensity).to_value(""))
 zS = 1.0
 zL = 0.3
-DS = cosmology.Planck15.comoving_distance(zS) / (1 + zS)
-DL = cosmology.Planck15.comoving_distance(zL) / (1 + zL)
+DS = cosmology.Planck15.angular_diameter_distance(zS)
+DL = cosmology.Planck15.angular_diameter_distance(zL)
+DSL = cosmology.Planck15.angular_diameter_distance_z1z2(zL, zS)
 
 lensHalo = NFWHalo(
     M200=1e15*u.solMass,

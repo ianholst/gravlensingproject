@@ -12,14 +12,16 @@ plt.rcParams["text.usetex"] = True
 plt.rcParams["figure.dpi"] = 150
 
 
-# here is an example of lensing very close to the halo
+# An example of lensing very close to the halo
 galaxyNumberDensity = 1000/(100*u.arcsec)**2
 viewSize = 100*u.arcsec
 Ngal = round((viewSize**2 * galaxyNumberDensity).to_value(""))
 zS = 1.0
 zL = 0.3
-DS = cosmology.Planck15.comoving_distance(zS) / (1 + zS)
-DL = cosmology.Planck15.comoving_distance(zL) / (1 + zL)
+DS = cosmology.Planck15.angular_diameter_distance(zS)
+DL = cosmology.Planck15.angular_diameter_distance(zL)
+DSL = cosmology.Planck15.angular_diameter_distance_z1z2(zL, zS)
+
 
 halo_iso = IsothermalHalo(
     M200=1e15*u.solMass,
