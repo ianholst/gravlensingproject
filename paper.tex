@@ -2,7 +2,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{parskip}
 \usepackage{microtype}
-\usepackage{natbib}
+\usepackage[square]{natbib}
 \usepackage{graphicx}
 \usepackage{amsmath}
 % \usepackage{txfonts}
@@ -157,8 +157,9 @@ Figure \ref{cisproperties} shows the convergence, tangential shear, and elliptic
 
 
 \subsection{Navarro-Frenk-White (NFW) Profile}
-The NFW profile has had some success in describing dark matter halos is both simulations and observations, though
+The NFW profile has had some success in describing dark matter halos in both simulations and observations, though
 \citep{Navarro1997}
+It is characterized by a scale radius $r_s$ and a dimensionless parameter $\delta_c$, sometimes called the characteristic overdensity \citep{Wright2000}.
 \begin{equation}
 \rho_\mathrm{NFW}(r) = \frac{\rho_\mathrm{crit} \delta_c}{(r/r_s)\left(1 + r/r_s\right)^2}
 \end{equation}
@@ -323,7 +324,7 @@ Future goals include the use of these methods to analyze observed data of galaxy
 %Where to go from here?
 
 
-\bibliographystyle{plainnat}
+\bibliographystyle{aasjournal}
 \bibliography{references}
 
 \end{document}
