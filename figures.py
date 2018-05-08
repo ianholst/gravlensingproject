@@ -5,7 +5,7 @@ import astropy.units as u
 from scipy.optimize import curve_fit
 from scipy.stats import binned_statistic
 from lensing import *
-np.random.seed(1)
+np.random.seed(0)
 plt.rcParams["font.family"] = "serif"
 plt.rcParams["mathtext.fontset"] = "cm"
 plt.rcParams["text.usetex"] = True
@@ -22,7 +22,6 @@ DS = cosmology.Planck15.angular_diameter_distance(zS)
 DL = cosmology.Planck15.angular_diameter_distance(zL)
 DSL = cosmology.Planck15.angular_diameter_distance_z1z2(zL, zS)
 
-
 halo_iso = IsothermalHalo(
     M200=1e15*u.solMass,
     rc=10*u.kpc,
@@ -32,6 +31,8 @@ halo_nfw = NFWHalo(
     M200=1e15*u.solMass,
     C=10,
     DL=DL)
+
+### Plot of halo lensing properties ###
 
 def plotProperties(halo, start, stop, step, DS, name):
     # Plot the shear, ellipticity, convergence, and magnification for the halo
@@ -59,6 +60,8 @@ print("theta_0:", halo_iso.T0(DS).to(u.arcsec))
 plotProperties(halo_nfw, 0.01*u.arcsec, viewSize, 500, DS, "nfwproperties")
 print("theta_s:", halo_nfw.Ts.to(u.arcsec))
 
+
+### Graphic of lensed galaxy ellipticities ###
 
 backgroundGalaxies = [BackgroundGalaxy(
     Bx=(viewSize*np.random.rand()-viewSize/2),
