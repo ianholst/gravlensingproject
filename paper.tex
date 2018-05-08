@@ -28,93 +28,87 @@ This method is expected to be helpful in the analysis of real observation data i
 
 
 \section{Introduction}
-Gravitational lensing allows us to investigate the matter density distributions of cosmic objects by observing the characteristic distortions imparted on other objects in the background. The principle is applicable on a large range of scales, from all-sky mass maps based on cosmic microwave background shear to studies of individual galaxies and clusters. In particular, by observing the coherent distortions of many background galaxies, the shear profile, and consequently the density profile of a foreground halo lens may be determined.
+Gravitational lensing allows us to investigate the matter density distributions of cosmic objects by observing the characteristic light distortions imparted on other objects in the background. The principle is applicable on a large range of scales, from all-sky mass maps based on cosmic microwave background shear, to studies of individual galaxies and clusters. In particular, by observing the coherent distortions of many background galaxies, the shear profile, and consequently the density profile of a foreground halo lens may be determined.
 
-Two commonly used density profiles in the field are the isothermal profile and the Navarro-Frenk-White (NFW) profile. The NFW profile has been found to fit simulated dark matter halos very well \citep{}, while the isothermal profile .
-Both profiles have infinite extent
+Two commonly used density profiles in the field are the isothermal profile and the Navarro-Frenk-White (NFW) profile. The NFW profile has been found to fit simulated dark matter halos very well \citep{}, while the isothermal profile results from an idealized isothermal collapse \citep{}. Both profiles extend to infinity
 
-Lensing offers one of the only ways to probe the distribution
-In this paper, we will investigate the distinguishability of
+It is of great interest to determine the general forms of halo density profiles
+since this tells us about structure formation and the nature of dark matter
+\citep{}
+Lensing offers one of the few ways to probe the distribution of all matter, not just baryonic matter.
+rotation curve present difficulties (https://arxiv.org/pdf/astro-ph/0201352.pdf)
+
+In this paper, we will investigate the distinguishability of NFW and isothermal profiles
 given galaxy-galaxy lensing data
-
-We start with introducing the general characteristics of spherical density profiles, followed by cored isothermal and NFW profiles.
-We then describe the purpose of our project, to distinguish between NFW and isothermal profiles, in detail.
 The goal of this project is to devise a method to analyze lensed galaxy cluster data and find which density profile is more probable between the isothermal and NFW profiles.
 In order to do so, we generate simulated data sets and analyze them to find the more probable profiles they would fit into.
 This analysis method is expected to be usable in determining the characteristics of real observed data as well.
 
 
+Outline:
+We start by introducing the general lensing characteristics of spherical density profiles, followed by the specifics for cored isothermal and NFW profiles. We then describe
+The results
 
-Estimating ellipticity has well-documented issues [cite] due to noise and PSF
 
-
-We describe the common characteristics of spherical density profiles.
-Here we define our conventions for various lensing quantities, which mainly conform to those used by \citet{Dodelson2017}. We use the thin lens approximation and assume spherical lens profiles.
-Consider such a spherically symmetric halo density profile $\rho(r)$
-
-The lens halo is located at an angular diameter distance $D_L$ from the observer and we want to consider its effects on a source object behind it at an angular diameter distance $D_S$.
-
-The projected surface density at radius R on the projected plane is defined, considering the z axis to be along the line of sight:
+\subsection{Lensing by a spherical lens profile}
+Here we define our conventions for various lensing quantities, which mainly conform to those used by \citet{Dodelson2017}. We use the thin lens approximation and assume spherical lens profiles. Consider such a spherically symmetric halo density profile $\rho(r)$ acting as a gravitational lens. This lens halo is located at an angular diameter distance $D_L$ from the observer and we want to find out how it affects a source object behind it at an angular diameter distance $D_S$. Set the $z$ axis to be along the line of sight, and use local cylindrical coordinates $R$, $\phi$, and $z$. The projected surface density $\Sigma$ at radius $R$ on the projected plane is obtained by integrating the density over the entire $z$ axis:
 \begin{equation}
 \Sigma(R) = \int_{-\infty}^{\infty}{dz\ \rho(\sqrt{R^2 + z^2})}
 \end{equation}
-
-An important related measure in gravitational lensing is the average projected surface density within radius R:
+A useful related measure in gravitational lensing is the average projected surface density within a radius $R$:
 \begin{equation}
 \overline{\Sigma}(R) = \frac{1}{\pi R^2} \int_0^{2\pi}{d\phi \int_0^{R}{dR'~\Sigma(R')R'}}
 \end{equation}
-
-The critical surface density marks the typical boundary between what is considered strong and weak lensing:
+The critical surface density is an important quantity that marks the typical boundary between what is considered strong and weak lensing:
 \begin{equation}
-\Sigma_\mathrm{crit} = \frac{c^2}{4\pi G} \frac{D_S}{(D_S - D_L) D_L}
+\Sigma_\mathrm{crit} = \frac{c^2}{4\pi G} \frac{D_S}{D_{SL} D_L}
 \end{equation}
 
-At small angles, we can assume from small angle approximations that $R = D_L \theta$.
+$D_S$ and $D_L$ are calculated like normal angular diameter distances in a flat expanding universe: $D = \chi(z)/(1 + z)$, where $\chi(z)$ is the comoving distance to redshift $z$. The redshift $z$ of an object, such as a halo lens or a background galaxy, is typically easy to measure. Note that $D_{SL}$ is nominally the distance from the source to the lens, but since it is an angular diameter distance, it is calculated as $D_{SL} = (\chi_S - \chi_L)/(1 + z_S)$.
 
-We also define the convergence, $\kappa$ to be
+All relevant angles in this problem are small, so we can assume that $R = D_L \theta$, where $\theta$ is the angular position on the observer's sky, with the halo center at the origin. This may be represented as the vector $\vec{\theta}$, but in the spherically symmetric case, the magnitude $\theta$ is sufficient. Thus we can easily change variables in all lensing quantities from $R$ to $\theta$.
+
+We define the convergence $\kappa$ at angular position $\theta$ as the ratio of surface density to critical surface density. Strong lensing phenomena such as arcs, rings, multiple images, and magnification are dominant when the convergence is greater than 1, or the projected surface density is greater than the critical surface density.
 \begin{equation}
 \kappa(\theta) = \frac{\Sigma(\theta)}{\Sigma_\mathrm{crit}}
 \end{equation}
-
-Strong lensing features take over when the convergence is greater than one.
-Tangential shear, along with the components of shear are shown as follows.
+While the convergence determines how an object is uniformly scaled or magnified by a gravitational lens, another quantity, shear, describes the stretching of images along an axis. Shear is usually expressed as two components, $\gamma_1$ and $\gamma_2$. The tangential shear $\gamma_t$ is the component of stretching in the $\hat{\phi}$ direction. It can be shown that for a spherical lens profile, the only component of shear $\gamma$ should be the tangential shear, $\gamma_t$. For a spherical lens, tangential shear can be shown to be simply related to the convergence and average convergence \citep{Dodelson2017}:
 \begin{equation}
 \gamma_t(\theta) = \overline{\kappa}(\theta) - \kappa(\theta)
 \end{equation}
-
-The tangential shear is decomposed into two components, $\gamma_1$ and $\gamma_2$. $\gamma_1$ represents stretching along the $\theta_x$ and $\theta_y$ axes, and $\gamma_2$
+The tangential shear is decomposed into two components, $\gamma_1$ and $\gamma_2$. $\gamma_1$ represents stretching along the $\theta_x$ and $\theta_y$ axes, and $\gamma_2$ represents stretching along the $\theta_y = \theta_x$ and $\theta_y = - \theta_x$ lines. They can be obtained through a relation with $\gamma_t$ and the cylindrical azimuthal angle $\phi$.
 \begin{equation}
 \begin{split}
 \gamma_1 = -\gamma_t \cos{2\phi}\\
 \gamma_2 = -\gamma_t \sin{2\phi}
 \end{split}
 \end{equation}
-
-It can be shown that for a spherical lens profile, the only component of shear $\gamma$ should be the tangential shear, $\gamma_t$:
-\citep{Dodelson2017}
+The shear magnitude, which is equal to tangential shear, also follows from trigonometric identities:
 \begin{equation}
-\gamma = \gamma_t = \sqrt{{\gamma_1}^2 + {\gamma_2}^2} = -\gamma_1 \cos{2\phi} -\gamma_2 \sin{2\phi}
+\gamma = \gamma_t = -\gamma_1 \cos{2\phi} -\gamma_2 \sin{2\phi}
 \end{equation}
 
-Deflection angle is
+Changes in object shapes due to lensing can be quantified using the ellipticity $\epsilon$. This is most commonly used in weak lensing, where shape changes are best described by simple stretching. Ellipticity is defined using the semimajor axis $a$ and semiminor axis $b$ of an ellipse \citep{Narayan1996}:
 \begin{equation}
-\vec{\alpha}(\vec{\theta}) = \overline{\kappa}(\theta)\vec{\theta}
+\epsilon = \frac{a^2 - b^2}{a^2 + b^2}
 \end{equation}
-\begin{equation}
-\vec{\beta} = \vec{\theta} - \vec{\alpha} = (1 - \overline{\kappa}(\theta))\vec{\theta}
-\end{equation}
-
-while ellipticity is
+Like shear, there are two components of ellipticity, $\epsilon_1$ and $\epsilon_2$, which are analogous to the shear components $\gamma_1$ and $\gamma_2$. The ellipticity that would be induced in an otherwise perfectly circular object is:
 \begin{equation}
 \epsilon_i = \frac{2 \gamma_i/(1 - \kappa)}{1 + \gamma^2/(1 - \kappa)^2}
 \end{equation}
+And there is an analogous ellipticity magnitude or tangential ellipticity:
 \begin{equation}
 \epsilon =  -\epsilon_1 \cos{2\phi} -\epsilon_2 \sin{2\phi}
 \end{equation}
 
+Gravitational lensing causes a deflection in the observed image position of background objects. If the true position of the object is $\vec{\beta}$ and it appears at position $\vec{\theta}$, then the deflection angle is defined:
+\begin{equation}
+\vec{\alpha}(\vec{\theta}) = \overline{\kappa}(\theta)\vec{\theta}
+\end{equation}
+From this expression, it can be seen that deflection is most significant in the strong lensing regime, where $\kappa > 1$.
 
 
-\section{Cored Isothermal Sphere Profile}
+\subsection{Cored Isothermal Sphere Profile}
 The cored isothermal sphere (CIS) profile is related to the singular isothermal sphere profile, which is often used to describe halos and other collapsed astrophysical objects because of its simple formulation. Unlike the singular isothermal sphere, the cored isothermal sphere does not have a density singularity at its center due to a finite core radius $r_c$. The CIS density profile is defined:
 
 \begin{equation}
@@ -171,7 +165,7 @@ The ellipticity equations, while not quite elegant, are trivial to calculate fro
 \end{figure}
 
 
-\section{Navarro-Frenk-White (NFW) Profile}
+\subsection{Navarro-Frenk-White (NFW) Profile}
 
 \begin{equation}
 \rho_\mathrm{NFW}(r) = \frac{\rho_\mathrm{crit} \delta_c}{(r/r_s)\left(1 + r/r_s\right)^2}
@@ -260,6 +254,9 @@ Based on the calculations shown above, we have modelled singular lenses correspo
     \end{itemize}
 \end{enumerate}
 
+Estimating ellipticity has well-documented issues [cite] due to noise and PSF
+
+
 \begin{figure}
     \centering
     \includegraphics[width=0.49\textwidth]{isothermalellipticities.pdf}
@@ -288,6 +285,15 @@ Based on the calculations shown above, we have modelled singular lenses correspo
     \caption{plots}
     \label{}
 \end{figure}
+
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=0.49\textwidth]{isothermalfitparams.pdf}
+%     \includegraphics[width=0.49\textwidth]{nfwfitparams.pdf}
+%     \caption{plots}
+%     \label{}
+% \end{figure}
+
 
 \section{Conclusions}
 

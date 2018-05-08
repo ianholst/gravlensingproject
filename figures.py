@@ -42,7 +42,7 @@ def plotProperties(halo, start, stop, step, DS, name):
     kappa = np.array([(halo.surfaceDensity(t) / SIGMA_CRIT(DS, halo.DL)).to_value("") for t in theta])
     mu = 1/((1-kappa)**2 - gamma**2)
     plt.figure()
-    plt.grid()
+    plt.grid(color="#EEEEEE")
     plt.plot(theta, epsilon, c="#3799CE")
     plt.plot(theta, gamma, c="#21893B")
     plt.plot(theta, kappa, c="#B00728")
