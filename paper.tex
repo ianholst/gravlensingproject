@@ -6,6 +6,7 @@
 \usepackage{graphicx}
 \usepackage{amsmath}
 % \usepackage{txfonts}
+\usepackage[font=small,labelfont=bf]{caption}
 
 \graphicspath{ {figures/} }
 \linespread{1.3}
@@ -110,13 +111,6 @@ From this expression, it can be seen that deflection is most significant in the 
 
 \subsection{Cored Isothermal Sphere Profile}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.8\textwidth]{isothermalproperties.pdf}
-    \caption{Lensing quantities for a CIS profile with $M_{200} = 10^{15} M_\odot$ and $r_c = 10$ kpc. $z_L = 0.3$ and $z_S = 1.0$.}
-    \label{cisproperties}
-\end{figure}
-
 The cored isothermal sphere (CIS) profile is related to the singular isothermal sphere (SIS) profile, which is often used to describe halos and other collapsed astrophysical objects because of its simple formulation. Unlike the singular isothermal sphere, the cored isothermal sphere does not have a density singularity at its center due to a finite core radius $r_c$. The CIS density profile is defined
 \begin{equation} \label{cisdensity}
 \rho_\mathrm{CIS}(r) = \frac{\sigma^2}{2\pi G (r^2 + {r_c}^2)},
@@ -133,7 +127,14 @@ The tangential shear follows from equation \ref{tangentialshear}:
 \begin{equation}
 \gamma_\mathrm{CIS}(\theta) = \frac{\sigma^2}{\Sigma_\mathrm{crit} G D_L} \left(\frac{\sqrt{\theta^2 + {\theta_c}^2} - \theta_c}{\theta^2} - \frac{1}{2 \sqrt{\theta^2 + {\theta_c}^2}}\right)
 \end{equation}
-The ellipticity equation, while not quite elegant, is trivial to calculate using equation \ref{ellipticity}.
+The ellipticity equation, while not quite elegant, is trivial to calculate using equation \ref{ellipticity}. Figure \ref{cisproperties} shows the convergence, tangential shear, and ellipticity of a Milky Way-sized halo lens.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{isothermalproperties.pdf}
+    \caption{Lensing quantities for a CIS profile with $M_{200} = 10^{15} M_\odot$ and $r_c = 10$ kpc. $z_L = 0.3$ and $z_S = 1.0$.}
+    \label{cisproperties}
+\end{figure}
 
 Although the total mass of the CIS profile diverges, we will use a common convention for quantifying the mass of the profile within a reasonable radius. We define $r_{200}$ as the radius at which the average enclosed density of the profile is 200 times the critical density of the universe. The critical density $\rho_\mathrm{crit}$ depends on cosmological parameters such as the Hubble constant $H_0$. We choose to use the critical density at the current time $\rho_\mathrm{crit,0}$ for all halos regardless of their redshift. We assume a flat $\Lambda$CDM universe and use the Planck 2015 results for all cosmological calculations \citep{PlanckCollaboration2015}.
 
@@ -154,10 +155,8 @@ We can now completely switch the CIS profile's dependence from $\sigma^2$ to $M_
 \sigma^2 = \frac{M_{200} G}{2 \left( r_{200} - r_c \arctan{\left(\frac{r_{200}}{r_c}\right)} \right)}
 \end{equation}
 
-Figure \ref{cisproperties} shows the convergence, tangential shear, and ellipticity of a Milky Way-sized halo lens.
 
-
-\subsection{Navarro-Frenk-White (NFW) Profile}
+\subsection{Navarro-Frenk-White (NFW) Profile} \label{nfwsection}
 The NFW profile has had some success in describing dark matter halos in both simulations and observations \citep{Navarro1997}. It is characterized by a scale radius $r_s$ and a dimensionless parameter $\delta_c$, sometimes called the characteristic overdensity \citep{Wright2000}. It also depends on the critical density of the universe, which we evaluate at the current time, like before. The form of the NFW profile is:
 \begin{equation}
 \rho_\mathrm{NFW}(r) = \frac{\rho_\mathrm{crit} \delta_c}{(r/r_s)\left(1 + r/r_s\right)^2}
@@ -175,7 +174,14 @@ The average surface density of an NFW profile is:
 \right)
 \end{equation}
 
-The equations for tangential shear and ellipticity of an NFW profile are very cumbersome but follow trivially from equations \ref{tangentialshear}, \ref{ellipticity}, \ref{sigmanfw}, and \ref{sigmabarnfw}.
+The equations for tangential shear and ellipticity of an NFW profile are very cumbersome but follow trivially from equations \ref{tangentialshear}, \ref{ellipticity}, \ref{sigmanfw}, and \ref{sigmabarnfw}. Figure \ref{nfwproperties} shows the convergence, tangential shear, and ellipticity of a typical Milky Way-sized NFW halo lens.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{nfwproperties.pdf}
+    \caption{Lensing quantities for a NFW profile with $M_{200} = 10^{15} M_\odot$ and $c = 10$. Also,  $z_L = 0.3$ and $z_S = 1.0$.}
+    \label{nfwproperties}
+\end{figure}
 
 Like the CIS profile, we would like to switch dependence to $M_{200}$ and the concentration parameter $c$ from $r_s$ and $\delta_c$. The concentration parameter $c$ is defined as the ratio of $r_{200}$ to the scale radius $r_s$:
 \begin{equation} \label{concentration}
@@ -189,61 +195,44 @@ Setting this equal to the definition of $M_{200}$ in equation \ref{M200}, substi
 \begin{equation}
 \delta_c = \frac{200}{3} \frac{c^3}{\ln(1 + c) - c/(1 + c)}
 \end{equation}
-$r_s$ can be eliminated with equations \ref{concentration} and \ref{M200}. Figure \ref{nfwproperties} shows the convergence, tangential shear, and ellipticity of a typical Milky Way-sized NFW halo lens.
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.8\textwidth]{nfwproperties.pdf}
-    \caption{Lensing quantities for a NFW profile with $M_{200} = 10^{15} M_\odot$ and $c = 10$. Also,  $z_L = 0.3$ and $z_S = 1.0$.}
-    \label{nfwproperties}
-\end{figure}
+$r_s$ can be eliminated with equations \ref{concentration} and \ref{M200}.
 
 
 \section{Methods}
+In order to test the distinguishability of CIS and NFW profiles via gravitational lensing shear, we model a lensing scenario with one foreground lens and many background galaxies with random positions and intrinsic ellipticities. We calculate the effects of the lens on the shapes of the background galaxies to generate a dataset similar to what one might observe in reality. We then attempt to fit both CIS and NFW profiles to the data to see if there is a clear preference for the profile used to generate the data. We use the Planck 2015 results for all cosmological parameters \citep{PlanckCollaboration2015}.
 
-\subsection{Modelling of Foreground Lens and Background Galaxies}
-Based on the calculations shown above, we have modelled singular lenses corresponding to each density profile.
- Background galaxies have been generated via randomization of angular coordinates.
+\subsection{Simulated Data Generation}
+We model a single foreground lens halo with an NFW profile using the equations derived in section \ref{nfwsection}. The profile has $M_{200} = 10^{15} M_\odot$ and $c = 10$, which are typical values for a Milky Way-sized dark matter halo. The lens is placed at redshift $z_L = 0.3$, which is comparable to that of the Bullet Cluster, an interesting lensing target \citep{Clowe2006}.
 
-\begin{enumerate}
-    \item Consider single foreground lens halo with many background galaxies.
-    \begin{itemize}
-        \item Start with one NFW halo, then maybe consider more tests.
-    \end{itemize}
-    \item Construct background galaxies:
-    \begin{itemize}
-        \item Number density on sky: 50 galaxies/square arcminute (LSST, https://arxiv.org/pdf/1305.0793.pdf)
-        \item Intrinsic ellipticity drawn from Gaussian distribution with $\mu=0, \sigma=0.2$ (consistent with https://arxiv.org/pdf/1509.05058.pdf)
-        \item Assume they are all that the same distance $D_S$ since this can be determined by redshift (neglecting some noise)
-        \item Apply shear and deflection angles to background galaxies to get simulated data: $N$ sets of $\epsilon_1$, $\epsilon_2$, $\theta_1$, $\theta_2$
-    \end{itemize}
-    \item Recommended values:
-    \begin{itemize}
-        \item $z_L = 0.3$ (bullet cluster)
-        \item $z_S = 1.0$ (Hubble Deep Field) (also consistent with https://arxiv.org/pdf/1509.05058.pdf)
-        we use the planck 2015 results
-        \item $M_{halo} = 10^{15} M_\odot$
-    \end{itemize}
-\end{enumerate}
+We generate a field of background galaxies within a 1000 arcsecond by 1000 arcsecond square centered on the lens. The number of galaxies is chosen so that the average angular number density is 50 galaxies per square arcminute, which is an optimistic expectation for the observing capability of the Large Synoptic Survey Telescope (LSST) \citep{Chang2013}. The $(\theta_x, \theta_y)$ coordinates of each background galaxies are generated randomly within the range of the field. The intrinsic contributions to the ellipticity components $\epsilon_1$ and $\epsilon_2$ are also randomly sampled from a Gaussian distribution with mean $\mu_\epsilon = 0$ and standard deviation $\sigma_\epsilon = 0.2$. This is consistent with the findings of \citet{Niemi2015} from observations. We place all galaxies at the same redshift $z_S = 1.0$, which is comparable to many objects in the Hubble Deep Field. This is justified because redshift can be simple to determine and account for when analyzing lensing in observational data.
 
-Estimating ellipticity has well-documented issues [cite] due to noise and PSF
+We apply lensing shear to all the background galaxies based on their distance from the center of the halo, assuming that ellipticities add together linearly. We neglect the application of deflection angles since this would have little effect on fitting, and shear is derived as a function of image position rather than source position. Effectively, we assume all galaxies are already at their deflected position. Also, the majority of the background galaxies lie in the weak lensing regime, where the deflection angle can be negligible. The result is a simulated dataset with $N$ galaxies, and $N$ corresponding sets of  $\{\theta_x, \theta_y, \epsilon_1, \epsilon_2\}$.
 
+Figure \ref{ellipticityexample} illustrates the effects of shear by both CIS and NFW profiles on a background galaxy field. The galaxy number density is exaggerated in comparison to the one used to generate data for actual analysis. The strong lensing regime is apparent near the center, where tangential ellipticity is negative and there is an impression of critical curves (compare to figures \ref{cisproperties} and \ref{nfwproperties}). The two profiles are nearly impossible to distinguish by eye, but precise data and statistics will offer a different picture.
 
 \begin{figure}
     \centering
     \includegraphics[width=0.49\textwidth]{isothermalellipticities.pdf}
     \includegraphics[width=0.49\textwidth]{nfwellipticities.pdf}
-    \caption{plots}
-    \label{}
+    \caption{Simulated lensing of a field of background galaxies by a CIS lens (left) and NFW lens (right). Each line represents a single galaxy. Intrinsic ellipticities are drawn from a Gaussian distribution of mean 0 and standard deviation 0.2. The length of the line indicates the post-lensing ellipticity, while the orientation represents the direction that the galaxy is sheared.}
+    \label{ellipticityexample}
 \end{figure}
 
 
-\subsection{Data Analysis and Density Profile Determination}
-\begin{enumerate}
-\item Bin galaxies in annuli by $\theta$ value (use log bins for theta)
-\item Calculate mean and standard deviation of ellipticity
-\item Attempt to fit both NFW and isothermal profiles, see if the fit is distinguishable
-\end{enumerate}
+\subsection{Data Analysis and Fitting}
+To reconstruct a shear profile of the lens, we bin the galaxies into 40 linearly spaced annuli by their $\theta$ magnitude. The bins extend from from 10" out to approximately 700". Within each bin, we
+and form a
+
+Calculate mean and standard deviation of ellipticity
+Attempt to fit both NFW and isothermal profiles, see if the fit is distinguishable
+
+
+we fit expressions for ellipticity
+
+We fit by numerically minimizing $\chi^2$
+\begin{equation}
+\chi^2 =
+\end{equation}
 
 %What theta range should we look at? (5 arcminutes?)
 
@@ -251,19 +240,6 @@ Estimating ellipticity has well-documented issues [cite] due to noise and PSF
 
 \section{Results}
 The parameter fitting results are as shown in figures.
-%figures to be added
-
-%\begin{figure}
-%    \centering
-%    \includegraphics{nfwfitparams.pdf}
-%    \label{}
-%\end{figure}
-
-%\begin{figure}
-%    \centering
-%    \includegraphics{isothermalfitparams.pdf}
-%    \label{}
-%\end{figure}
 
 \begin{figure}
     \centering
@@ -295,6 +271,11 @@ but this is highly dependent on good data
 http://iopscience.iop.org/article/10.1086/590049/pdf looked at NFW vs isothermal in strong lensing with a focus on arcs, and found differing levels of distinguishibility for different lenses.
 
 https://arxiv.org/pdf/1101.0650.pdf - our results don't match
+
+may want to try fitting to CIS-generated data
+
+Estimating ellipticity has well-documented issues [cite] due to noise and PSF
+
 
 ignore cosmic shear (https://journals.aps.org/prd/pdf/10.1103/PhysRevD.70.023008)
 
