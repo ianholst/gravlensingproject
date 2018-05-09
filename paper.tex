@@ -5,7 +5,6 @@
 \usepackage[square]{natbib}
 \usepackage{graphicx}
 \usepackage{amsmath}
-% \usepackage{txfonts}
 \usepackage[font=small,labelfont=bf]{caption}
 
 \graphicspath{ {figures/} }
@@ -20,20 +19,16 @@
 \maketitle
 
 \begin{abstract}
-We examine the feasibility of distinguishing NFW and cored isothermal density profiles using weak gravitational lensing shear.
-
-We model lenses in the two different profiles, as well as background galaxies to be lensed.
-Analyzing the simulated data of these lensed galaxies gives us insight into how we can distinguish the differences between the two profiles.
-This method is expected to be helpful in the analysis of real observation data in the future.
+We examine the feasibility of distinguishing NFW and cored isothermal density profiles using weak gravitational lensing shear. We simulate a lensing scenario with one foreground lens acting on a field of background galaxies with random positions and intrinsic ellipticities, calculating the shearing of galaxy shapes. We then attempt to fit both isothermal and NFW profiles to the data to see if there is a clear preference for the profile used to generate the data. We find that dataset allows for excellent distinguishability between the profiles, with a Bayesian evidence ratio of $1.62 \times 10^7$. This method is expected to be useful in the analysis of observed data in the future.
 \end{abstract}
 
 
 \section{Introduction}
 Gravitational lensing allows us to investigate the matter density distributions of cosmic objects by observing the characteristic light distortions imparted on other objects in the background. The principle is applicable on a large range of scales, from all-sky mass maps based on cosmic microwave background shear, to studies of individual galaxies and clusters. In particular, by observing the coherent distortions of many background galaxies, the shear profile, and consequently the density profile of a foreground halo lens may be determined.
 
-Two commonly used density profiles in the field are the isothermal profile and the Navarro-Frenk-White (NFW) profile. The NFW profile has been found to fit simulated dark matter halos very well \citep{Navarro1997}, while the isothermal profile results from an idealized isothermal collapse \citep{Shapiro1999}. It is of great interest to determine the general forms of halo density profiles since this tells us about structure formation and the nature of dark matter \citep{Frenk2012}. Lensing offers one of the few ways to probe the distribution of all matter, not just baryonic matter. Other methods include using optical rotation curves, which present difficulties \citep{Jimenez2003}.
+Two commonly used density profiles in the field are the isothermal profile and the Navarro-Frenk-White (NFW) profile. The NFW profile has been found to fit simulated dark matter halos very well \citep{Navarro1997}, while the isothermal profile results from an idealized isothermal collapse \citep{Shapiro1999}. It is of great interest to determine the general forms of halo density profiles since this tells us about structure formation and the nature of dark matter \citep{Frenk2012}. Lensing offers one of the few ways to probe the distribution of all matter, not just baryonic matter. Other methods include using optical rotation curves, which have presented difficulties \citep{Jimenez2003}.
 
-In this paper, we will investigate the distinguishability of NFW and isothermal profiles using galaxy-galaxy lensing data. We derive the lensing characteristics of cored isothermal and NFW profiles and apply them towards generating a simulated data set of background galaxy lensing. We then attempt to fit both profiles to determine if one is significantly more likely than the other. These methods are expected to be applicable towards determining the characteristics of real observed data as well.
+In this paper, we will investigate the distinguishability of NFW and isothermal profiles using galaxy-galaxy lensing data. First, we derive the lensing characteristics of cored isothermal and NFW profiles and apply them towards generating a simulated data set of background galaxy lensing. We then attempt to fit both profiles to the data to determine if one is significantly more likely than the other. These methods are expected to be applicable towards determining the characteristics of real observed data as well.
 
 
 \subsection{Lensing by a spherical lens profile}
@@ -180,7 +175,7 @@ Setting this equal to the definition of $M_{200}$ in Equation \ref{M200}, substi
 \begin{equation}
 \delta_c = \frac{200}{3} \frac{c^3}{\ln(1 + c) - c/(1 + c)}
 \end{equation}
-$r_s$ can be eliminated with equations \ref{concentration} and \ref{M200}.
+$r_s$ can be eliminated with equations \ref{concentration} and \ref{r200}.
 
 
 \section{Methods}
@@ -199,7 +194,7 @@ Figure \ref{ellipticityexample} illustrates the effects of shear by both CIS and
     \centering
     \includegraphics[width=0.49\textwidth]{isothermalellipticities.pdf}
     \includegraphics[width=0.49\textwidth]{nfwellipticities.pdf}
-    \caption{Simulated lensing of a field of background galaxies by a CIS lens (left) and NFW lens (right). Each line represents a single galaxy. Intrinsic ellipticities are drawn from a Gaussian distribution of mean 0 and standard deviation 0.2. The length of the line indicates the post-lensing ellipticity, while the orientation represents the final orientation of the galaxy's ellipticity.}
+    \caption{Simulated lensing of a field of background galaxies by a CIS lens (left) and NFW lens (right). Each line represents a single galaxy. Intrinsic ellipticities are drawn from a Gaussian distribution of mean 0 and standard deviation 0.2. The length of the line indicates the post-lensing ellipticity, while the orientation represents the final orientation of the image's ellipticity.}
     \label{ellipticityexample}
 \end{figure}
 
@@ -217,7 +212,7 @@ The results of fitting are shown in Figure \ref{fits}. When fitting the simulate
 
 We apply Bayesian evidence to quantify the likelihood of one model being the correct fit over another. We express the Bayesian evidence ratio $K$ as:
 \begin{equation}
-K = \frac{\int dM_{200} dc\ e^{\chi^2_\mathrm{NFW} / 2} P(M_{200}) P(c)}{\int dM_{200} d\theta_c\ e^{\chi^2_\mathrm{CIS} / 2} P(M_{200}) P(\theta_c)}
+K = \frac{\int dM_{200} dc\ e^{-\chi^2_\mathrm{NFW} / 2} P(M_{200}) P(c)}{\int dM_{200} d\theta_c\ e^{-\chi^2_\mathrm{CIS} / 2} P(M_{200}) P(\theta_c)}
 \end{equation}
 The integrals are over the parameter ranges indicated in Figure \ref{fits} and $P(M_{200})$, $P(c)$, and $P(\theta_c)$ are flat priors over the same parameter ranges. We obtain an evidence ratio $K = 1.62 \times 10^7$, which very strongly indicates that the NFW model is correct (and it is). While this may seem excessively large, it is easily justified by the best fit $\chi^2$ values, which are 47.8 for NFW and 83.1 for CIS. $e^{\Delta \chi^2 / 2} \sim 10^7$, which is the right order of magnitude. Figure \ref{fitcomparison} shows how the slight differences in ellipticity profiles results in a worse fit for the CIS profile.
 
@@ -237,40 +232,20 @@ The integrals are over the parameter ranges indicated in Figure \ref{fits} and $
 \end{figure}
 
 
+\newpage
+
 \section{Conclusions}
+We find that the simulated measurements we made provide excellent distinguishability between cored isothermal profiles and NFW profiles. Using weak lensing alone can in fact provide very sufficient distinguishability, though the evidence ratio is much smaller when only fitting with larger radii ($> 100^{\prime \prime}$ in this case). By combining weak and near-strong lensing (down to $10^{\prime \prime}$), we are able to dramatically increase the evidence ratio. Uncertainties on mass measurements are around the 10\% level.
 
-Like \citet{Shu2008}, we find that the strong lensing regime provides a strong
+The idea of constraining lens profile parameters has been applied to many observations before \citep{Bartelmann1996}, but not in the context of comparing density profiles using strong and weak lensing. However, this concept is highly dependent on good data. As an example, \citet{Shu2008} looked at comparing NFW and isothermal profile fits in strong lensing with a focus on arcs, and found differing levels of distinguishibility for different lenses. Observational studies also face the issue of cosmic shear \citep{Dodelson2004}.
 
-But also, weak lensing can in fact provide very sufficient distinguishability
-By combining weak and near-strong lensing
+Our method was successful in the few controlled cases we tested, able to strongly distinguish the different lens density profiles. For fairness, we may want to try fitting both profiles to CIS-generated data. When analyzing real observed data, we expect the evidence ratio to further decrease due to noise and uncertainties. We still expect that plenty can be learned from applying this method to observational data from advanced telescopes in the near future.
 
-though the evidence ratio is much smaller when only fitting with larger radii
-
-has been applied to observations before
-https://arxiv.org/pdf/astro-ph/9602053.pdf
-but not in the context of comparing density profiles using for strong and weak
-but this is highly dependent on good data
-
-http://iopscience.iop.org/article/10.1086/590049/pdf looked at NFW vs isothermal in strong lensing with a focus on arcs, and found differing levels of distinguishibility for different lenses.
-
-https://arxiv.org/pdf/1101.0650.pdf - our results don't match
-
-may want to try fitting to CIS-generated data
-
-Estimating ellipticity has well-documented issues [cite] due to noise and PSF
-
-
-ignore cosmic shear (https://journals.aps.org/prd/pdf/10.1103/PhysRevD.70.023008)
-
-From our data analysis, we were able to find the more probable density profile of a simulated data set.
-Since the simulated data is based on the NFW and isothermal profile models, we were able to decisively distinguish between the two.
-When analyzing real observed data, we expect the probability ratios to be relatively more even.
-Future goals include the use of these methods to analyze observed data of galaxy clusters to find the density profile of their lenses.
-
-%Where to go from here?
-
-
+{
+\linespread{1.0}
+\selectfont
 \bibliographystyle{aasjournal}
 \bibliography{references}
+}
 
 \end{document}
