@@ -31,24 +31,9 @@ This method is expected to be helpful in the analysis of real observation data i
 \section{Introduction}
 Gravitational lensing allows us to investigate the matter density distributions of cosmic objects by observing the characteristic light distortions imparted on other objects in the background. The principle is applicable on a large range of scales, from all-sky mass maps based on cosmic microwave background shear, to studies of individual galaxies and clusters. In particular, by observing the coherent distortions of many background galaxies, the shear profile, and consequently the density profile of a foreground halo lens may be determined.
 
-Two commonly used density profiles in the field are the isothermal profile and the Navarro-Frenk-White (NFW) profile. The NFW profile has been found to fit simulated dark matter halos very well \citep{}, while the isothermal profile results from an idealized isothermal collapse \citep{}. Both profiles extend to infinity
+Two commonly used density profiles in the field are the isothermal profile and the Navarro-Frenk-White (NFW) profile. The NFW profile has been found to fit simulated dark matter halos very well \citep{Navarro1997}, while the isothermal profile results from an idealized isothermal collapse \citep{Shapiro1999}. It is of great interest to determine the general forms of halo density profiles since this tells us about structure formation and the nature of dark matter \citep{Frenk2012}. Lensing offers one of the few ways to probe the distribution of all matter, not just baryonic matter. Other methods include using optical rotation curves, which present difficulties \citep{Jimenez2003}.
 
-It is of great interest to determine the general forms of halo density profiles
-since this tells us about structure formation and the nature of dark matter
-\citep{}
-Lensing offers one of the few ways to probe the distribution of all matter, not just baryonic matter.
-rotation curve present difficulties (https://arxiv.org/pdf/astro-ph/0201352.pdf)
-
-In this paper, we will investigate the distinguishability of NFW and isothermal profiles
-given galaxy-galaxy lensing data
-The goal of this project is to devise a method to analyze lensed galaxy cluster data and find which density profile is more probable between the isothermal and NFW profiles.
-In order to do so, we generate simulated data sets and analyze them to find the more probable profiles they would fit into.
-This analysis method is expected to be usable in determining the characteristics of real observed data as well.
-
-
-Outline:
-We start by introducing the general lensing characteristics of spherical density profiles, followed by the specifics for cored isothermal and NFW profiles. We then describe
-The results
+In this paper, we will investigate the distinguishability of NFW and isothermal profiles using galaxy-galaxy lensing data. We derive the lensing characteristics of cored isothermal and NFW profiles and apply them towards generating a simulated data set of background galaxy lensing. We then attempt to fit both profiles to determine if one is significantly more likely than the other. These methods are expected to be applicable towards determining the characteristics of real observed data as well.
 
 
 \subsection{Lensing by a spherical lens profile}
@@ -214,17 +199,13 @@ Figure \ref{ellipticityexample} illustrates the effects of shear by both CIS and
     \centering
     \includegraphics[width=0.49\textwidth]{isothermalellipticities.pdf}
     \includegraphics[width=0.49\textwidth]{nfwellipticities.pdf}
-    \caption{Simulated lensing of a field of background galaxies by a CIS lens (left) and NFW lens (right). Each line represents a single galaxy. Intrinsic ellipticities are drawn from a Gaussian distribution of mean 0 and standard deviation 0.2. The length of the line indicates the post-lensing ellipticity, while the orientation represents the direction that the galaxy is sheared.}
+    \caption{Simulated lensing of a field of background galaxies by a CIS lens (left) and NFW lens (right). Each line represents a single galaxy. Intrinsic ellipticities are drawn from a Gaussian distribution of mean 0 and standard deviation 0.2. The length of the line indicates the post-lensing ellipticity, while the orientation represents the final orientation of the galaxy's ellipticity.}
     \label{ellipticityexample}
 \end{figure}
 
 
 \subsection{Data Analysis and Fitting}
-To reconstruct a shear profile of the lens, we bin the galaxies into 40 linearly spaced annuli by their $\theta$ magnitude. The bins extend from from 10" out to approximately 700". Within each bin, we
-and form a
-
-Calculate mean and standard deviation of ellipticity
-Attempt to fit both NFW and isothermal profiles, see if the fit is distinguishable
+To reconstruct a shear profile of the lens, we bin the galaxies into 40 linearly spaced annuli by their $\theta$ magnitude. The bins extend from from 10" out to approximately 700". Within each bin, we calculate the mean and standard deviation of ellipticity of the population of galaxies that it contains. We attempt to fit this data to the theoretical ellipticities of  both CIS and NFW and isothermal profiles, see if the fit is distinguishable
 
 
 we fit expressions for ellipticity
@@ -234,12 +215,14 @@ We fit by numerically minimizing $\chi^2$
 \chi^2 =
 \end{equation}
 
-%What theta range should we look at? (5 arcminutes?)
 
 %How to properly do sigma contours?
 
 \section{Results}
+The results of fitting
 The parameter fitting results are as shown in figures.
+
+We apply Bayesian evidence to
 
 \begin{figure}
     \centering
@@ -262,6 +245,8 @@ The parameter fitting results are as shown in figures.
 Like (COMPARISONS BETWEEN ISOTHERMAL AND NFW MASS PROFILES
 FOR STRONG-LENSING GALAXY CLUSTERS), we find that the strong lensing regime provides the most
 But also, weak lensing can in fact provide sufficient distinguishability
+
+though the evidence ratio is much smaller when only fitting with larger radii
 
 has been applied to observations before
 https://arxiv.org/pdf/astro-ph/9602053.pdf
