@@ -100,19 +100,19 @@ The cored isothermal sphere (CIS) profile is related to the singular isothermal 
 \begin{equation} \label{cisdensity}
 \rho_\mathrm{CIS}(r) = \frac{\sigma^2}{2\pi G (r^2 + {r_c}^2)},
 \end{equation}
-where $\sigma^2$ is the velocity dispersion of the halo \citep{Chen2005, Shapiro1999}. Applying equation \ref{sigma} and defining $\theta_c = r_c/D_L$, we get the projected surface density of the CIS profile:
+where $\sigma^2$ is the velocity dispersion of the halo \citep{Chen2005, Shapiro1999}. Applying Equation \ref{sigma} and defining $\theta_c = r_c/D_L$, we get the projected surface density of the CIS profile:
 \begin{equation}
 \Sigma_\mathrm{CIS}(\theta) = \frac{\sigma^2}{2 G D_L \sqrt{\theta^2 + {\theta_c}^2}}
 \end{equation}
-The average surface density inside angular radius $\theta$ is derived using equation \ref{sigmabar}:
+The average surface density inside angular radius $\theta$ is derived using Equation \ref{sigmabar}:
 \begin{equation}
 \overline{\Sigma}_\mathrm{CIS}(\theta) = \frac{\sigma^2 \left(\sqrt{\theta^2 + {\theta_c}^2} - \theta_c \right)}{G D_L \theta^2}
 \end{equation}
-The tangential shear follows from equation \ref{tangentialshear}:
+The tangential shear follows from Equation \ref{tangentialshear}:
 \begin{equation}
 \gamma_\mathrm{CIS}(\theta) = \frac{\sigma^2}{\Sigma_\mathrm{crit} G D_L} \left(\frac{\sqrt{\theta^2 + {\theta_c}^2} - \theta_c}{\theta^2} - \frac{1}{2 \sqrt{\theta^2 + {\theta_c}^2}}\right)
 \end{equation}
-The ellipticity equation, while not quite elegant, is trivial to calculate using equation \ref{ellipticity}. Figure \ref{cisproperties} shows the convergence, tangential shear, and ellipticity of a Milky Way-sized halo lens.
+The ellipticity equation, while not quite elegant, is trivial to calculate using Equation \ref{ellipticity}. Figure \ref{cisproperties} shows the convergence, tangential shear, and ellipticity of a Milky Way-sized halo lens.
 
 \begin{figure}
     \centering
@@ -127,7 +127,7 @@ We define $M_{200}$ as the total mass enclosed within $r_{200}$:
 \begin{equation} \label{M200}
 M_{200} = 200 \rho_\mathrm{crit} \frac{4}{3} \pi {r_{200}}^3
 \end{equation}
-We also calculate $M_{200}$ specifically for a CIS profile by integrating equation \ref{cisdensity}:
+We also calculate $M_{200}$ specifically for a CIS profile by integrating Equation \ref{cisdensity}:
 \begin{equation} \label{cisM200}
 M_{200} = M_\mathrm{enc}(r_{200}) = \frac{2 \sigma^2}{G} \left( r_{200} - r_c \arctan{\left(\frac{r_{200}}{r_c}\right)} \right)
 \end{equation}
@@ -135,7 +135,7 @@ Solving for $r_{200}$:
 \begin{equation} \label{r200}
 r_{200} = \left( \frac{3 M_{200}}{800 \pi \rho_\mathrm{crit}} \right)^{1/3}
 \end{equation}
-We can now completely switch the CIS profile's dependence from $\sigma^2$ to $M_{200}$ with equation \ref{r200} and solving for $\sigma^2$ from equation \ref{cisM200}:
+We can now completely switch the CIS profile's dependence from $\sigma^2$ to $M_{200}$ with Equation \ref{r200} and solving for $\sigma^2$ from Equation \ref{cisM200}:
 \begin{equation}
 \sigma^2 = \frac{M_{200} G}{2 \left( r_{200} - r_c \arctan{\left(\frac{r_{200}}{r_c}\right)} \right)}
 \end{equation}
@@ -146,11 +146,11 @@ The NFW profile has had some success in describing dark matter halos in both sim
 \begin{equation}
 \rho_\mathrm{NFW}(r) = \frac{\rho_\mathrm{crit} \delta_c}{(r/r_s)\left(1 + r/r_s\right)^2}
 \end{equation}
-Applying equation \ref{sigma} and defining $\theta_c = r_c/D_L$, we get the projected surface density of the NFW profile:
+Applying Equation \ref{sigma} and defining $\theta_c = r_c/D_L$, we get the projected surface density of the NFW profile:
 \begin{equation} \label{sigmanfw}
 \Sigma_\mathrm{NFW}(\theta) = \frac{2 \rho_\mathrm{crit} \delta_c D_L \theta_s}{(\theta/\theta_s)^2 - 1} \left(1 - \frac{2}{\sqrt{(\theta/\theta_s)^2 - 1}} \arctan\left(\sqrt{\frac{\theta/\theta_s - 1}{\theta/\theta_s + 1}} \right) \right)
 \end{equation}
-\citet{Wright2000} use a slightly different convention for the projected surface density of an NFW profile. Note that for $\theta < \theta_s$, the argument of the arctan function in equation \ref{sigmanfw} becomes imaginary. However, applying the identity $\arctan(i x) = i\ \mathrm{arctanh}(x)$ and dividing out the $i$ from the square root in the denominator results in the form of $\Sigma_\mathrm{NFW}$ suggested by Wright and Brainerd for when  $\theta < \theta_s$. Additionally, their $\theta = \theta_s$ case is just the limit of equation \ref{sigmanfw} when $\theta \rightarrow \theta_s$. We argue that all three cases presented are equivalent and therefore we only use one for simplicity. \citet{Bartelmann2001} also use our convention.
+\citet{Wright2000} use a slightly different convention for the projected surface density of an NFW profile. Note that for $\theta < \theta_s$, the argument of the arctan function in Equation \ref{sigmanfw} becomes imaginary. However, applying the identity $\arctan(i x) = i\ \mathrm{arctanh}(x)$ and dividing out the $i$ from the square root in the denominator results in the form of $\Sigma_\mathrm{NFW}$ suggested by Wright and Brainerd for when  $\theta < \theta_s$. Additionally, their $\theta = \theta_s$ case is just the limit of Equation \ref{sigmanfw} when $\theta \rightarrow \theta_s$. We argue that all three cases presented are equivalent and therefore we only use one for simplicity. \citet{Bartelmann2001} also use our convention.
 
 The average surface density of an NFW profile is:
 \begin{equation} \label{sigmabarnfw}
@@ -176,7 +176,7 @@ By integrating the NFW density profile spherically out to radius $r_{200}$, we g
 \begin{equation} \label{nfwM200}
 M_{200} = M_\mathrm{enc}(r_{200}) = 4 \pi \rho_\mathrm{crit} \delta_c {r_s}^3 \left( \frac{1}{1 + r_{200}/r_s} + \ln{\left(1 + \frac{r_{200}}{r_s} \right)} - 1 \right)
 \end{equation}
-Setting this equal to the definition of $M_{200}$ in equation \ref{M200}, substituting $c$ for $r_{200}$ using equation \ref{concentration}, and solving for $\delta_c$ gives:
+Setting this equal to the definition of $M_{200}$ in Equation \ref{M200}, substituting $c$ for $r_{200}$ using Equation \ref{concentration}, and solving for $\delta_c$ gives:
 \begin{equation}
 \delta_c = \frac{200}{3} \frac{c^3}{\ln(1 + c) - c/(1 + c)}
 \end{equation}
@@ -205,46 +205,44 @@ Figure \ref{ellipticityexample} illustrates the effects of shear by both CIS and
 
 
 \subsection{Data Analysis and Fitting}
-To reconstruct a shear profile of the lens, we bin the galaxies into 40 linearly spaced annuli by their $\theta$ magnitude. The bins extend from from 10" out to approximately 700". Within each bin, we calculate the mean and standard deviation of ellipticity of the population of galaxies that it contains. We attempt to fit this data to the theoretical ellipticities of  both CIS and NFW and isothermal profiles, see if the fit is distinguishable
-
-
-we fit expressions for ellipticity
-
-We fit by numerically minimizing $\chi^2$
+To reconstruct a shear profile of the lens, we bin the galaxies into 40 linearly spaced annuli by their $\theta$ magnitude. The bins extend from from 10" out to approximately 700". Within each bin, we calculate the mean and standard deviation of ellipticity of the population of galaxies that it contains. We attempt to fit this data to the theoretical ellipticities of both CIS and NFW profiles, considering the uncertainty on the mean ellipticity in each bin to be $\sigma / \sqrt{N}$, where $\sigma$ is the standard deviation of ellipticity in the bin (close to 0.2) and $N$ is the number of galaxies in the bin. We fit by numerically minimizing a $\chi^2$ expression:
 \begin{equation}
-\chi^2 =
+\chi^2 = \sum_i{\left(\frac{\epsilon_\mathrm{model}(\theta_i) - \epsilon_i}{\sigma_i}\right)^2},
 \end{equation}
+where $\theta_i$ is the midpoint of bin $i$, $\epsilon_i$ is the mean ellipticity of the bin, and $\sigma_i$ is the uncertainty on the mean ellipticity of the bin.
 
-
-%How to properly do sigma contours?
 
 \section{Results}
-The results of fitting
-The parameter fitting results are as shown in figures.
+The results of fitting are shown in Figure \ref{fits}. When fitting the simulated data with an NFW profile, we  get best fit values of $M_{200} = 1.021 \times 10^{15} M_\odot$ and $c = 10.13$. When fitting to a CIS profile, the best fit parameters are $M_{200} = 1.568 \times 10^{15} M_\odot$ and $\theta_c = 0.429^{\prime \prime}$. The NFW fit is quite accurate, and the actual original parameters of the lens halo lie within the $1\sigma$ contour shown in Figure \ref{fits}. The CIS fit overestimates the mass and gives a core radius of about 2 kpc.
 
-We apply Bayesian evidence to
+We apply Bayesian evidence to quantify the likelihood of one model being the correct fit over another. We express the Bayesian evidence ratio $K$ as:
+\begin{equation}
+K = \frac{\int dM_{200} dc\ e^{\chi^2_\mathrm{NFW} / 2} P(M_{200}) P(c)}{\int dM_{200} d\theta_c\ e^{\chi^2_\mathrm{CIS} / 2} P(M_{200}) P(\theta_c)}
+\end{equation}
+The integrals are over the parameter ranges indicated in Figure \ref{fits} and $P(M_{200})$, $P(c)$, and $P(\theta_c)$ are flat priors over the same parameter ranges. We obtain an evidence ratio $K = 1.62 \times 10^7$, which very strongly indicates that the NFW model is correct (and it is). While this may seem excessively large, it is easily justified by the best fit $\chi^2$ values, which are 47.8 for NFW and 83.1 for CIS. $e^{\Delta \chi^2 / 2} \sim 10^7$, which is the right order of magnitude. Figure \ref{fitcomparison} shows how the slight differences in ellipticity profiles results in a worse fit for the CIS profile.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.49\textwidth]{isothermalfitparams.png}
+    \includegraphics[width=0.5\textwidth]{nfwfitparams.png}
+    \caption{Normalized probability densities for fit parameters for CIS profile (left) and NFW profile (right). The best fit values are shown as a red dot, while for the NFW fit, the original halo's properties are indicated by a green dot. 68\%, 95\%, and 99.7\% confidence contours are delineated by white dashed lines.}
+    \label{fits}
+\end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=0.9\textwidth]{comparison.pdf}
-    \caption{plots}
-    \label{}
+    \caption{Comparison of the lensing-induced ellipticity over the angular range of the simulated dataset for the original lens, CIS fit, NFW fit, and binned data including uncertainties.}
+    \label{fitcomparison}
 \end{figure}
-
-% \begin{figure}
-%     \centering
-%     \includegraphics[width=0.49\textwidth]{isothermalfitparams.pdf}
-%     \includegraphics[width=0.49\textwidth]{nfwfitparams.pdf}
-%     \caption{plots}
-%     \label{}
-% \end{figure}
 
 
 \section{Conclusions}
 
-Like (COMPARISONS BETWEEN ISOTHERMAL AND NFW MASS PROFILES
-FOR STRONG-LENSING GALAXY CLUSTERS), we find that the strong lensing regime provides the most
-But also, weak lensing can in fact provide sufficient distinguishability
+Like \citet{Shu2008}, we find that the strong lensing regime provides a strong
+
+But also, weak lensing can in fact provide very sufficient distinguishability
+By combining weak and near-strong lensing
 
 though the evidence ratio is much smaller when only fitting with larger radii
 
